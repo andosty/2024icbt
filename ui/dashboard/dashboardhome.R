@@ -99,7 +99,7 @@
         
         #footer
         footer = dashboardFooter(
-          left = "Andrew Tandoh",
+          left = "Data Quality Monitor - GSS",
           right = "copyright, 2024"
         ),
         

@@ -122,7 +122,7 @@ server <- function(input, output, session) {
                  ) 
   })
   
-  output$icbtFinalErrors <- DT::renderDataTable({
+  output$icbtFinalErrors <- DT::renderDataTable(server = FALSE,{
    DT::datatable(icbt_dataset()[['icbt_error_dataset']] %>% 
                    select(-regionCode,-districtCode,-townCity,-interview_id,-districtName,-commodityObervedDescription,-observedRespondentDescription,-enumerator_contact) %>%
                    dplyr::rename(region=RegionName,
@@ -133,7 +133,48 @@ server <- function(input, output, session) {
                           Cno=Commodity_id,
                           # transpondentDescription=observedRespondentDescription
                  ) 
-           ) 
+          ,
+          rownames = FALSE,
+          extensions = 'Buttons', 
+          options = list(scrollX=TRUE, lengthMenu = c(5,8,10,15,100),
+                         paging = TRUE, 
+                         searching = TRUE,
+                         fixedColumns = TRUE, 
+                         autoWidth = TRUE,
+                         ordering = TRUE, 
+                         dom = 'Blfrtip', 
+                         
+                         
+                         
+                         buttons = list(
+                           list(
+                             extend = 'collection',
+                             buttons = list(
+                               list(extend = "csv", filename = "page",exportOptions = list(
+                                 columns = ":visible",modifier = list(page = "current"))
+                               ),
+                               list(extend = 'excel', filename = "page", title = NULL, 
+                                    exportOptions = list(columns = ":visible",modifier = list(page = "current")))),
+                             text = 'Download current page'),
+                           
+                           # code for the  second dropdown download button
+                           # this will download the entire dataset using modifier = list(page = "all")
+                           list(
+                             extend = 'collection',
+                             buttons = list(
+                               list(extend = "csv", filename = "data",exportOptions = list(
+                                 columns = ":visible",modifier = list(page = "all"))
+                               ),
+                               list(extend = 'excel', filename = "data", title = NULL, 
+                                    exportOptions = list(columns = ":visible",modifier = list(page = "all")))),
+                             text = 'Download all data')
+                           
+                         )
+                         
+                         
+                         )
+                         )
+           
   })
   
   serverDataDownload<- reactive({

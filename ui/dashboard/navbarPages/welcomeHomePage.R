@@ -1,12 +1,12 @@
 tabItem(
   tabName = "home",
   jumbotron(
-    title = "Welcome",  #heading
+    title = "Informal Cross Border Trade Survey",  #heading
     status = "info",
-    lead = "Informal Cross Border Trade Survey",  #sub heading
+    lead = "Comprehensive Data Quality Monitoring Programme",  #sub heading
     # btnName = "download",
     # href = #
-    "Ghana Statistical Services"
+    "Ghana Statistical Services - Data Processing Unit"
   ),
   # Add user box and the box
   fluidRow(
