@@ -118,7 +118,7 @@ commodityQtyMismatchError <- summaryPivotedDF %>%
   filter(commodity_description_uom_qty != commodityQuantity) %>%
   mutate(
     errorCheck = 'product Qty mismatch',
-    errorMessage = paste("product description implies the quantity ='",commodity_description_uom_qty, "'. observed product quantity entered = '", commodityQuantity, "'. production description = '",commodityObervedDescription,"'",sep = '')
+    errorMessage = paste("product description implies the quantity ='",commodity_description_uom_qty, "'. observed product quantity entered = '", commodityQuantity, "'. product/commodity description = '",commodityObervedDescription,"'",sep = '')
   ) %>%
   select(.,interview_key,interview_id,observedRespondentDescription,transpondent_id,commodityObervedDescription,Commodity_id, errorCheck,errorMessage)
 

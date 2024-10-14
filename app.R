@@ -44,31 +44,33 @@ source("server/datapackages.R",  local = TRUE)
 
 #auth-pages
 
-# ui <- 
-# fluidPage(
-#   shiny::singleton(
-#     shiny::tags$head(
-#       tags$link(rel = "stylesheet", href = "styles.css"),
-#       tags$link(rel = "stylesheet", href = "snackbar.css"),
-#       tags$script(src="snackbar.js"),
-#       tags$script(src="https://www.gstatic.com/firebasejs/5.7.0/firebase-app.js"),
-#       tags$script(src="https://www.gstatic.com/firebasejs/5.7.0/firebase-auth.js"),
-#       shiny::tags$script(src="auth.js")
-#     )
-#   ),
-#   
-#   # load shinyjs on
-#   shinyjs::useShinyjs(),
-#   
-#   source("ui/authpages/sign-in.R", local = TRUE)$value,
-#   source("ui/authpages/register.R", local = TRUE)$value,
-#   source("ui/authpages/verify-email.R", local = TRUE)$value,
-#   
-#   source("ui/main.R", local = TRUE)$value,
-# )
-ui <- fluidPage(
-  source("ui/dashboard/dashboardhome.R", local = TRUE)$value,
+ui <-
+fluidPage(
+  shiny::singleton(
+    shiny::tags$head(
+      tags$link(rel = "stylesheet", href = "styles.css"),
+      tags$link(rel = "stylesheet", href = "snackbar.css"),
+      tags$script(src="snackbar.js"),
+      tags$script(src="https://www.gstatic.com/firebasejs/5.7.0/firebase-app.js"),
+      tags$script(src="https://www.gstatic.com/firebasejs/5.7.0/firebase-auth.js"),
+      shiny::tags$script(src="auth.js")
+    )
+  ),
+
+  # load shinyjs on
+  shinyjs::useShinyjs(),
+
+  source("ui/authpages/sign-in.R", local = TRUE)$value,
+  # source("ui/authpages/register.R", local = TRUE)$value,
+  # source("ui/authpages/verify-email.R", local = TRUE)$value,
+
+  source("ui/main.R", local = TRUE)$value,
 )
+
+
+# ui <- fluidPage(
+#   source("ui/dashboard/dashboardhome.R", local = TRUE)$value,
+# )
 
 
 
@@ -82,6 +84,14 @@ ui <- fluidPage(
 
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
+  #Stop the app timing out
+  autoInvalidate <- reactiveTimer(300000) # do somesmall thing every 5mins
+  observe({
+    autoInvalidate()
+    cat(".")
+  })
+  
+  
   # Include the logic (server) for each tab
   source(file.path("server/auth/serverloginfunction.R"),  local = TRUE)$value
   source(file.path("server", "plotUniqueBirds.R"),  local = TRUE)$value
@@ -231,3 +241,11 @@ server <- function(input, output, session) {
 
 # Run the application 
 shinyApp(ui = ui, server = server)
+
+
+#Approving cases
+# approval<- approve_interview_as_hq(
+#   interview_id="0813e34692c14dd18c144cbbbb637b75",
+#   comment = "Enumeration done, for Pretest II",
+#   verbose = FALSE
+# )
