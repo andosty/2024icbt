@@ -3,7 +3,7 @@
         help = NULL, #disable the help tooltip switch
         fullscreen = TRUE , #turn on the fullscreen button
         
-        title = "Andrew's Dashboard",
+        title = "ICBT DQM Dashboard",
         header = dashboardHeader(
           title = dashboardBrand(
             title = "ICBT",
