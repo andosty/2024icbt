@@ -29,8 +29,8 @@ set_credentials(
 
 # Then, filter to the questionnaire of interest and extract the questionnaire ID and version number.
 server_qnr <- susoapi::get_questionnaires() %>% 
-  # filter(title == "ICBT MAIN-Field Practice") %>%
-  filter(title == sqlSvr$title) %>%
+  filter(title == "ICBT MAIN-Field Practice") %>%
+  # filter(title == sqlSvr$title) %>%
   # dplyr::pull(questionnaireId)
   filter(version==max(version))
 
