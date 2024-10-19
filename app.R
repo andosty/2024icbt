@@ -111,7 +111,7 @@ server <- function(input, output, session) {
   output$icbtFinalDaset <- DT::renderDataTable({
    DT::datatable(icbt_dataset()[['icbt_dataset_final']] %>%
                    select(-regionCode,-interview_id,-enumerator_contact,
-                          -gps_Latitude, -gps_Longitude, -gps_Accuracy, -gps_Altitude,-responsibleId
+                          -gps_Latitude, -gps_Longitude, -gps_Accuracy, -gps_Altitude, -responsibleId #, 
                           ) %>%
                    dplyr::rename(
                                 team=team_number,
@@ -119,7 +119,7 @@ server <- function(input, output, session) {
                                  region=RegionName
                                  ) %>%
                    mutate(
-                     createdDate =format(as.Date.character(createdDate), "%Y-%m-%d %I:%M %p"), 
+                     # createdDate =format(as.Date.character(createdDate), "%Y-%m-%d %I:%M %p"), 
                      gps_Timestamp =format(as.Date.character(gps_Timestamp), "%Y-%m-%d %I:%M %p"),
                    )
                   
@@ -139,7 +139,7 @@ server <- function(input, output, session) {
   
   output$icbtFinalErrors <- DT::renderDataTable(server = FALSE,{
    DT::datatable(icbt_dataset()[['icbt_error_dataset']] %>% 
-                   select(-responsibleId,-regionCode,-districtCode,-townCity,-interview_id,-districtName,-commodityObervedDescription,-observedRespondentDescription,-enumerator_contact) %>%
+                   select(-regionCode,-districtCode,-townCity,-interview_id,-districtName,-commodityObervedDescription,-observedRespondentDescription,-enumerator_contact,-responsibleId) %>%  #-responsibleId,
                    dplyr::rename(
                      region=RegionName,
                      border=borderPostName,
@@ -150,7 +150,7 @@ server <- function(input, output, session) {
                           # transpondentDescription=observedRespondentDescription
                  ) %>% 
                    mutate(
-                     createdDate =format(as.Date.character(createdDate), "%Y-%m-%d %I:%M %p"), 
+                     # createdDate =format(as.Date.character(createdDate), "%Y-%m-%d %I:%M %p"), 
                      gps_Timestamp =format(as.Date.character(gps_Timestamp), "%Y-%m-%d %I:%M %p"),
                      
                    )
@@ -352,7 +352,32 @@ server <- function(input, output, session) {
                    fixedColumns = list(leftColumns = 5),
                    searching = TRUE,
                    style = "bootstrap",
-                   selection = "single"
+                   selection = "single",
+                   buttons = list(
+                     list(
+                       extend = 'collection',
+                       buttons = list(
+                         list(extend = "csv", filename = "page",exportOptions = list(
+                           columns = ":visible",modifier = list(page = "current"))
+                         ),
+                         list(extend = 'excel', filename = "page", title = NULL, 
+                              exportOptions = list(columns = ":visible",modifier = list(page = "current")))),
+                       text = 'Download current page'),
+                     
+                     # code for the  second dropdown download button
+                     # this will download the entire dataset using modifier = list(page = "all")
+                     list(
+                       extend = 'collection',
+                       buttons = list(
+                         list(extend = "csv", filename = "data",exportOptions = list(
+                           columns = ":visible",modifier = list(page = "all"))
+                         ),
+                         list(extend = 'excel', filename = "data", title = NULL, 
+                              exportOptions = list(columns = ":visible",modifier = list(page = "all")))),
+                       text = 'Download all data')
+                     
+                   )
+                   
                   )
     ) 
   })
@@ -487,6 +512,7 @@ server <- function(input, output, session) {
   observeEvent(input$doReject, {
     if(nrow(icbt_dataset()[['icbt_error_dataset']])>0)   { 
       CaseReject <- icbt_dataset()[['icbt_error_dataset']] %>%
+        filter(!is.na(responsibleId)) %>%
         group_by(interview_key,responsibleId,interview_id) %>%
         distinct(errorCheck) %>%
         summarize(errorMessage = str_c(errorCheck, collapse = " ; ")) %>%
@@ -512,6 +538,7 @@ server <- function(input, output, session) {
     }
   })
     
+  # all_users <- get_interviewers()
 
 
 }

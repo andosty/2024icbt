@@ -1,3 +1,22 @@
+# enumErrsMeta <- icbt_dataset()[['icbt_error_dataset']] %>%
+#   select(regionCode, RegionName, districtCode, districtName, townCity, borderPostName,team_number,
+#             enumerator_name, enumerator_contact ,interview_key
+#          ) %>%
+#   distinct(regionCode, RegionName, districtCode, districtName, townCity, borderPostName,team_number,
+#            enumerator_name, enumerator_contact,interview_key
+#   )
+#   group_by(
+#    team_number,
+#     enumerator_name, enumerator_contact , # districtCode, borderPostName,
+#   )%>% 
+#   summarise(
+#     errorCasesCount = n_distinct(interview_key),
+#     ErrorsCount = n()
+#   )
+
+
+
+
 enumMeta <- icbt_dataset()[['icbt_dataset_final']] %>%   select(regionCode, RegionName, districtCode, districtName, townCity, borderPostName,team_number,
                                   enumerator_name, enumerator_contact ,) %>%
   distinct(regionCode, RegionName, districtCode, districtName, townCity, borderPostName,team_number,
@@ -6,12 +25,14 @@ enumMeta <- icbt_dataset()[['icbt_dataset_final']] %>%   select(regionCode, Regi
 
 enumStat_respondent_flow<- icbt_dataset()[['icbt_dataset_final']] %>% 
   distinct(regionCode, RegionName, districtCode, districtName, townCity, borderPostName,team_number,
-           enumerator_name, enumerator_contact ,
+           enumerator_name, enumerator_contact ,interview_key,
            interview_id, interview_key, transpondent_id, observedRespondentDescription,.keep_all = T) %>%
   group_by (regionCode, RegionName, districtCode, districtName, townCity, borderPostName,team_number,
             enumerator_name, enumerator_contact,
   ) %>%
-  summarise(`total Respondents` = n(),
+  summarise(
+            `total Cases` = n_distinct(interview_key),
+            `total Respondents` = n(),
             `total IN_MIGRATION(X)` = sum(ifelse(tradeDirection=='Coming in (Import)',1,0)),
             `total OUT_MIGRATION(M)` = sum(ifelse(tradeDirection=='Going out (Export)',1,0)),
             `Net Migration(X-M)` = `total IN_MIGRATION(X)`  - `total OUT_MIGRATION(M)`,
@@ -20,6 +41,12 @@ enumStat_respondent_flow<- icbt_dataset()[['icbt_dataset_final']] %>%
             `total OtherSpecified Transport Means` = sum(ifelse(transportMeans_otherSpecify!="",1,0)) , 
             # `total Missed Transpondents` = sum(unobservedTraderCount, na.rm = T)
   ) %>%
+  # left_join(enumErrsMeta) %>%
+  select(
+    regionCode, RegionName, districtCode, districtName, townCity, borderPostName,team_number,
+    enumerator_name, enumerator_contact,
+     everything(),#rrorCasesCount,ErrorsCount,
+    ) %>%
   mutate(
     across(where(is.numeric), ~replace_na(., 0)),
     `other Transport %` =  round((`total OtherSpecified Transport Means` /`total Respondents`)*100,2),

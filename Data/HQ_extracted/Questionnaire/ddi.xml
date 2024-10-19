@@ -3,7 +3,7 @@
   <docDscr>
     <citation>
       <titlStmt>
-        <titl>ICBT MAIN-PILOT App</titl>
+        <titl>ICBT MAIN-Field Practice</titl>
       </titlStmt>
       <prodStmt>
         <copyright>
@@ -17,7 +17,7 @@
   <stdyDscr>
     <citation>
       <titlStmt>
-        <titl>ICBT MAIN-PILOT App</titl>
+        <titl>ICBT MAIN-Field Practice</titl>
         <IDNO>QUEST</IDNO>
       </titlStmt>
       <prodStmt>
@@ -86,7 +86,23 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V10" name="id02" files="F1" intrvl="discrete">
+    <var ID="V10" name="quarter" files="F1" intrvl="discrete">
+      <location width="255" RecSegNo="1" />
+      <labl><![CDATA[Quarter]]></labl>
+      <qstn>
+        <qstnLit><![CDATA[Data Collection Quarter]]></qstnLit>
+      </qstn>
+      <varFormat type="character" schema="other" />
+    </var>
+    <var ID="V11" name="month_of_collection" files="F1" intrvl="discrete">
+      <location width="255" RecSegNo="1" />
+      <labl><![CDATA[Month of Data Collection]]></labl>
+      <qstn>
+        <qstnLit><![CDATA[Month of Data Collection]]></qstnLit>
+      </qstn>
+      <varFormat type="character" schema="other" />
+    </var>
+    <var ID="V12" name="id02" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Region]]></labl>
       <qstn>
@@ -94,7 +110,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V11" name="id02a" files="F1" intrvl="contin">
+    <var ID="V13" name="id02a" files="F1" intrvl="contin">
       <location RecSegNo="1" />
       <labl><![CDATA[Region code]]></labl>
       <qstn>
@@ -102,7 +118,7 @@
       </qstn>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V12" name="id03" files="F1" intrvl="discrete">
+    <var ID="V14" name="id03" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[District]]></labl>
       <qstn>
@@ -110,7 +126,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V13" name="id03b" files="F1" intrvl="discrete">
+    <var ID="V15" name="id03b" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[District code]]></labl>
       <qstn>
@@ -118,7 +134,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V14" name="id04" files="F1" intrvl="discrete">
+    <var ID="V16" name="id04" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Town/City]]></labl>
       <qstn>
@@ -126,7 +142,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V15" name="id06" files="F1" intrvl="discrete">
+    <var ID="V17" name="id06" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Border Post Name]]></labl>
       <qstn>
@@ -134,7 +150,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V16" name="gps__Latitude" files="F1" intrvl="contin">
+    <var ID="V18" name="gps__Latitude" files="F1" intrvl="contin">
       <location RecSegNo="1" />
       <labl><![CDATA[GPS: Latitude]]></labl>
       <qstn>
@@ -142,7 +158,7 @@
       </qstn>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V17" name="gps__Longitude" files="F1" intrvl="contin">
+    <var ID="V19" name="gps__Longitude" files="F1" intrvl="contin">
       <location RecSegNo="1" />
       <labl><![CDATA[GPS: Longitude]]></labl>
       <qstn>
@@ -150,7 +166,7 @@
       </qstn>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V18" name="gps__Accuracy" files="F1" intrvl="contin">
+    <var ID="V20" name="gps__Accuracy" files="F1" intrvl="contin">
       <location RecSegNo="1" />
       <labl><![CDATA[GPS: Accuracy]]></labl>
       <qstn>
@@ -158,7 +174,7 @@
       </qstn>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V19" name="gps__Altitude" files="F1" intrvl="contin">
+    <var ID="V21" name="gps__Altitude" files="F1" intrvl="contin">
       <location RecSegNo="1" />
       <labl><![CDATA[GPS: Altitude]]></labl>
       <qstn>
@@ -166,7 +182,7 @@
       </qstn>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V20" name="gps__Timestamp" files="F1" intrvl="contin">
+    <var ID="V22" name="gps__Timestamp" files="F1" intrvl="contin">
       <location RecSegNo="1" />
       <labl><![CDATA[GPS: Timestamp]]></labl>
       <qstn>
@@ -174,7 +190,7 @@
       </qstn>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V21" name="s2q1__0" files="F1" intrvl="discrete">
+    <var ID="V23" name="s2q1__0" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:0]]></labl>
       <qstn>
@@ -183,7 +199,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V22" name="s2q1__0c" files="F1" intrvl="discrete">
+    <var ID="V24" name="s2q1__0c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:0c]]></labl>
       <qstn>
@@ -192,7 +208,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V23" name="s2q1__1" files="F1" intrvl="discrete">
+    <var ID="V25" name="s2q1__1" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:1]]></labl>
       <qstn>
@@ -201,7 +217,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V24" name="s2q1__1c" files="F1" intrvl="discrete">
+    <var ID="V26" name="s2q1__1c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:1c]]></labl>
       <qstn>
@@ -210,7 +226,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V25" name="s2q1__2" files="F1" intrvl="discrete">
+    <var ID="V27" name="s2q1__2" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:2]]></labl>
       <qstn>
@@ -219,7 +235,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V26" name="s2q1__2c" files="F1" intrvl="discrete">
+    <var ID="V28" name="s2q1__2c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:2c]]></labl>
       <qstn>
@@ -228,7 +244,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V27" name="s2q1__3" files="F1" intrvl="discrete">
+    <var ID="V29" name="s2q1__3" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:3]]></labl>
       <qstn>
@@ -237,7 +253,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V28" name="s2q1__3c" files="F1" intrvl="discrete">
+    <var ID="V30" name="s2q1__3c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:3c]]></labl>
       <qstn>
@@ -246,7 +262,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V29" name="s2q1__4" files="F1" intrvl="discrete">
+    <var ID="V31" name="s2q1__4" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:4]]></labl>
       <qstn>
@@ -255,7 +271,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V30" name="s2q1__4c" files="F1" intrvl="discrete">
+    <var ID="V32" name="s2q1__4c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:4c]]></labl>
       <qstn>
@@ -264,7 +280,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V31" name="s2q1__5" files="F1" intrvl="discrete">
+    <var ID="V33" name="s2q1__5" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:5]]></labl>
       <qstn>
@@ -273,7 +289,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V32" name="s2q1__5c" files="F1" intrvl="discrete">
+    <var ID="V34" name="s2q1__5c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:5c]]></labl>
       <qstn>
@@ -282,7 +298,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V33" name="s2q1__6" files="F1" intrvl="discrete">
+    <var ID="V35" name="s2q1__6" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:6]]></labl>
       <qstn>
@@ -291,7 +307,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V34" name="s2q1__6c" files="F1" intrvl="discrete">
+    <var ID="V36" name="s2q1__6c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:6c]]></labl>
       <qstn>
@@ -300,7 +316,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V35" name="s2q1__7" files="F1" intrvl="discrete">
+    <var ID="V37" name="s2q1__7" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:7]]></labl>
       <qstn>
@@ -309,7 +325,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V36" name="s2q1__7c" files="F1" intrvl="discrete">
+    <var ID="V38" name="s2q1__7c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:7c]]></labl>
       <qstn>
@@ -318,7 +334,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V37" name="s2q1__8" files="F1" intrvl="discrete">
+    <var ID="V39" name="s2q1__8" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:8]]></labl>
       <qstn>
@@ -327,7 +343,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V38" name="s2q1__8c" files="F1" intrvl="discrete">
+    <var ID="V40" name="s2q1__8c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:8c]]></labl>
       <qstn>
@@ -336,7 +352,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V39" name="s2q1__9" files="F1" intrvl="discrete">
+    <var ID="V41" name="s2q1__9" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:9]]></labl>
       <qstn>
@@ -345,7 +361,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V40" name="s2q1__9c" files="F1" intrvl="discrete">
+    <var ID="V42" name="s2q1__9c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:9c]]></labl>
       <qstn>
@@ -354,7 +370,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V41" name="s2q1__10" files="F1" intrvl="discrete">
+    <var ID="V43" name="s2q1__10" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:10]]></labl>
       <qstn>
@@ -363,7 +379,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V42" name="s2q1__10c" files="F1" intrvl="discrete">
+    <var ID="V44" name="s2q1__10c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:10c]]></labl>
       <qstn>
@@ -372,7 +388,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V43" name="s2q1__11" files="F1" intrvl="discrete">
+    <var ID="V45" name="s2q1__11" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:11]]></labl>
       <qstn>
@@ -381,7 +397,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V44" name="s2q1__11c" files="F1" intrvl="discrete">
+    <var ID="V46" name="s2q1__11c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:11c]]></labl>
       <qstn>
@@ -390,7 +406,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V45" name="s2q1__12" files="F1" intrvl="discrete">
+    <var ID="V47" name="s2q1__12" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:12]]></labl>
       <qstn>
@@ -399,7 +415,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V46" name="s2q1__12c" files="F1" intrvl="discrete">
+    <var ID="V48" name="s2q1__12c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:12c]]></labl>
       <qstn>
@@ -408,7 +424,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V47" name="s2q1__13" files="F1" intrvl="discrete">
+    <var ID="V49" name="s2q1__13" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:13]]></labl>
       <qstn>
@@ -417,7 +433,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V48" name="s2q1__13c" files="F1" intrvl="discrete">
+    <var ID="V50" name="s2q1__13c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:13c]]></labl>
       <qstn>
@@ -426,7 +442,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V49" name="s2q1__14" files="F1" intrvl="discrete">
+    <var ID="V51" name="s2q1__14" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:14]]></labl>
       <qstn>
@@ -435,7 +451,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V50" name="s2q1__14c" files="F1" intrvl="discrete">
+    <var ID="V52" name="s2q1__14c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:14c]]></labl>
       <qstn>
@@ -444,7 +460,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V51" name="s2q1__15" files="F1" intrvl="discrete">
+    <var ID="V53" name="s2q1__15" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:15]]></labl>
       <qstn>
@@ -453,7 +469,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V52" name="s2q1__15c" files="F1" intrvl="discrete">
+    <var ID="V54" name="s2q1__15c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:15c]]></labl>
       <qstn>
@@ -462,7 +478,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V53" name="s2q1__16" files="F1" intrvl="discrete">
+    <var ID="V55" name="s2q1__16" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:16]]></labl>
       <qstn>
@@ -471,7 +487,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V54" name="s2q1__16c" files="F1" intrvl="discrete">
+    <var ID="V56" name="s2q1__16c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:16c]]></labl>
       <qstn>
@@ -480,7 +496,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V55" name="s2q1__17" files="F1" intrvl="discrete">
+    <var ID="V57" name="s2q1__17" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:17]]></labl>
       <qstn>
@@ -489,7 +505,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V56" name="s2q1__17c" files="F1" intrvl="discrete">
+    <var ID="V58" name="s2q1__17c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:17c]]></labl>
       <qstn>
@@ -498,7 +514,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V57" name="s2q1__18" files="F1" intrvl="discrete">
+    <var ID="V59" name="s2q1__18" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:18]]></labl>
       <qstn>
@@ -507,7 +523,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V58" name="s2q1__18c" files="F1" intrvl="discrete">
+    <var ID="V60" name="s2q1__18c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:18c]]></labl>
       <qstn>
@@ -516,7 +532,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V59" name="s2q1__19" files="F1" intrvl="discrete">
+    <var ID="V61" name="s2q1__19" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:19]]></labl>
       <qstn>
@@ -525,7 +541,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V60" name="s2q1__19c" files="F1" intrvl="discrete">
+    <var ID="V62" name="s2q1__19c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:19c]]></labl>
       <qstn>
@@ -534,7 +550,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V61" name="s2q1__20" files="F1" intrvl="discrete">
+    <var ID="V63" name="s2q1__20" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:20]]></labl>
       <qstn>
@@ -543,7 +559,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V62" name="s2q1__20c" files="F1" intrvl="discrete">
+    <var ID="V64" name="s2q1__20c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:20c]]></labl>
       <qstn>
@@ -552,7 +568,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V63" name="s2q1__21" files="F1" intrvl="discrete">
+    <var ID="V65" name="s2q1__21" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:21]]></labl>
       <qstn>
@@ -561,7 +577,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V64" name="s2q1__21c" files="F1" intrvl="discrete">
+    <var ID="V66" name="s2q1__21c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:21c]]></labl>
       <qstn>
@@ -570,7 +586,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V65" name="s2q1__22" files="F1" intrvl="discrete">
+    <var ID="V67" name="s2q1__22" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:22]]></labl>
       <qstn>
@@ -579,7 +595,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V66" name="s2q1__22c" files="F1" intrvl="discrete">
+    <var ID="V68" name="s2q1__22c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:22c]]></labl>
       <qstn>
@@ -588,7 +604,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V67" name="s2q1__23" files="F1" intrvl="discrete">
+    <var ID="V69" name="s2q1__23" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:23]]></labl>
       <qstn>
@@ -597,7 +613,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V68" name="s2q1__23c" files="F1" intrvl="discrete">
+    <var ID="V70" name="s2q1__23c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:23c]]></labl>
       <qstn>
@@ -606,7 +622,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V69" name="s2q1__24" files="F1" intrvl="discrete">
+    <var ID="V71" name="s2q1__24" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:24]]></labl>
       <qstn>
@@ -615,7 +631,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V70" name="s2q1__24c" files="F1" intrvl="discrete">
+    <var ID="V72" name="s2q1__24c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:24c]]></labl>
       <qstn>
@@ -624,7 +640,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V71" name="s2q1__25" files="F1" intrvl="discrete">
+    <var ID="V73" name="s2q1__25" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:25]]></labl>
       <qstn>
@@ -633,7 +649,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V72" name="s2q1__25c" files="F1" intrvl="discrete">
+    <var ID="V74" name="s2q1__25c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:25c]]></labl>
       <qstn>
@@ -642,7 +658,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V73" name="s2q1__26" files="F1" intrvl="discrete">
+    <var ID="V75" name="s2q1__26" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:26]]></labl>
       <qstn>
@@ -651,7 +667,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V74" name="s2q1__26c" files="F1" intrvl="discrete">
+    <var ID="V76" name="s2q1__26c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:26c]]></labl>
       <qstn>
@@ -660,7 +676,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V75" name="s2q1__27" files="F1" intrvl="discrete">
+    <var ID="V77" name="s2q1__27" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:27]]></labl>
       <qstn>
@@ -669,7 +685,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V76" name="s2q1__27c" files="F1" intrvl="discrete">
+    <var ID="V78" name="s2q1__27c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:27c]]></labl>
       <qstn>
@@ -678,7 +694,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V77" name="s2q1__28" files="F1" intrvl="discrete">
+    <var ID="V79" name="s2q1__28" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:28]]></labl>
       <qstn>
@@ -687,7 +703,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V78" name="s2q1__28c" files="F1" intrvl="discrete">
+    <var ID="V80" name="s2q1__28c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:28c]]></labl>
       <qstn>
@@ -696,7 +712,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V79" name="s2q1__29" files="F1" intrvl="discrete">
+    <var ID="V81" name="s2q1__29" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:29]]></labl>
       <qstn>
@@ -705,7 +721,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V80" name="s2q1__29c" files="F1" intrvl="discrete">
+    <var ID="V82" name="s2q1__29c" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Description of Trader:29c]]></labl>
       <qstn>
@@ -714,19 +730,19 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V81" name="transportercharacteristics__id" files="F2" intrvl="discrete">
+    <var ID="V83" name="transportercharacteristics__id" files="F2" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Id in transportercharacteristics]]></labl>
       <qstn />
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V82" name="interview__key" files="F2" intrvl="discrete">
+    <var ID="V84" name="interview__key" files="F2" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Interview key (identifier in XX-XX-XX-XX format)]]></labl>
       <qstn />
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V83" name="s2q2" files="F2" intrvl="discrete">
+    <var ID="V85" name="s2q2" files="F2" intrvl="discrete">
       <location RecSegNo="1" />
       <labl><![CDATA[Direction of Trade]]></labl>
       <qstn>
@@ -742,7 +758,7 @@
       </catgry>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V84" name="s2q3" files="F2" intrvl="discrete">
+    <var ID="V86" name="s2q3" files="F2" intrvl="discrete">
       <location RecSegNo="1" />
       <labl><![CDATA[Sex of Trader]]></labl>
       <qstn>
@@ -758,7 +774,7 @@
       </catgry>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V85" name="s2q3ll" files="F2" intrvl="discrete">
+    <var ID="V87" name="s2q3ll" files="F2" intrvl="discrete">
       <location RecSegNo="1" />
       <labl><![CDATA[Means of Transport]]></labl>
       <qstn>
@@ -818,11 +834,15 @@
       </catgry>
       <catgry>
         <catValu>14</catValu>
+        <labl><![CDATA[Push Truck]]></labl>
+      </catgry>
+      <catgry>
+        <catValu>15</catValu>
         <labl><![CDATA[Other (Specify)]]></labl>
       </catgry>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V86" name="s2q3llo" files="F2" intrvl="discrete">
+    <var ID="V88" name="s2q3llo" files="F2" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Specify for means of transport]]></labl>
       <qstn>
@@ -830,7 +850,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V87" name="s2q3o__0" files="F2" intrvl="discrete">
+    <var ID="V89" name="s2q3o__0" files="F2" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Describe the product observed:0]]></labl>
       <qstn>
@@ -839,7 +859,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V88" name="s2q3o__0c" files="F2" intrvl="discrete">
+    <var ID="V90" name="s2q3o__0c" files="F2" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Describe the product observed:0c]]></labl>
       <qstn>
@@ -848,7 +868,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V89" name="s2q3o__1" files="F2" intrvl="discrete">
+    <var ID="V91" name="s2q3o__1" files="F2" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Describe the product observed:1]]></labl>
       <qstn>
@@ -857,7 +877,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V90" name="s2q3o__1c" files="F2" intrvl="discrete">
+    <var ID="V92" name="s2q3o__1c" files="F2" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Describe the product observed:1c]]></labl>
       <qstn>
@@ -866,7 +886,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V91" name="s2q3o__2" files="F2" intrvl="discrete">
+    <var ID="V93" name="s2q3o__2" files="F2" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Describe the product observed:2]]></labl>
       <qstn>
@@ -875,7 +895,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V92" name="s2q3o__2c" files="F2" intrvl="discrete">
+    <var ID="V94" name="s2q3o__2c" files="F2" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Describe the product observed:2c]]></labl>
       <qstn>
@@ -884,7 +904,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V93" name="s2q3o__3" files="F2" intrvl="discrete">
+    <var ID="V95" name="s2q3o__3" files="F2" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Describe the product observed:3]]></labl>
       <qstn>
@@ -893,7 +913,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V94" name="s2q3o__3c" files="F2" intrvl="discrete">
+    <var ID="V96" name="s2q3o__3c" files="F2" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Describe the product observed:3c]]></labl>
       <qstn>
@@ -902,7 +922,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V95" name="s2q3o__4" files="F2" intrvl="discrete">
+    <var ID="V97" name="s2q3o__4" files="F2" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Describe the product observed:4]]></labl>
       <qstn>
@@ -911,7 +931,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V96" name="s2q3o__4c" files="F2" intrvl="discrete">
+    <var ID="V98" name="s2q3o__4c" files="F2" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Describe the product observed:4c]]></labl>
       <qstn>
@@ -920,7 +940,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V97" name="s2q3o__5" files="F2" intrvl="discrete">
+    <var ID="V99" name="s2q3o__5" files="F2" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Describe the product observed:5]]></labl>
       <qstn>
@@ -929,7 +949,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V98" name="s2q3o__5c" files="F2" intrvl="discrete">
+    <var ID="V100" name="s2q3o__5c" files="F2" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Describe the product observed:5c]]></labl>
       <qstn>
@@ -938,7 +958,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V99" name="s2q3o__6" files="F2" intrvl="discrete">
+    <var ID="V101" name="s2q3o__6" files="F2" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Describe the product observed:6]]></labl>
       <qstn>
@@ -947,7 +967,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V100" name="s2q3o__6c" files="F2" intrvl="discrete">
+    <var ID="V102" name="s2q3o__6c" files="F2" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Describe the product observed:6c]]></labl>
       <qstn>
@@ -956,7 +976,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V101" name="s2q3o__7" files="F2" intrvl="discrete">
+    <var ID="V103" name="s2q3o__7" files="F2" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Describe the product observed:7]]></labl>
       <qstn>
@@ -965,7 +985,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V102" name="s2q3o__7c" files="F2" intrvl="discrete">
+    <var ID="V104" name="s2q3o__7c" files="F2" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Describe the product observed:7c]]></labl>
       <qstn>
@@ -974,7 +994,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V103" name="s2q3o__8" files="F2" intrvl="discrete">
+    <var ID="V105" name="s2q3o__8" files="F2" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Describe the product observed:8]]></labl>
       <qstn>
@@ -983,7 +1003,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V104" name="s2q3o__8c" files="F2" intrvl="discrete">
+    <var ID="V106" name="s2q3o__8c" files="F2" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Describe the product observed:8c]]></labl>
       <qstn>
@@ -992,7 +1012,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V105" name="s2q3o__9" files="F2" intrvl="discrete">
+    <var ID="V107" name="s2q3o__9" files="F2" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Describe the product observed:9]]></labl>
       <qstn>
@@ -1001,7 +1021,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V106" name="s2q3o__9c" files="F2" intrvl="discrete">
+    <var ID="V108" name="s2q3o__9c" files="F2" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Describe the product observed:9c]]></labl>
       <qstn>
@@ -1010,31 +1030,31 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V107" name="s2q1" files="F2" intrvl="discrete">
+    <var ID="V109" name="s2q1" files="F2" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Roster list question]]></labl>
       <qstn />
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V108" name="interview__id" files="F2" intrvl="discrete">
+    <var ID="V110" name="interview__id" files="F2" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Unique 32-character long identifier of the interview]]></labl>
       <qstn />
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V109" name="Commodity__id" files="F3" intrvl="discrete">
+    <var ID="V111" name="Commodity__id" files="F3" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Id in Commodity]]></labl>
       <qstn />
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V110" name="interview__key" files="F3" intrvl="discrete">
+    <var ID="V112" name="interview__key" files="F3" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Interview key (identifier in XX-XX-XX-XX format)]]></labl>
       <qstn />
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V111" name="s2q4" files="F3" intrvl="discrete">
+    <var ID="V113" name="s2q4" files="F3" intrvl="discrete">
       <location RecSegNo="1" />
       <labl><![CDATA[product observed]]></labl>
       <qstn>
@@ -3094,7 +3114,7 @@
       </catgry>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V112" name="s2q2b" files="F3" intrvl="discrete">
+    <var ID="V114" name="s2q2b" files="F3" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Other commodity (specify)]]></labl>
       <qstn>
@@ -3102,7 +3122,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V113" name="s2b1" files="F3" intrvl="discrete">
+    <var ID="V115" name="s2b1" files="F3" intrvl="discrete">
       <location RecSegNo="1" />
       <labl><![CDATA[Is the Commodity you specified as other a Livestock]]></labl>
       <qstn>
@@ -3118,7 +3138,7 @@
       </catgry>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V114" name="s2q5" files="F3" intrvl="discrete">
+    <var ID="V116" name="s2q5" files="F3" intrvl="discrete">
       <location RecSegNo="1" />
       <labl><![CDATA[Unit of measure of Commodity]]></labl>
       <qstn>
@@ -3738,7 +3758,7 @@
       </catgry>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V115" name="s2q5b" files="F3" intrvl="discrete">
+    <var ID="V117" name="s2q5b" files="F3" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Specify Unit]]></labl>
       <qstn>
@@ -3746,7 +3766,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V116" name="s2q6o" files="F3" intrvl="contin">
+    <var ID="V118" name="s2q6o" files="F3" intrvl="contin">
       <location RecSegNo="1" />
       <labl><![CDATA[Quantity of commodity observed]]></labl>
       <qstn>
@@ -3754,7 +3774,7 @@
       </qstn>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V117" name="s2l1" files="F3" intrvl="discrete">
+    <var ID="V119" name="s2l1" files="F3" intrvl="discrete">
       <location RecSegNo="1" />
       <labl><![CDATA[Age of livestock in year]]></labl>
       <qstn>
@@ -3774,7 +3794,7 @@
       </catgry>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V118" name="s2l2" files="F3" intrvl="discrete">
+    <var ID="V120" name="s2l2" files="F3" intrvl="discrete">
       <location RecSegNo="1" />
       <labl><![CDATA[Sex of Livestock]]></labl>
       <qstn>
@@ -3790,7 +3810,7 @@
       </catgry>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V119" name="s2q6oo" files="F3" intrvl="discrete">
+    <var ID="V121" name="s2q6oo" files="F3" intrvl="discrete">
       <location RecSegNo="1" />
       <labl><![CDATA[Specify the currency in which the item was purchased]]></labl>
       <qstn>
@@ -3814,7 +3834,7 @@
       </catgry>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V120" name="s2q7" files="F3" intrvl="contin">
+    <var ID="V122" name="s2q7" files="F3" intrvl="contin">
       <location RecSegNo="1" />
       <labl><![CDATA[Price per Unit measure]]></labl>
       <qstn>
@@ -3822,7 +3842,7 @@
       </qstn>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V121" name="s2q6" files="F3" intrvl="contin">
+    <var ID="V123" name="s2q6" files="F3" intrvl="contin">
       <location RecSegNo="1" />
       <labl><![CDATA[Weight in Kg]]></labl>
       <qstn>
@@ -3830,7 +3850,7 @@
       </qstn>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V122" name="s2q8" files="F3" intrvl="discrete">
+    <var ID="V124" name="s2q8" files="F3" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[commodity picture]]></labl>
       <qstn>
@@ -3838,7 +3858,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V123" name="s2q10a" files="F3" intrvl="discrete">
+    <var ID="V125" name="s2q10a" files="F3" intrvl="discrete">
       <location RecSegNo="1" />
       <labl><![CDATA[Did you see any trader(s) that you could not observer or interview?]]></labl>
       <qstn>
@@ -3854,7 +3874,7 @@
       </catgry>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V124" name="s2q10b" files="F3" intrvl="contin">
+    <var ID="V126" name="s2q10b" files="F3" intrvl="contin">
       <location RecSegNo="1" />
       <labl><![CDATA[How many traders did you see that you were unable to observe or interview?]]></labl>
       <qstn>
@@ -3862,31 +3882,31 @@
       </qstn>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V125" name="s2q3o" files="F3" intrvl="discrete">
+    <var ID="V127" name="s2q3o" files="F3" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Roster list question]]></labl>
       <qstn />
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V126" name="interview__id" files="F3" intrvl="discrete">
+    <var ID="V128" name="interview__id" files="F3" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Unique 32-character long identifier of the interview]]></labl>
       <qstn />
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V127" name="transportercharacteristics__id" files="F3" intrvl="discrete">
+    <var ID="V129" name="transportercharacteristics__id" files="F3" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Id in "transportercharacteristics"]]></labl>
       <qstn />
       <varFormat type="character" schema="other" />
     </var>
   </dataDscr>
-  <fileDscr ID="F1" URI="Temp#33.~esstar?Index=0&amp;Name=ICBT_MAIN_PILOT">
+  <fileDscr ID="F1" URI="Temp#33.~esstar?Index=0&amp;Name=ICBT_MAIN_FIELD_PRACTICE">
     <fileTxt>
-      <fileName>ICBT_MAIN_PILOT.NSDstat</fileName>
+      <fileName>ICBT_MAIN_FIELD_PRACTICE.NSDstat</fileName>
       <dimensns>
         <caseQnty>0</caseQnty>
-        <varQnty>80</varQnty>
+        <varQnty>82</varQnty>
       </dimensns>
       <fileType>Nesstar 200801</fileType>
     </fileTxt>

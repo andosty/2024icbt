@@ -1,3 +1,16 @@
+newDataMeta <- select(read_rds("server/users.RDS"),UserId, UserName) %>%  
+  rename(responsibleId = UserId) %>% distinct(responsibleId, .keep_all = T)
+
+userID_in_Data <-  read_dta(paste(hq_extracted_dir,"assignment__actions.dta",sep = '')) %>% select(
+  assignment__id, responsible__name
+) %>% rename(
+  UserName =  responsible__name
+)  %>% distinct(UserName, .keep_all = T)
+
+MajorMeta <- left_join(userID_in_Data,newDataMeta) %>% rename(assignment_id = assignment__id)   
+
+
+
 #create directory for Extracting data download, unzipped and prepped if not exist
 
 
@@ -15,7 +28,7 @@ library(haven)
 metaColNames <- c("interview__key", "interview__id","enumerator_name" ,"enumerator_contact", "team_number" ,      
                    "id02","id02a","id03","id03b","id04",
                    "id06","gps__Latitude","gps__Longitude","gps__Accuracy","gps__Altitude",
-                   "gps__Timestamp"
+                   "gps__Timestamp","assignment__id"
                   )
 
 transpondentNames <- c("interview__key","interview__id","transportercharacteristics__id",
@@ -56,7 +69,9 @@ icbt_data <- read_dta(paste(hq_extracted_dir,server_qnr$variable,".dta", sep = '
          "interview__id"="interview__id",
          "transportercharacteristics__id"="transportercharacteristics__id"
          )
-  ) 
+  ) %>% rename(
+    assignment_id = assignment__id
+  ) %>% left_join(MajorMeta) 
 
 #Pull HH level var renames file
 renameData <- read_excel("server/dictionary/varNames.xlsx",sheet = "icbtVarRenames")
@@ -73,16 +88,18 @@ rm(renameData, metaColNames, transpondentNames, row, server_qnr,sqlSvr)
 
 colnames(icbt_data) = gsub("__", "_", colnames(icbt_data))
 
-caseIdentifier <-cases %>% rename(interview_id = id) %>%
-  select(
-c('key', 'interview_id', 'createdDate','updateDateUtc',
-  'enumerator_name', 'enumerator_contact','responsibleId',
-  'questionnaireVersion','wasCompleted'),
-  )
+# caseIdentifier <-cases %>% rename(interview_id = id) %>%
+#   select(
+# c('key', 'interview_id', 'createdDate','updateDateUtc',
+#   'enumerator_name', 'enumerator_contact','responsibleId',
+#   'questionnaireVersion','wasCompleted'),
+#   )
 
+
+  
 
 icbt_data <- icbt_data %>%
-  left_join(caseIdentifier, by = c('interview_id', 'enumerator_name', 'enumerator_contact') ) %>%
+  # left_join(caseIdentifier, by = c('interview_id', 'enumerator_name', 'enumerator_contact') ) %>%
   subset( regionCode >= user_out_data()$startRegionCode & regionCode <= user_out_data()$endRegionCode )
 
 # # export your dataset:

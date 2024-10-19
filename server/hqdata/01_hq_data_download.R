@@ -45,16 +45,6 @@ server_qnr_id <- server_qnr %>%
 # 
 # options(timeout = max(1000, getOption("timeout")))
 
-cases <- get_interviews_for_questionnaire(
-  chunk_size=100,
-  qnr_id=server_qnr$questionnaireId,
-  qnr_version= server_qnr$version,  # This should be an integer, not a string
-  # 
-  # server = Sys.getenv("SUSO_SERVER"),
-  # workspace = Sys.getenv("SUSO_WORKSPACE"),
-  # user = Sys.getenv("SUSO_USER"),
-  # password = Sys.getenv("SUSO_PASSWORD")
-)
 
 
 # 
@@ -72,12 +62,23 @@ cases <- get_interviews_for_questionnaire(
 #   qnr_version= server_qnr$version  # This should be an integer, not a string
 # )
 
+# 
+# cases <- get_interviews_for_questionnaire(
+#   chunk_size=100,
+#   qnr_id="39ce51e8-dd9a-43ec-95ff-252c40305b18",
+#   qnr_version= 1  # This should be an integer, not a string
+# )
+# print('cases downloaded okay')
+
+
 download_matching(
   matches = server_qnr$title, 
   export_type = "STATA",
   path = hqDownload_dir,
   # qnr_id= server_qnr_id
 )
+
+print('icbt data downloaded okay')
 
 #rename the downloaded file
 downloaded_filename <- paste(server_qnr$variable,'_', server_qnr$version,'_STATA_All.zip', sep = '')

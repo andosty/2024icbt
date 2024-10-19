@@ -9,9 +9,9 @@ icbt_meta <- icbt_data %>%
   select(.,
          regionCode, RegionName,districtCode,districtName,
          townCity,borderPostName,team_number,interview_key,interview_id,enumerator_name,enumerator_contact, 
-         gps_Timestamp,responsibleId,createdDate
+         gps_Timestamp,responsibleId # ,createdDate , 
   ) %>%
-  distinct(interview_key,interview_id,responsibleId, .keep_all = T) %>% 
+  distinct(interview_key,interview_id,responsibleId, .keep_all = T) %>%  
   arrange(districtCode,borderPostName,team_number,enumerator_name) 
 
 errorChecks = data.frame()
