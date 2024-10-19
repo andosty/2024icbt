@@ -73,7 +73,17 @@ rm(renameData, metaColNames, transpondentNames, row, server_qnr,sqlSvr)
 
 colnames(icbt_data) = gsub("__", "_", colnames(icbt_data))
 
+caseIdentifier <-cases %>% rename(interview_id = id) %>%
+  select(
+c('key', 'interview_id', 'createdDate','updateDateUtc',
+  'enumerator_name', 'enumerator_contact','responsibleId',
+  'questionnaireVersion','wasCompleted'),
+  )
 
+
+icbt_data <- icbt_data %>%
+  left_join(caseIdentifier, by = c('interview_id', 'enumerator_name', 'enumerator_contact') ) %>%
+  subset( regionCode >= user_out_data()$startRegionCode & regionCode <= user_out_data()$endRegionCode )
 
 # # export your dataset:
 # library(foreign)

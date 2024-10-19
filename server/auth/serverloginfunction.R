@@ -63,9 +63,36 @@
       name = names(out),
       value = unname(out)
     )  #%>% filter(name=='email')
-    print(head(session$userData$current_user()))
+    # print(head(session$userData$current_user()))
+  })
+  
+  user_out_email <- reactive({
+    signed_in_user_df() %>% 
+      filter(name== 'email') %>%
+      dplyr::pull(value)
+  })
+  
+  
+  user_out_data <- reactive({
+    library(readxl)
+    loginDataAccess <- read_excel("server/loginDataAccess.xlsx") %>%
+      filter( email == 
+                signed_in_user_df() %>% 
+                filter(name== 'email') %>%
+                dplyr::pull(value)
+      )
   })
 
+  output$user_access <- DT::renderDT({
+    datatable(
+      user_out_data(),
+      rownames = FALSE,
+      options = list(
+        dom = "tp",
+        scrollX = TRUE
+      )
+    )
+  })
 
   output$user_out <- DT::renderDT({
     datatable(

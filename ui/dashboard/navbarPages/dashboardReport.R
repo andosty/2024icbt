@@ -1,7 +1,28 @@
 tabItem(
   tabName = "dashboard",
   
+  
+  
+  
   fluidRow(
+  column(
+    12,
+    div(
+      style = "padding: 50px",
+      h1("You have now signed in and your email address has been verified!"),
+      br()
+      # h3("This is all the information that comes with the signed in user with 'Email/Password' authentication on Firebase"),
+      # textOutput(outputId = "user_out_email"),
+      # 
+      # br(),
+      # DT::DTOutput("user_access"),
+      # 
+      # DT::DTOutput("user_out")
+    )
+  ),
+  
+  
+  
     column(
       width = 12,
       align = 'left',

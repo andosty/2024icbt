@@ -1,5 +1,7 @@
-
+#install some packages
+if(!require(shinyalert)) install.packages("shinyalert")
 # Load the package
+library(shinyalert)
 library(bs4Dash)
 library(dplyr)
 library(DT)
@@ -38,8 +40,6 @@ library(tm)
 
 
 # Stop word removal in R
-#install some packages
-# if(!require(tm)) install.packages("tm")
 # if(!require(SnowballC)) install.packages("SnowballC")
 # if(!require(RTextTools)) install.packages("RTextTools")
 # if(!require(hcandersenr)) install.packages("hcandersenr")

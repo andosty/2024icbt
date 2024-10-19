@@ -1,8 +1,4 @@
 sqlSvr <- readRDS("server/credentials/icbt_svr.rds")
-# saveRDS(sqlSvr,"C:/2024ICBT/App/svr/icbt_svr.rds")
-# sqlSvr<- sqlSvr %>%
-#   mutate(title='ICBT MAIN-PILOT App')
-
 
 #create directory for saving data download if not exist
 data_dir <- "Data/"
@@ -33,6 +29,7 @@ set_credentials(
 
 # Then, filter to the questionnaire of interest and extract the questionnaire ID and version number.
 server_qnr <- susoapi::get_questionnaires() %>% 
+  # filter(title == "ICBT MAIN-Field Practice") %>%
   filter(title == sqlSvr$title) %>%
   # dplyr::pull(questionnaireId)
   filter(version==max(version))
@@ -40,29 +37,39 @@ server_qnr <- susoapi::get_questionnaires() %>%
 server_qnr_id <- server_qnr %>%
   # filter(version==6) %>%
   dplyr::pull(id)
+
+
+
+# saveRDS(cases,"server/credentials/cases.rds")
+# cases <- readRDS("server/credentials/cases.rds")
 # 
-# # start export process; get job ID
-# started_job_id <- susoapi::start_export(
-#   qnr_id= server_qnr_id,
-#   export_type = "STATA",
-#   include_meta = TRUE,
-#   interview_status = "All",
-#   # from = from,
-#   # to = to,
-#   # credentials
-#   server = Sys.getenv("SUSO_SERVER"),     # full server address
-#   workspace = Sys.getenv("SUSO_WORKSPACE"),
-#   user = Sys.getenv("SUSO_USER"),         # API user name
-#   password = Sys.getenv("SUSO_PASSWORD") 
+# options(timeout = max(1000, getOption("timeout")))
+
+cases <- get_interviews_for_questionnaire(
+  chunk_size=100,
+  qnr_id=server_qnr$questionnaireId,
+  qnr_version= server_qnr$version,  # This should be an integer, not a string
+  # 
+  # server = Sys.getenv("SUSO_SERVER"),
+  # workspace = Sys.getenv("SUSO_WORKSPACE"),
+  # user = Sys.getenv("SUSO_USER"),
+  # password = Sys.getenv("SUSO_PASSWORD")
+)
+
+
+# 
+# cases <- get_interviews_for_questionnaire(
+#   chunk_size=100,
+#   # method = curl,
+#   qnr_id="a686a8b6-b64b-4411-8b37-7bd5174fe720",
+#   qnr_version= 2  # This should be an integer, not a string
 # )
-# 
-# # CHECK EXPORT JOB PROGESS, UNTIL COMPLETE, specifying ID of job started in prior step
-# get_export_job_details(job_id = started_job_id)
-# 
-# # DOWNLOAD THE EXPORT FILE, ONCE THE JOB IS COMPLETE
-# get_export_file(
-#   job_id = started_job_id,
-#   path = hqDownload_dir,
+
+# commented out cases bcos of http request error
+# cases <- get_interviews_for_questionnaire(
+#   chunk_size=100,
+#   qnr_id=server_qnr$questionnaireId,
+#   qnr_version= server_qnr$version  # This should be an integer, not a string
 # )
 
 download_matching(
@@ -82,12 +89,6 @@ if (file.exists(zippedFile)) {
   unzip( zippedFile, exdir=hq_extracted_dir) 
 }
 
-# commented out cases bcos of http request error
-# cases <- get_interviews_for_questionnaire(
-#   chunk_size=100,
-#   qnr_id=server_qnr$questionnaireId,
-#   qnr_version= server_qnr$version  # This should be an integer, not a string
-# )
 
 # date and time
 myDateInfo <-Sys.time()

@@ -51,10 +51,10 @@ div(
     br(),
     hr(),
     br(),
-    # actionLink(
-    #   "go_to_register",
-    #   "Not a member? Register!"
-    # ),
+    actionLink(
+      "go_to_register",
+      "Not a member? Register!"
+    ),
     br(),
     br(),
     tags$a(

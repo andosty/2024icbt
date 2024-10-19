@@ -9,13 +9,26 @@ icbt_meta <- icbt_data %>%
   select(.,
          regionCode, RegionName,districtCode,districtName,
          townCity,borderPostName,team_number,interview_key,interview_id,enumerator_name,enumerator_contact, 
+         gps_Timestamp,responsibleId,createdDate
   ) %>%
-  distinct(interview_key,interview_id, .keep_all = T) %>% 
+  distinct(interview_key,interview_id,responsibleId, .keep_all = T) %>% 
   arrange(districtCode,borderPostName,team_number,enumerator_name) 
 
 errorChecks = data.frame()
 
+
+blankCommdtyDesctip <- icbt_data %>% 
+  filter(is.na(commodityObervedDescription)) %>%
+  mutate(
+    errorCheck = 'blank product description',
+    errorMessage = paste("commodity/product description cannot be blank", sep = '')
+  ) %>% select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,commodityObervedDescription,Commodity_id, errorCheck,errorMessage)
+errorChecks <- dplyr::bind_rows(errorChecks, blankCommdtyDesctip) #add to the errorData frame file
+rm(blankCommdtyDesctip)
+
+
 UoM_Check <- icbt_data %>% 
+  filter(!is.na(commodityObervedDescription)) %>%
   mutate(newUOM =unit_of_measure,
          cmdty_descrip = singularize(commodityObervedDescription)
   ) %>%
@@ -118,7 +131,7 @@ commodityQtyMismatchError <- summaryPivotedDF %>%
   filter(commodity_description_uom_qty != commodityQuantity) %>%
   mutate(
     errorCheck = 'product Qty mismatch',
-    errorMessage = paste("product description implies the quantity ='",commodity_description_uom_qty, "'. observed product quantity entered = '", commodityQuantity, "'. product/commodity description = '",commodityObervedDescription,"'",sep = '')
+    errorMessage = paste("product description implies the quantity ='",commodity_description_uom_qty, "'. observed product quantity entered = '", commodityQuantity, "'. production description = '",commodityObervedDescription,"'",sep = '')
   ) %>%
   select(.,interview_key,interview_id,observedRespondentDescription,transpondent_id,commodityObervedDescription,Commodity_id, errorCheck,errorMessage)
 
@@ -332,6 +345,12 @@ wrongSelectedProductDescription <-  icbt_data %>%
 errorChecks <- dplyr::bind_rows(errorChecks, wrongSelectedProductDescription) #add to the errorData frame file
 rm(wrongSelectedProductDescription)
 
+# other specified product description
+otherCommdtyDescription <- icbt_data %>%
+  filter(productObserved=='Other (Specify)')
+
+
+
 ## merge error messages to meta data CASES HTTP ERROR
 # 
 # ICBT_metaData  <- cases %>%
@@ -352,7 +371,8 @@ errorChecks <- errorChecks %>%
          townCity,borderPostName,team_number,interview_key,interview_id,enumerator_name,enumerator_contact, everything()
   ) %>% 
   arrange(districtCode,borderPostName,team_number,enumerator_name) #  %>%
-  # left_join(ICBT_metaData, by=c("interview_id"="interview_id","interview_key"="interview_key"))
+   # left_join(ICBT_metaData)
+
 
 #rm(ICBT_metaData)
 # 
