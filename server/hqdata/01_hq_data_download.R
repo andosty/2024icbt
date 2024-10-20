@@ -32,7 +32,8 @@ server_qnr <- susoapi::get_questionnaires() %>%
   filter(title == "ICBT MAIN-Field Practice") %>%
   # filter(title == sqlSvr$title) %>%
   # dplyr::pull(questionnaireId)
-  filter(version==max(version))
+  # filter(version==max(version))
+  filter(version==1)
 
 server_qnr_id <- server_qnr %>%
   # filter(version==6) %>%

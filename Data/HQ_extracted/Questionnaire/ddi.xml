@@ -94,15 +94,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V11" name="month_of_collection" files="F1" intrvl="discrete">
-      <location width="255" RecSegNo="1" />
-      <labl><![CDATA[Month of Data Collection]]></labl>
-      <qstn>
-        <qstnLit><![CDATA[Month of Data Collection]]></qstnLit>
-      </qstn>
-      <varFormat type="character" schema="other" />
-    </var>
-    <var ID="V12" name="id02" files="F1" intrvl="discrete">
+    <var ID="V11" name="id02" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Region]]></labl>
       <qstn>
@@ -110,7 +102,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V13" name="id02a" files="F1" intrvl="contin">
+    <var ID="V12" name="id02a" files="F1" intrvl="contin">
       <location RecSegNo="1" />
       <labl><![CDATA[Region code]]></labl>
       <qstn>
@@ -118,7 +110,7 @@
       </qstn>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V14" name="id03" files="F1" intrvl="discrete">
+    <var ID="V13" name="id03" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[District]]></labl>
       <qstn>
@@ -126,7 +118,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V15" name="id03b" files="F1" intrvl="discrete">
+    <var ID="V14" name="id03b" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[District code]]></labl>
       <qstn>
@@ -134,7 +126,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V16" name="id04" files="F1" intrvl="discrete">
+    <var ID="V15" name="id04" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Town/City]]></labl>
       <qstn>
@@ -142,13 +134,69 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V17" name="id06" files="F1" intrvl="discrete">
+    <var ID="V16" name="id06" files="F1" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Border Post Name]]></labl>
       <qstn>
         <qstnLit><![CDATA[A4. Border Post Name]]></qstnLit>
       </qstn>
       <varFormat type="character" schema="other" />
+    </var>
+    <var ID="V17" name="month_of_collection" files="F1" intrvl="discrete">
+      <location RecSegNo="1" />
+      <labl><![CDATA[Month of Data Collection]]></labl>
+      <qstn>
+        <qstnLit><![CDATA[Month of Data Collection]]></qstnLit>
+      </qstn>
+      <catgry>
+        <catValu>1</catValu>
+        <labl><![CDATA[October]]></labl>
+      </catgry>
+      <catgry>
+        <catValu>2</catValu>
+        <labl><![CDATA[November]]></labl>
+      </catgry>
+      <catgry>
+        <catValu>3</catValu>
+        <labl><![CDATA[December]]></labl>
+      </catgry>
+      <catgry>
+        <catValu>4</catValu>
+        <labl><![CDATA[January]]></labl>
+      </catgry>
+      <catgry>
+        <catValu>5</catValu>
+        <labl><![CDATA[February]]></labl>
+      </catgry>
+      <catgry>
+        <catValu>6</catValu>
+        <labl><![CDATA[March]]></labl>
+      </catgry>
+      <catgry>
+        <catValu>7</catValu>
+        <labl><![CDATA[April]]></labl>
+      </catgry>
+      <catgry>
+        <catValu>8</catValu>
+        <labl><![CDATA[May]]></labl>
+      </catgry>
+      <catgry>
+        <catValu>9</catValu>
+        <labl><![CDATA[June]]></labl>
+      </catgry>
+      <catgry>
+        <catValu>10</catValu>
+        <labl><![CDATA[July]]></labl>
+      </catgry>
+      <catgry>
+        <catValu>11</catValu>
+        <labl><![CDATA[August]]></labl>
+      </catgry>
+      <catgry>
+        <catValu>12</catValu>
+        <labl><![CDATA[September]]></labl>
+      </catgry>
+      <varFormat type="numeric" schema="other" />
     </var>
     <var ID="V18" name="gps__Latitude" files="F1" intrvl="contin">
       <location RecSegNo="1" />
@@ -195,7 +243,7 @@
       <labl><![CDATA[Description of Trader:0]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -204,7 +252,7 @@
       <labl><![CDATA[Description of Trader:0c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -213,7 +261,7 @@
       <labl><![CDATA[Description of Trader:1]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -222,7 +270,7 @@
       <labl><![CDATA[Description of Trader:1c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -231,7 +279,7 @@
       <labl><![CDATA[Description of Trader:2]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -240,7 +288,7 @@
       <labl><![CDATA[Description of Trader:2c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -249,7 +297,7 @@
       <labl><![CDATA[Description of Trader:3]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -258,7 +306,7 @@
       <labl><![CDATA[Description of Trader:3c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -267,7 +315,7 @@
       <labl><![CDATA[Description of Trader:4]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -276,7 +324,7 @@
       <labl><![CDATA[Description of Trader:4c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -285,7 +333,7 @@
       <labl><![CDATA[Description of Trader:5]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -294,7 +342,7 @@
       <labl><![CDATA[Description of Trader:5c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -303,7 +351,7 @@
       <labl><![CDATA[Description of Trader:6]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -312,7 +360,7 @@
       <labl><![CDATA[Description of Trader:6c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -321,7 +369,7 @@
       <labl><![CDATA[Description of Trader:7]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -330,7 +378,7 @@
       <labl><![CDATA[Description of Trader:7c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -339,7 +387,7 @@
       <labl><![CDATA[Description of Trader:8]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -348,7 +396,7 @@
       <labl><![CDATA[Description of Trader:8c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -357,7 +405,7 @@
       <labl><![CDATA[Description of Trader:9]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -366,7 +414,7 @@
       <labl><![CDATA[Description of Trader:9c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -375,7 +423,7 @@
       <labl><![CDATA[Description of Trader:10]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -384,7 +432,7 @@
       <labl><![CDATA[Description of Trader:10c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -393,7 +441,7 @@
       <labl><![CDATA[Description of Trader:11]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -402,7 +450,7 @@
       <labl><![CDATA[Description of Trader:11c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -411,7 +459,7 @@
       <labl><![CDATA[Description of Trader:12]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -420,7 +468,7 @@
       <labl><![CDATA[Description of Trader:12c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -429,7 +477,7 @@
       <labl><![CDATA[Description of Trader:13]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -438,7 +486,7 @@
       <labl><![CDATA[Description of Trader:13c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -447,7 +495,7 @@
       <labl><![CDATA[Description of Trader:14]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -456,7 +504,7 @@
       <labl><![CDATA[Description of Trader:14c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -465,7 +513,7 @@
       <labl><![CDATA[Description of Trader:15]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -474,7 +522,7 @@
       <labl><![CDATA[Description of Trader:15c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -483,7 +531,7 @@
       <labl><![CDATA[Description of Trader:16]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -492,7 +540,7 @@
       <labl><![CDATA[Description of Trader:16c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -501,7 +549,7 @@
       <labl><![CDATA[Description of Trader:17]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -510,7 +558,7 @@
       <labl><![CDATA[Description of Trader:17c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -519,7 +567,7 @@
       <labl><![CDATA[Description of Trader:18]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -528,7 +576,7 @@
       <labl><![CDATA[Description of Trader:18c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -537,7 +585,7 @@
       <labl><![CDATA[Description of Trader:19]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -546,7 +594,7 @@
       <labl><![CDATA[Description of Trader:19c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -555,7 +603,7 @@
       <labl><![CDATA[Description of Trader:20]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -564,7 +612,7 @@
       <labl><![CDATA[Description of Trader:20c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -573,7 +621,7 @@
       <labl><![CDATA[Description of Trader:21]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -582,7 +630,7 @@
       <labl><![CDATA[Description of Trader:21c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -591,7 +639,7 @@
       <labl><![CDATA[Description of Trader:22]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -600,7 +648,7 @@
       <labl><![CDATA[Description of Trader:22c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -609,7 +657,7 @@
       <labl><![CDATA[Description of Trader:23]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -618,7 +666,7 @@
       <labl><![CDATA[Description of Trader:23c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -627,7 +675,7 @@
       <labl><![CDATA[Description of Trader:24]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -636,7 +684,7 @@
       <labl><![CDATA[Description of Trader:24c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -645,7 +693,7 @@
       <labl><![CDATA[Description of Trader:25]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -654,7 +702,7 @@
       <labl><![CDATA[Description of Trader:25c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -663,7 +711,7 @@
       <labl><![CDATA[Description of Trader:26]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -672,7 +720,7 @@
       <labl><![CDATA[Description of Trader:26c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -681,7 +729,7 @@
       <labl><![CDATA[Description of Trader:27]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -690,7 +738,7 @@
       <labl><![CDATA[Description of Trader:27c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -699,7 +747,7 @@
       <labl><![CDATA[Description of Trader:28]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -708,7 +756,7 @@
       <labl><![CDATA[Description of Trader:28c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -717,7 +765,7 @@
       <labl><![CDATA[Description of Trader:29]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -726,7 +774,7 @@
       <labl><![CDATA[Description of Trader:29c]]></labl>
       <qstn>
         <qstnLit><![CDATA[Describe the person observed and means of transport in a single sentence]]></qstnLit>
-        <ivuInstr><![CDATA[Example: A man carrying goods in a&nbsp;push&nbsp;cart]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: A man coming in with goods on a tricycle]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -855,7 +903,7 @@
       <labl><![CDATA[Describe the product observed:0]]></labl>
       <qstn>
         <qstnLit><![CDATA[4. Describe the product observed]]></qstnLit>
-        <ivuInstr><![CDATA[Example: 5 bags&nbsp;of&nbsp;50kg&nbsp;rice]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: Two(2) 5kg bags&nbsp;of&nbsp;rice or 2 pieces of hen below 1year]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -864,7 +912,7 @@
       <labl><![CDATA[Describe the product observed:0c]]></labl>
       <qstn>
         <qstnLit><![CDATA[4. Describe the product observed]]></qstnLit>
-        <ivuInstr><![CDATA[Example: 5 bags&nbsp;of&nbsp;50kg&nbsp;rice]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: Two(2) 5kg bags&nbsp;of&nbsp;rice or 2 pieces of hen below 1year]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -873,7 +921,7 @@
       <labl><![CDATA[Describe the product observed:1]]></labl>
       <qstn>
         <qstnLit><![CDATA[4. Describe the product observed]]></qstnLit>
-        <ivuInstr><![CDATA[Example: 5 bags&nbsp;of&nbsp;50kg&nbsp;rice]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: Two(2) 5kg bags&nbsp;of&nbsp;rice or 2 pieces of hen below 1year]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -882,7 +930,7 @@
       <labl><![CDATA[Describe the product observed:1c]]></labl>
       <qstn>
         <qstnLit><![CDATA[4. Describe the product observed]]></qstnLit>
-        <ivuInstr><![CDATA[Example: 5 bags&nbsp;of&nbsp;50kg&nbsp;rice]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: Two(2) 5kg bags&nbsp;of&nbsp;rice or 2 pieces of hen below 1year]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -891,7 +939,7 @@
       <labl><![CDATA[Describe the product observed:2]]></labl>
       <qstn>
         <qstnLit><![CDATA[4. Describe the product observed]]></qstnLit>
-        <ivuInstr><![CDATA[Example: 5 bags&nbsp;of&nbsp;50kg&nbsp;rice]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: Two(2) 5kg bags&nbsp;of&nbsp;rice or 2 pieces of hen below 1year]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -900,7 +948,7 @@
       <labl><![CDATA[Describe the product observed:2c]]></labl>
       <qstn>
         <qstnLit><![CDATA[4. Describe the product observed]]></qstnLit>
-        <ivuInstr><![CDATA[Example: 5 bags&nbsp;of&nbsp;50kg&nbsp;rice]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: Two(2) 5kg bags&nbsp;of&nbsp;rice or 2 pieces of hen below 1year]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -909,7 +957,7 @@
       <labl><![CDATA[Describe the product observed:3]]></labl>
       <qstn>
         <qstnLit><![CDATA[4. Describe the product observed]]></qstnLit>
-        <ivuInstr><![CDATA[Example: 5 bags&nbsp;of&nbsp;50kg&nbsp;rice]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: Two(2) 5kg bags&nbsp;of&nbsp;rice or 2 pieces of hen below 1year]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -918,7 +966,7 @@
       <labl><![CDATA[Describe the product observed:3c]]></labl>
       <qstn>
         <qstnLit><![CDATA[4. Describe the product observed]]></qstnLit>
-        <ivuInstr><![CDATA[Example: 5 bags&nbsp;of&nbsp;50kg&nbsp;rice]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: Two(2) 5kg bags&nbsp;of&nbsp;rice or 2 pieces of hen below 1year]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -927,7 +975,7 @@
       <labl><![CDATA[Describe the product observed:4]]></labl>
       <qstn>
         <qstnLit><![CDATA[4. Describe the product observed]]></qstnLit>
-        <ivuInstr><![CDATA[Example: 5 bags&nbsp;of&nbsp;50kg&nbsp;rice]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: Two(2) 5kg bags&nbsp;of&nbsp;rice or 2 pieces of hen below 1year]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -936,7 +984,7 @@
       <labl><![CDATA[Describe the product observed:4c]]></labl>
       <qstn>
         <qstnLit><![CDATA[4. Describe the product observed]]></qstnLit>
-        <ivuInstr><![CDATA[Example: 5 bags&nbsp;of&nbsp;50kg&nbsp;rice]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: Two(2) 5kg bags&nbsp;of&nbsp;rice or 2 pieces of hen below 1year]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -945,7 +993,7 @@
       <labl><![CDATA[Describe the product observed:5]]></labl>
       <qstn>
         <qstnLit><![CDATA[4. Describe the product observed]]></qstnLit>
-        <ivuInstr><![CDATA[Example: 5 bags&nbsp;of&nbsp;50kg&nbsp;rice]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: Two(2) 5kg bags&nbsp;of&nbsp;rice or 2 pieces of hen below 1year]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -954,7 +1002,7 @@
       <labl><![CDATA[Describe the product observed:5c]]></labl>
       <qstn>
         <qstnLit><![CDATA[4. Describe the product observed]]></qstnLit>
-        <ivuInstr><![CDATA[Example: 5 bags&nbsp;of&nbsp;50kg&nbsp;rice]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: Two(2) 5kg bags&nbsp;of&nbsp;rice or 2 pieces of hen below 1year]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -963,7 +1011,7 @@
       <labl><![CDATA[Describe the product observed:6]]></labl>
       <qstn>
         <qstnLit><![CDATA[4. Describe the product observed]]></qstnLit>
-        <ivuInstr><![CDATA[Example: 5 bags&nbsp;of&nbsp;50kg&nbsp;rice]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: Two(2) 5kg bags&nbsp;of&nbsp;rice or 2 pieces of hen below 1year]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -972,7 +1020,7 @@
       <labl><![CDATA[Describe the product observed:6c]]></labl>
       <qstn>
         <qstnLit><![CDATA[4. Describe the product observed]]></qstnLit>
-        <ivuInstr><![CDATA[Example: 5 bags&nbsp;of&nbsp;50kg&nbsp;rice]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: Two(2) 5kg bags&nbsp;of&nbsp;rice or 2 pieces of hen below 1year]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -981,7 +1029,7 @@
       <labl><![CDATA[Describe the product observed:7]]></labl>
       <qstn>
         <qstnLit><![CDATA[4. Describe the product observed]]></qstnLit>
-        <ivuInstr><![CDATA[Example: 5 bags&nbsp;of&nbsp;50kg&nbsp;rice]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: Two(2) 5kg bags&nbsp;of&nbsp;rice or 2 pieces of hen below 1year]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -990,7 +1038,7 @@
       <labl><![CDATA[Describe the product observed:7c]]></labl>
       <qstn>
         <qstnLit><![CDATA[4. Describe the product observed]]></qstnLit>
-        <ivuInstr><![CDATA[Example: 5 bags&nbsp;of&nbsp;50kg&nbsp;rice]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: Two(2) 5kg bags&nbsp;of&nbsp;rice or 2 pieces of hen below 1year]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -999,7 +1047,7 @@
       <labl><![CDATA[Describe the product observed:8]]></labl>
       <qstn>
         <qstnLit><![CDATA[4. Describe the product observed]]></qstnLit>
-        <ivuInstr><![CDATA[Example: 5 bags&nbsp;of&nbsp;50kg&nbsp;rice]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: Two(2) 5kg bags&nbsp;of&nbsp;rice or 2 pieces of hen below 1year]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -1008,7 +1056,7 @@
       <labl><![CDATA[Describe the product observed:8c]]></labl>
       <qstn>
         <qstnLit><![CDATA[4. Describe the product observed]]></qstnLit>
-        <ivuInstr><![CDATA[Example: 5 bags&nbsp;of&nbsp;50kg&nbsp;rice]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: Two(2) 5kg bags&nbsp;of&nbsp;rice or 2 pieces of hen below 1year]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -1017,7 +1065,7 @@
       <labl><![CDATA[Describe the product observed:9]]></labl>
       <qstn>
         <qstnLit><![CDATA[4. Describe the product observed]]></qstnLit>
-        <ivuInstr><![CDATA[Example: 5 bags&nbsp;of&nbsp;50kg&nbsp;rice]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: Two(2) 5kg bags&nbsp;of&nbsp;rice or 2 pieces of hen below 1year]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
@@ -1026,35 +1074,59 @@
       <labl><![CDATA[Describe the product observed:9c]]></labl>
       <qstn>
         <qstnLit><![CDATA[4. Describe the product observed]]></qstnLit>
-        <ivuInstr><![CDATA[Example: 5 bags&nbsp;of&nbsp;50kg&nbsp;rice]]></ivuInstr>
+        <ivuInstr><![CDATA[Example: Two(2) 5kg bags&nbsp;of&nbsp;rice or 2 pieces of hen below 1year]]></ivuInstr>
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V109" name="s2q1" files="F2" intrvl="discrete">
+    <var ID="V109" name="s2q10a" files="F2" intrvl="discrete">
+      <location RecSegNo="1" />
+      <labl><![CDATA[Did you see any trader(s) that you could not observer or interview?]]></labl>
+      <qstn>
+        <qstnLit><![CDATA[10a. Did you see any trader(s) that you could not observe or interview?]]></qstnLit>
+      </qstn>
+      <catgry>
+        <catValu>1</catValu>
+        <labl><![CDATA[Yes]]></labl>
+      </catgry>
+      <catgry>
+        <catValu>2</catValu>
+        <labl><![CDATA[No]]></labl>
+      </catgry>
+      <varFormat type="numeric" schema="other" />
+    </var>
+    <var ID="V110" name="s2q10b" files="F2" intrvl="contin">
+      <location RecSegNo="1" />
+      <labl><![CDATA[How many traders did you see that you were unable to observe or interview?]]></labl>
+      <qstn>
+        <qstnLit><![CDATA[10b. How many traders did you see that you were unable to observe or interview?]]></qstnLit>
+      </qstn>
+      <varFormat type="numeric" schema="other" />
+    </var>
+    <var ID="V111" name="s2q1" files="F2" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Roster list question]]></labl>
       <qstn />
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V110" name="interview__id" files="F2" intrvl="discrete">
+    <var ID="V112" name="interview__id" files="F2" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Unique 32-character long identifier of the interview]]></labl>
       <qstn />
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V111" name="Commodity__id" files="F3" intrvl="discrete">
+    <var ID="V113" name="Commodity__id" files="F3" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Id in Commodity]]></labl>
       <qstn />
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V112" name="interview__key" files="F3" intrvl="discrete">
+    <var ID="V114" name="interview__key" files="F3" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Interview key (identifier in XX-XX-XX-XX format)]]></labl>
       <qstn />
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V113" name="s2q4" files="F3" intrvl="discrete">
+    <var ID="V115" name="s2q4" files="F3" intrvl="discrete">
       <location RecSegNo="1" />
       <labl><![CDATA[product observed]]></labl>
       <qstn>
@@ -3114,7 +3186,7 @@
       </catgry>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V114" name="s2q2b" files="F3" intrvl="discrete">
+    <var ID="V116" name="s2q2b" files="F3" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Other commodity (specify)]]></labl>
       <qstn>
@@ -3122,7 +3194,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V115" name="s2b1" files="F3" intrvl="discrete">
+    <var ID="V117" name="s2b1" files="F3" intrvl="discrete">
       <location RecSegNo="1" />
       <labl><![CDATA[Is the Commodity you specified as other a Livestock]]></labl>
       <qstn>
@@ -3138,7 +3210,7 @@
       </catgry>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V116" name="s2q5" files="F3" intrvl="discrete">
+    <var ID="V118" name="s2q5" files="F3" intrvl="discrete">
       <location RecSegNo="1" />
       <labl><![CDATA[Unit of measure of Commodity]]></labl>
       <qstn>
@@ -3758,7 +3830,7 @@
       </catgry>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V117" name="s2q5b" files="F3" intrvl="discrete">
+    <var ID="V119" name="s2q5b" files="F3" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[Specify Unit]]></labl>
       <qstn>
@@ -3766,7 +3838,7 @@
       </qstn>
       <varFormat type="character" schema="other" />
     </var>
-    <var ID="V118" name="s2q6o" files="F3" intrvl="contin">
+    <var ID="V120" name="s2q6o" files="F3" intrvl="contin">
       <location RecSegNo="1" />
       <labl><![CDATA[Quantity of commodity observed]]></labl>
       <qstn>
@@ -3774,7 +3846,7 @@
       </qstn>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V119" name="s2l1" files="F3" intrvl="discrete">
+    <var ID="V121" name="s2l1" files="F3" intrvl="discrete">
       <location RecSegNo="1" />
       <labl><![CDATA[Age of livestock in year]]></labl>
       <qstn>
@@ -3794,7 +3866,7 @@
       </catgry>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V120" name="s2l2" files="F3" intrvl="discrete">
+    <var ID="V122" name="s2l2" files="F3" intrvl="discrete">
       <location RecSegNo="1" />
       <labl><![CDATA[Sex of Livestock]]></labl>
       <qstn>
@@ -3810,7 +3882,7 @@
       </catgry>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V121" name="s2q6oo" files="F3" intrvl="discrete">
+    <var ID="V123" name="s2q6oo" files="F3" intrvl="discrete">
       <location RecSegNo="1" />
       <labl><![CDATA[Specify the currency in which the item was purchased]]></labl>
       <qstn>
@@ -3834,7 +3906,7 @@
       </catgry>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V122" name="s2q7" files="F3" intrvl="contin">
+    <var ID="V124" name="s2q7" files="F3" intrvl="contin">
       <location RecSegNo="1" />
       <labl><![CDATA[Price per Unit measure]]></labl>
       <qstn>
@@ -3842,7 +3914,7 @@
       </qstn>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V123" name="s2q6" files="F3" intrvl="contin">
+    <var ID="V125" name="s2q6" files="F3" intrvl="contin">
       <location RecSegNo="1" />
       <labl><![CDATA[Weight in Kg]]></labl>
       <qstn>
@@ -3850,37 +3922,13 @@
       </qstn>
       <varFormat type="numeric" schema="other" />
     </var>
-    <var ID="V124" name="s2q8" files="F3" intrvl="discrete">
+    <var ID="V126" name="s2q8" files="F3" intrvl="discrete">
       <location width="255" RecSegNo="1" />
       <labl><![CDATA[commodity picture]]></labl>
       <qstn>
         <qstnLit><![CDATA[9g. Take a picture of %s2q4%]]></qstnLit>
       </qstn>
       <varFormat type="character" schema="other" />
-    </var>
-    <var ID="V125" name="s2q10a" files="F3" intrvl="discrete">
-      <location RecSegNo="1" />
-      <labl><![CDATA[Did you see any trader(s) that you could not observer or interview?]]></labl>
-      <qstn>
-        <qstnLit><![CDATA[10a. Did you see any trader(s) that you could not observe or interview?]]></qstnLit>
-      </qstn>
-      <catgry>
-        <catValu>1</catValu>
-        <labl><![CDATA[Yes]]></labl>
-      </catgry>
-      <catgry>
-        <catValu>2</catValu>
-        <labl><![CDATA[No]]></labl>
-      </catgry>
-      <varFormat type="numeric" schema="other" />
-    </var>
-    <var ID="V126" name="s2q10b" files="F3" intrvl="contin">
-      <location RecSegNo="1" />
-      <labl><![CDATA[How many traders did you see that you were unable to observe or interview?]]></labl>
-      <qstn>
-        <qstnLit><![CDATA[10b. How many traders did you see that you were unable to observe or interview?]]></qstnLit>
-      </qstn>
-      <varFormat type="numeric" schema="other" />
     </var>
     <var ID="V127" name="s2q3o" files="F3" intrvl="discrete">
       <location width="255" RecSegNo="1" />
@@ -3916,7 +3964,7 @@
       <fileName>transportercharacteristics.NSDstat</fileName>
       <dimensns>
         <caseQnty>0</caseQnty>
-        <varQnty>28</varQnty>
+        <varQnty>30</varQnty>
       </dimensns>
       <fileType>Nesstar 200801</fileType>
     </fileTxt>
@@ -3926,7 +3974,7 @@
       <fileName>Commodity.NSDstat</fileName>
       <dimensns>
         <caseQnty>0</caseQnty>
-        <varQnty>19</varQnty>
+        <varQnty>17</varQnty>
       </dimensns>
       <fileType>Nesstar 200801</fileType>
     </fileTxt>

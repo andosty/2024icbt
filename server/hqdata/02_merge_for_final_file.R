@@ -98,9 +98,9 @@ colnames(icbt_data) = gsub("__", "_", colnames(icbt_data))
 
   
 
-icbt_data <- icbt_data %>%
+icbt_data <- icbt_data %>% filter(regionCode==1 | regionCode==7)
   # left_join(caseIdentifier, by = c('interview_id', 'enumerator_name', 'enumerator_contact') ) %>%
-  subset( regionCode >= user_out_data()$startRegionCode & regionCode <= user_out_data()$endRegionCode )
+  # subset( regionCode >= user_out_data()$startRegionCode & regionCode <= user_out_data()$endRegionCode )
 
 # # export your dataset:
 # library(foreign)

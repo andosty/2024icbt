@@ -96,8 +96,8 @@ server <- function(input, output, session) {
   #get data from server  #schedule for every 2hrs refresh
   icbt_dataset <- reactive({
     invalidateLater(7200000) # scheduled for every 2 hours
-    source(file.path("server/hqdata/01_hq_data_download.R"),  local = TRUE)$value
-    source(file.path("server/hqdata/02_merge_for_final_file.R"),  local = TRUE)$value
+    source(file.path("server/hqdata/01_A_download_merge.R"),  local = TRUE)$value
+    # source(file.path("server/hqdata/02_merge_for_final_file.R"),  local = TRUE)$value
     source(file.path("server/hqdata/03_errorchecks.R"),  local = TRUE)$value
     list(icbt_dataset_final=icbt_data ,
          icbt_error_dataset=errorChecks
@@ -339,126 +339,272 @@ server <- function(input, output, session) {
   #     Datatable  
   #-----------------------------------------
   #---  Enum Stats datatable
-  output$enumStatsReport <- DT::renderDataTable({
+  output$enumStatsReport <- DT::renderDataTable(server = FALSE,{
     DT::datatable(enumMonitorReport() %>%
                     select(-regionCode, -districtCode,-townCity)
                   ,
-                  extensions = 'FixedColumns',
                   filter = "top",
+                  extensions = c('FixedColumns','Buttons'),
                   rownames = FALSE,
-                  options = list(
-                    scrollX=TRUE,
-                   lengthMenu = c(5,8,10,15,100),
-                   fixedColumns = list(leftColumns = 5),
-                   searching = TRUE,
-                   style = "bootstrap",
-                   selection = "single",
-                   buttons = list(
-                     list(
-                       extend = 'collection',
-                       buttons = list(
-                         list(extend = "csv", filename = "page",exportOptions = list(
-                           columns = ":visible",modifier = list(page = "current"))
-                         ),
-                         list(extend = 'excel', filename = "page", title = NULL, 
-                              exportOptions = list(columns = ":visible",modifier = list(page = "current")))),
-                       text = 'Download current page'),
-                     
-                     # code for the  second dropdown download button
-                     # this will download the entire dataset using modifier = list(page = "all")
-                     list(
-                       extend = 'collection',
-                       buttons = list(
-                         list(extend = "csv", filename = "data",exportOptions = list(
-                           columns = ":visible",modifier = list(page = "all"))
-                         ),
-                         list(extend = 'excel', filename = "data", title = NULL, 
-                              exportOptions = list(columns = ":visible",modifier = list(page = "all")))),
-                       text = 'Download all data')
-                     
-                   )
-                   
+                  # extensions = 'Buttons', 
+                  options = list(scrollX=TRUE, 
+                                 lengthMenu = c(5,10,15,100),
+                                 paging = TRUE, 
+                                 searching = TRUE,
+                                 fixedColumns = TRUE, 
+                                 autoWidth = TRUE,
+                                 ordering = TRUE, 
+                                 dom = 'Blfrtip', 
+                                 autoWidth = TRUE,
+                                 scrollX = TRUE,
+                                 
+                                 fixedColumns = list(leftColumns = 5),
+                                 style = "bootstrap",
+                                 selection = "single",
+                                 
+                                 buttons = list(
+                                   list(
+                                     extend = 'collection',
+                                     buttons = list(
+                                       list(extend = "csv", filename = "page",exportOptions = list(
+                                         columns = ":visible",modifier = list(page = "current"))
+                                       ),
+                                       list(extend = 'excel', filename = "page", title = NULL, 
+                                            exportOptions = list(columns = ":visible",modifier = list(page = "current")))),
+                                     text = 'Download current page'),
+                                   
+                                   # code for the  second dropdown download button
+                                   # this will download the entire dataset using modifier = list(page = "all")
+                                   list(
+                                     extend = 'collection',
+                                     buttons = list(
+                                       list(extend = "csv", filename = "data",exportOptions = list(
+                                         columns = ":visible",modifier = list(page = "all"))
+                                       ),
+                                       list(extend = 'excel', filename = "data", title = NULL, 
+                                            exportOptions = list(columns = ":visible",modifier = list(page = "all")))),
+                                     text = 'Download all data')
+                                   
+                                 )
+                                 
+                                 
                   )
-    ) 
+                  
+                  )
+     
   })
   
   #--- Team Stats datatable  
-  output$teamStatsReport <- DT::renderDataTable({
+  output$teamStatsReport <- DT::renderDataTable(server = FALSE,{
     DT::datatable(teamMonitorReport()
                   %>%
                     select(-regionCode, -districtCode,-townCity)
                   ,
-                  extensions = 'FixedColumns',
-                  rownames = FALSE,
                   filter = "top",
-                  options = list(
-                    scrollX=TRUE,
-                     lengthMenu = c(5,8,10,15,100),
-                    fixedColumns = list(leftColumns = 4),
-                    searching = TRUE,
-                    style = "bootstrap",
-                    selection = "single"
+                  extensions = c('FixedColumns','Buttons'),
+                  rownames = FALSE,
+                  # extensions = 'Buttons', 
+                  options = list(scrollX=TRUE, 
+                                 lengthMenu = c(5,10,15,100),
+                                 paging = TRUE, 
+                                 searching = TRUE,
+                                 fixedColumns = TRUE, 
+                                 autoWidth = TRUE,
+                                 ordering = TRUE, 
+                                 dom = 'Blfrtip', 
+                                 autoWidth = TRUE,
+                                 scrollX = TRUE,
+                                 
+                                 fixedColumns = list(leftColumns = 4),
+                                 style = "bootstrap",
+                                 selection = "single",
+                                 
+                                 buttons = list(
+                                   list(
+                                     extend = 'collection',
+                                     buttons = list(
+                                       list(extend = "csv", filename = "page",exportOptions = list(
+                                         columns = ":visible",modifier = list(page = "current"))
+                                       ),
+                                       list(extend = 'excel', filename = "page", title = NULL, 
+                                            exportOptions = list(columns = ":visible",modifier = list(page = "current")))),
+                                     text = 'Download current page'),
+                                   
+                                   # code for the  second dropdown download button
+                                   # this will download the entire dataset using modifier = list(page = "all")
+                                   list(
+                                     extend = 'collection',
+                                     buttons = list(
+                                       list(extend = "csv", filename = "data",exportOptions = list(
+                                         columns = ":visible",modifier = list(page = "all"))
+                                       ),
+                                       list(extend = 'excel', filename = "data", title = NULL, 
+                                            exportOptions = list(columns = ":visible",modifier = list(page = "all")))),
+                                     text = 'Download all data')
+                                   
+                                 )
                   )
+
     ) 
   })
   
   #--- Border Stats datatable  
-  output$borderStatsReport <- DT::renderDataTable({
+  output$borderStatsReport <- DT::renderDataTable(server = FALSE,{
     DT::datatable(borderMonitorReport() 
                   %>%
                     select(-regionCode, -districtCode,-townCity)
                   ,
-                  extensions = 'FixedColumns',
                   filter = "top",
+                  extensions = c('FixedColumns','Buttons'),
                   rownames = FALSE,
-                  options = list(
-                    scrollX=TRUE,
-                   lengthMenu = c(5,8,10,15,100),
-                   fixedColumns = list(leftColumns = 3),
-                   searching = TRUE,
-                   style = "bootstrap",
-                   selection = "single"
+                  # extensions = 'Buttons', 
+                  options = list(scrollX=TRUE, 
+                                 lengthMenu = c(5,10,15,100),
+                                 paging = TRUE, 
+                                 searching = TRUE,
+                                 fixedColumns = TRUE, 
+                                 autoWidth = TRUE,
+                                 ordering = TRUE, 
+                                 dom = 'Blfrtip', 
+                                 autoWidth = TRUE,
+                                 scrollX = TRUE,
+                                 
+                                 fixedColumns = list(leftColumns = 4),
+                                 style = "bootstrap",
+                                 selection = "single",
+                                 
+                                 buttons = list(
+                                   list(
+                                     extend = 'collection',
+                                     buttons = list(
+                                       list(extend = "csv", filename = "page",exportOptions = list(
+                                         columns = ":visible",modifier = list(page = "current"))
+                                       ),
+                                       list(extend = 'excel', filename = "page", title = NULL, 
+                                            exportOptions = list(columns = ":visible",modifier = list(page = "current")))),
+                                     text = 'Download current page'),
+                                   
+                                   # code for the  second dropdown download button
+                                   # this will download the entire dataset using modifier = list(page = "all")
+                                   list(
+                                     extend = 'collection',
+                                     buttons = list(
+                                       list(extend = "csv", filename = "data",exportOptions = list(
+                                         columns = ":visible",modifier = list(page = "all"))
+                                       ),
+                                       list(extend = 'excel', filename = "data", title = NULL, 
+                                            exportOptions = list(columns = ":visible",modifier = list(page = "all")))),
+                                     text = 'Download all data')
+                                   
+                                 )
                   )
     ) 
   })
   
   #--- District Stats datatable  
-  output$districtStatsReport <- DT::renderDataTable({
+  output$districtStatsReport <- DT::renderDataTable(server = FALSE,{
     DT::datatable(districtMonitorReport() 
                   %>%
                     select(-regionCode, -districtCode)
                   ,
                   filter = "top",
-                  extensions = 'FixedColumns',
+                  extensions = c('FixedColumns','Buttons'),
                   rownames = FALSE,
-                  options = list(
-                    scrollX=TRUE,
-                   lengthMenu = c(5,8,10,15,100),
-                   fixedColumns = list(leftColumns = 2),
-                   searching = TRUE,
-                   style = "bootstrap",
-                   selection = "single"
+                  # extensions = 'Buttons', 
+                  options = list(scrollX=TRUE, 
+                                 lengthMenu = c(5,10,15,100),
+                                 paging = TRUE, 
+                                 searching = TRUE,
+                                 fixedColumns = TRUE, 
+                                 autoWidth = TRUE,
+                                 ordering = TRUE, 
+                                 dom = 'Blfrtip', 
+                                 autoWidth = TRUE,
+                                 scrollX = TRUE,
+                                 
+                                 fixedColumns = list(leftColumns = 3),
+                                 style = "bootstrap",
+                                 selection = "single",
+                                 
+                                 buttons = list(
+                                   list(
+                                     extend = 'collection',
+                                     buttons = list(
+                                       list(extend = "csv", filename = "page",exportOptions = list(
+                                         columns = ":visible",modifier = list(page = "current"))
+                                       ),
+                                       list(extend = 'excel', filename = "page", title = NULL, 
+                                            exportOptions = list(columns = ":visible",modifier = list(page = "current")))),
+                                     text = 'Download current page'),
+                                   
+                                   # code for the  second dropdown download button
+                                   # this will download the entire dataset using modifier = list(page = "all")
+                                   list(
+                                     extend = 'collection',
+                                     buttons = list(
+                                       list(extend = "csv", filename = "data",exportOptions = list(
+                                         columns = ":visible",modifier = list(page = "all"))
+                                       ),
+                                       list(extend = 'excel', filename = "data", title = NULL, 
+                                            exportOptions = list(columns = ":visible",modifier = list(page = "all")))),
+                                     text = 'Download all data')
+                                   
+                                 )
                   )
     ) 
   })
   
   #--- Region Stats datatable  
-  output$regionalStatsReport <- DT::renderDataTable({
+  output$regionalStatsReport <- DT::renderDataTable(server = FALSE,{
     DT::datatable(regionalMonitorReport() 
                   %>%
                     select(-regionCode)
                   ,
-                  extensions = 'FixedColumns',
-                  rownames = F,
                   filter = "top",
-                  options = list(
-                    scrollX=TRUE,
-                   lengthMenu = c(5,8,10,15,100),
-                   fixedColumns = list(leftColumns = 1),
-                   searching = TRUE,
-                   style = "bootstrap",
-                   selection = "single"
-                   # fixedColumns = list(leftColumns = 2, rightColumns = 1)
+                  extensions = c('FixedColumns','Buttons'),
+                  rownames = FALSE,
+                  # extensions = 'Buttons', 
+                  options = list(scrollX=TRUE, 
+                                 lengthMenu = c(5,10,15,100),
+                                 paging = TRUE, 
+                                 searching = TRUE,
+                                 fixedColumns = TRUE, 
+                                 autoWidth = TRUE,
+                                 ordering = TRUE, 
+                                 dom = 'Blfrtip', 
+                                 autoWidth = TRUE,
+                                 scrollX = TRUE,
+                                 
+                                 fixedColumns = list(leftColumns = 2),
+                                 style = "bootstrap",
+                                 selection = "single",
+                                 
+                                 buttons = list(
+                                   list(
+                                     extend = 'collection',
+                                     buttons = list(
+                                       list(extend = "csv", filename = "page",exportOptions = list(
+                                         columns = ":visible",modifier = list(page = "current"))
+                                       ),
+                                       list(extend = 'excel', filename = "page", title = NULL, 
+                                            exportOptions = list(columns = ":visible",modifier = list(page = "current")))),
+                                     text = 'Download current page'),
+                                   
+                                   # code for the  second dropdown download button
+                                   # this will download the entire dataset using modifier = list(page = "all")
+                                   list(
+                                     extend = 'collection',
+                                     buttons = list(
+                                       list(extend = "csv", filename = "data",exportOptions = list(
+                                         columns = ":visible",modifier = list(page = "all"))
+                                       ),
+                                       list(extend = 'excel', filename = "data", title = NULL, 
+                                            exportOptions = list(columns = ":visible",modifier = list(page = "all")))),
+                                     text = 'Download all data')
+                                   
+                                 )
+                                 
+                                 
                   )
     ) 
   })
