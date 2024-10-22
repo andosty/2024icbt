@@ -110,18 +110,21 @@ server <- function(input, output, session) {
     
   output$icbtFinalDaset <- DT::renderDataTable({
    DT::datatable(icbt_dataset()[['icbt_dataset_final']] %>%
-                   select(-regionCode,-interview_id,-enumerator_contact,
-                          -gps_Latitude, -gps_Longitude, -gps_Accuracy, -gps_Altitude, -responsibleId #, 
-                          ) %>%
                    dplyr::rename(
                                 team=team_number,
                                 border=borderPostName,
-                                 region=RegionName
+                               region=RegionName
                                  ) %>%
+                   select(.,-c("regionCode","interview_id","enumerator_contact",
+                               "gps_Latitude","gps_Longitude","gps_Accuracy","gps_Altitude",
+                               "responsibleId","UserName","assignment_id") #"s2q6ao"
+                          ) %>%
                    mutate(
+                     gps_Timestamp=  format(as.POSIXct(sub('T',' ',gps_Timestamp )), "%Y-%m-%d %I:%M %p"),
+                     createdDate=  format(as.POSIXct(sub('T',' ',createdDate )), "%Y-%m-%d %I:%M %p")
                      # createdDate =format(as.Date.character(createdDate), "%Y-%m-%d %I:%M %p"), 
-                     gps_Timestamp =format(as.Date.character(gps_Timestamp), "%Y-%m-%d %I:%M %p"),
-                   )
+                     # gps_Timestamp =format(as.Date.character(gps_Timestamp), "%Y-%m-%d %I:%M %p"),
+                   ) %>% as.data.frame() %>% ungroup() # %>% select(.,'interview_key')
                   
                  ,
                  filter = "top",
@@ -151,7 +154,9 @@ server <- function(input, output, session) {
                  ) %>% 
                    mutate(
                      # createdDate =format(as.Date.character(createdDate), "%Y-%m-%d %I:%M %p"), 
-                     gps_Timestamp =format(as.Date.character(gps_Timestamp), "%Y-%m-%d %I:%M %p"),
+                     # gps_Timestamp =format(as.Date.character(gps_Timestamp), "%Y-%m-%d %I:%M %p"),
+                     gps_Timestamp=  format(as.POSIXct(sub('T',' ',gps_Timestamp )), "%Y-%m-%d %I:%M %p"),
+                     createdDate=  format(as.POSIXct(sub('T',' ',createdDate )), "%Y-%m-%d %I:%M %p")
                      
                    )
           ,
