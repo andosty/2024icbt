@@ -118,13 +118,7 @@ server <- function(input, output, session) {
                    select(.,-c("regionCode","interview_id","enumerator_contact",
                                "gps_Latitude","gps_Longitude","gps_Accuracy","gps_Altitude",
                                "responsibleId","UserName","assignment_id") #"s2q6ao"
-                          ) %>%
-                   mutate(
-                     gps_Timestamp=  format(as.POSIXct(sub('T',' ',gps_Timestamp )), "%Y-%m-%d %I:%M %p"),
-                     createdDate=  format(as.POSIXct(sub('T',' ',createdDate )), "%Y-%m-%d %I:%M %p")
-                     # createdDate =format(as.Date.character(createdDate), "%Y-%m-%d %I:%M %p"), 
-                     # gps_Timestamp =format(as.Date.character(gps_Timestamp), "%Y-%m-%d %I:%M %p"),
-                   ) %>% as.data.frame() %>% ungroup() # %>% select(.,'interview_key')
+                          )
                   
                  ,
                  filter = "top",
@@ -148,17 +142,10 @@ server <- function(input, output, session) {
                      border=borderPostName,
                      team=team_number,
                      # enumPhone=enumerator_contact,
-                          Pno=transpondent_id,
-                          Cno=Commodity_id,
+                          `Tno#`=transpondent_id,
+                          `Cno#`=Commodity_id,
                           # transpondentDescription=observedRespondentDescription
-                 ) %>% 
-                   mutate(
-                     # createdDate =format(as.Date.character(createdDate), "%Y-%m-%d %I:%M %p"), 
-                     # gps_Timestamp =format(as.Date.character(gps_Timestamp), "%Y-%m-%d %I:%M %p"),
-                     gps_Timestamp=  format(as.POSIXct(sub('T',' ',gps_Timestamp )), "%Y-%m-%d %I:%M %p"),
-                     createdDate=  format(as.POSIXct(sub('T',' ',createdDate )), "%Y-%m-%d %I:%M %p")
-                     
-                   )
+                 )
           ,
           filter = "top",
           extensions = c('FixedColumns','Buttons'),
@@ -664,7 +651,9 @@ server <- function(input, output, session) {
     if(nrow(icbt_dataset()[['icbt_error_dataset']])>0)   { 
       CaseReject <- icbt_dataset()[['icbt_error_dataset']] %>%
         filter(!is.na(responsibleId)) %>%
-        group_by(interview_key,responsibleId,interview_id) %>%
+        arrange(regionCode, districtCode, borderPostName,interview_key, interview_id)%>%
+        group_by( regionCode ,interview_key,responsibleId,interview_id) %>%
+        # group_by(interview_key,responsibleId,interview_id) %>%
         distinct(errorCheck) %>%
         summarize(errorMessage = str_c(errorCheck, collapse = " ; ")) %>%
         ungroup()

@@ -178,14 +178,21 @@ colnames(icbt_data) = gsub("__", "_", colnames(icbt_data))
 #   'questionnaireVersion','wasCompleted'),
 #   )
 
-icbt_data <- icbt_data %>% #filter(regionCode==1 | regionCode==7)
-  subset( regionCode >= user_out_data()$startRegionCode & regionCode <= user_out_data()$endRegionCode )
+icbt_data <- icbt_data %>% 
+  filter(!is.na(transpondent_id)) %>%
+  mutate(
+    borderPostName=  str_remove_all(borderPostName, '"'),
+    gps_Timestamp = format(ymd_hms(gps_Timestamp,tz=Sys.timezone()), "%Y-%m-%d %I:%M %p"),
+    createdDate = format(ymd_hms(createdDate,tz=Sys.timezone()), "%Y-%m-%d %I:%M %p")
+  ) %>%
+  subset( regionCode >= user_out_data()$startRegionCode & regionCode <= user_out_data()$endRegionCode)
+  
 # left_join(caseIdentifier, by = c('interview_id', 'enumerator_name', 'enumerator_contact') ) %>%
 # bind_rows(icbt_data,icbt_data_version)
 
-
-
 #save final merged dataset
+
+
 hq_icbt_data <- paste(data_dir,'ICBT_data/',sep='')
 
 ifelse(!dir.exists(file.path(hq_icbt_data)),
