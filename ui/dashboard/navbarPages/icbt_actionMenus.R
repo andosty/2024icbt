@@ -32,10 +32,10 @@ tabItem(
       selectInput("dataset", "select the dataset", choices=c("icbt data","icbt errors")),
       br(),
       helpText("select the download format"),
-      # radioButtons("type","format type:",
-      #              choices = c("Excel (CSV)","Stata","R")
-      #              ),
-      # br(),
+      radioButtons("type","format type:",
+                   choices = c("Excel (CSV)","Stata","R")
+                    ),
+       br(),
       helpText("Click on the download button to download the dataset observations assigned to you"),
       downloadButton('downloadData','Download'),
       

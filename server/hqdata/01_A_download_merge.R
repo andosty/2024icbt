@@ -185,7 +185,11 @@ icbt_data <- icbt_data %>%
     gps_Timestamp = format(ymd_hms(gps_Timestamp,tz=Sys.timezone()), "%Y-%m-%d %I:%M %p"),
     createdDate = format(ymd_hms(createdDate,tz=Sys.timezone()), "%Y-%m-%d %I:%M %p")
   ) %>%
-  subset( regionCode >= user_out_data()$startRegionCode & regionCode <= user_out_data()$endRegionCode)
+  subset( regionCode >= user_out_data()$startRegionCode & regionCode <= user_out_data()$endRegionCode 
+          & parse_number(team_number)>=user_out_data()$startTeamNumber &   parse_number(team_number)<=user_out_data()$endTeamNumber ) %>%
+  arrange(RegionName, districtName, townCity, borderPostName, team_number, enumerator_name )
+
+  # subset( regionCode >= user_out_data()$startRegionCode & regionCode <= user_out_data()$endRegionCode)
   
 # left_join(caseIdentifier, by = c('interview_id', 'enumerator_name', 'enumerator_contact') ) %>%
 # bind_rows(icbt_data,icbt_data_version)

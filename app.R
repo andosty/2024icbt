@@ -170,7 +170,7 @@ server <- function(input, output, session) {
                            list(
                              extend = 'collection',
                              buttons = list(
-                               list(extend = "csv", filename = "page",exportOptions = list(
+                               list(extend = "csv", filename = "icbt_page_Errors",exportOptions = list(
                                  columns = ":visible",modifier = list(page = "current"))
                                ),
                                list(extend = 'excel', filename = "page", title = NULL, 
@@ -182,7 +182,7 @@ server <- function(input, output, session) {
                            list(
                              extend = 'collection',
                              buttons = list(
-                               list(extend = "csv", filename = "data",exportOptions = list(
+                               list(extend = "csv", filename = "iocbt_all_errorData",exportOptions = list(
                                  columns = ":visible",modifier = list(page = "all"))
                                ),
                                list(extend = 'excel', filename = "data", title = NULL, 
@@ -358,10 +358,10 @@ server <- function(input, output, session) {
                                    list(
                                      extend = 'collection',
                                      buttons = list(
-                                       list(extend = "csv", filename = "page",exportOptions = list(
+                                       list(extend = "csv", filename = "EnumMonitorReport_page",exportOptions = list(
                                          columns = ":visible",modifier = list(page = "current"))
                                        ),
-                                       list(extend = 'excel', filename = "page", title = NULL, 
+                                       list(extend = 'excel', filename = "EnumMonitorReport_allData", title = NULL, 
                                             exportOptions = list(columns = ":visible",modifier = list(page = "current")))),
                                      text = 'Download current page'),
                                    
@@ -610,39 +610,40 @@ server <- function(input, output, session) {
     )
   })
   
-  # downloadFileFormatType <- ({
-  #   switch(
-  #     input$type,
-  #     "Excel (CSV)"="csv",
-  #     "Stata"="dta",
-  #     "R"="rds"
-  #   )
-  # })
+  downloadFileFormatType <-reactive ({
+    switch(
+      input$type,
+      "Excel (CSV)"="csv",
+      "Stata"="dta",
+      "R"="rds"
+    )
+  })
   
   output$downloadData <- downloadHandler(
           filename = function(){
-                      paste(input$dataset, ".", "downloadFileFormatType",sep="")
+                      paste(input$dataset, ".", downloadFileFormatType(),sep="")
                     },
 
                   content = function(file){
-                    # if(paste(input$type)=="Excel (CSV)"){
-                    #   write.csv(serverDataDownload(), file, row.names = FALSE)
-                    #   
-                    # }else if(paste(input$type)=="Stata"){
-                    #   write.dta(serverDataDownload(),file)
-                    #   
-                    # }else if(paste(input$type)=="R"){
-                    #  saveRDS(serverDataDownload(),file)
-                    # }
-                    # 
-                    # # sep <- switch (input$type,
-                    # #                "Excel (CSV)" = ",",
-                    # #                "Stata" = "",
-                    # #                "R" = ""
-                    # # )
+                    if(downloadFileFormatType()=="csv"){
+                      write.csv(serverDataDownload(), file, row.names = FALSE)
+
+                    }else if(downloadFileFormatType()=="dta"){
+                      readstata13::save.dta13(serverDataDownload(), file)
+                      # write.dta(serverDataDownload(),file  )
+
+                    }else if(downloadFileFormatType()=="rds"){
+                     saveRDS(serverDataDownload(),file)
+                    }
+
+                    # sep <- switch (input$type,
+                    #                "Excel (CSV)" = ",",
+                    #                "Stata" = "",
+                    #                "R" = ""
+                    # )
               
                     # write.table(serverDataDownload(),file, sep = sep)
-                    saveRDS(serverDataDownload(),file)
+                    # saveRDS(serverDataDownload(),file)
                   }
   )
   
