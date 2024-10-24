@@ -196,6 +196,7 @@ icbt_data <- icbt_data %>%
     RegionName = case_when(str_to_lower(RegionName)=='savanna'~ 'SAVANNAH',
                            TRUE ~ RegionName),
     RegionName= str_to_title(RegionName),
+   districtName= str_to_title(districtName)
   ) %>%
   subset( regionCode >= user_out_data()$startRegionCode & regionCode <= user_out_data()$endRegionCode 
           & parse_number(team_number)>=user_out_data()$startTeamNumber &   parse_number(team_number)<=user_out_data()$endTeamNumber ) %>%
