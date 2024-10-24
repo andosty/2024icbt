@@ -61,16 +61,11 @@ fluidPage(
   shinyjs::useShinyjs(),
 
   source("ui/authpages/sign-in.R", local = TRUE)$value,
-  source("ui/authpages/register.R", local = TRUE)$value,
+  # source("ui/authpages/register.R", local = TRUE)$value,
   source("ui/authpages/verify-email.R", local = TRUE)$value,
 
   source("ui/main.R", local = TRUE)$value,
 )
-
-
-# ui <- fluidPage(
-#   source("ui/dashboard/dashboardhome.R", local = TRUE)$value,
-# )
 
 
 

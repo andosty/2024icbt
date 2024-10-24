@@ -184,6 +184,16 @@ icbt_data <- icbt_data %>%
     borderPostName=  str_remove_all(borderPostName, '"'),
     gps_Timestamp = format(ymd_hms(gps_Timestamp,tz=Sys.timezone()), "%Y-%m-%d %I:%M %p"),
     createdDate = format(ymd_hms(createdDate,tz=Sys.timezone()), "%Y-%m-%d %I:%M %p")
+  ) %>% 
+  mutate(  #fix wrong regionCode & regionName & team numbering assignments
+    regionCode = case_when(regionCode==16 & str_to_lower(RegionName)=='savanna'~ 13,
+                           TRUE ~ regionCode),
+    team_number = case_when(regionCode==13 & team_number=='UW Team 2' ~ 'Savannah Team 2',
+                            regionCode==13 & team_number=='UW Team 1' ~ 'Savannah Team 1',
+                            TRUE ~ team_number),
+    RegionName = case_when(str_to_lower(RegionName)=='savanna'~ 'SAVANNAH',
+                           TRUE ~ RegionName),
+    RegionName= str_to_title(RegionName),
   ) %>%
   subset( regionCode >= user_out_data()$startRegionCode & regionCode <= user_out_data()$endRegionCode 
           & parse_number(team_number)>=user_out_data()$startTeamNumber &   parse_number(team_number)<=user_out_data()$endTeamNumber ) %>%
