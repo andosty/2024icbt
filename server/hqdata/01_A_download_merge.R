@@ -188,7 +188,9 @@ icbt_data <- icbt_data %>%
   mutate(  #fix wrong regionCode & regionName & team numbering assignments
     regionCode = case_when(regionCode==16 & str_to_lower(RegionName)=='savanna'~ 13,
                            TRUE ~ regionCode),
-    team_number = case_when(regionCode==13 & team_number=='UW Team 2' ~ 'Savannah Team 2',
+    team_number = case_when(
+                            regionCode==1 & team_number=='WR Team 2' ~ 'WR 2',
+                            regionCode==13 & team_number=='UW Team 2' ~ 'Savannah Team 2',
                             regionCode==13 & team_number=='UW Team 1' ~ 'Savannah Team 1',
                             TRUE ~ team_number),
     RegionName = case_when(str_to_lower(RegionName)=='savanna'~ 'SAVANNAH',
