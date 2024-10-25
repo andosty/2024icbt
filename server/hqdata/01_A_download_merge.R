@@ -195,6 +195,7 @@ icbt_data <- icbt_data %>%
                             regionCode==1 & team_number=='WR Team 2' ~ 'WR 2',
                             regionCode==13 & team_number=='UW Team 2' ~ 'Savannah Team 2',
                             regionCode==13 & team_number=='UW Team 1' ~ 'Savannah Team 1',
+                            str_to_lower(districtName)== 'bole' & regionCode==16 ~ 13,
                             TRUE ~ team_number),
     RegionName = case_when(str_to_lower(RegionName)=='savanna'~ 'SAVANNAH',
                            TRUE ~ RegionName),
