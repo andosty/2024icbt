@@ -186,8 +186,11 @@ icbt_data <- icbt_data %>%
     createdDate = format(ymd_hms(createdDate,tz=Sys.timezone()), "%Y-%m-%d %I:%M %p")
   ) %>% 
   mutate(  #fix wrong regionCode & regionName & team numbering assignments
-    regionCode = case_when(regionCode==16 & str_to_lower(RegionName)=='savanna'~ 13,
-                           TRUE ~ regionCode),
+    regionCode = case_when(
+                            regionCode==16 & str_to_lower(RegionName)=='savanna'~ 13, #fix savanna with wrong region codes
+                            str_to_lower(RegionName)=='northern'~ 12, # fix northern region cases with wrong region codes
+                            TRUE ~ regionCode
+                           ),
     team_number = case_when(
                             regionCode==1 & team_number=='WR Team 2' ~ 'WR 2',
                             regionCode==13 & team_number=='UW Team 2' ~ 'Savannah Team 2',
@@ -196,7 +199,7 @@ icbt_data <- icbt_data %>%
     RegionName = case_when(str_to_lower(RegionName)=='savanna'~ 'SAVANNAH',
                            TRUE ~ RegionName),
     RegionName= str_to_title(RegionName),
-   districtName= str_to_title(districtName)
+    districtName= str_to_title(districtName)
   ) %>%
   subset( regionCode >= user_out_data()$startRegionCode & regionCode <= user_out_data()$endRegionCode 
           & parse_number(team_number)>=user_out_data()$startTeamNumber &   parse_number(team_number)<=user_out_data()$endTeamNumber ) %>%
