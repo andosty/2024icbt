@@ -188,6 +188,7 @@ icbt_data <- icbt_data %>%
   mutate(  #fix wrong regionCode & regionName & team numbering assignments
     regionCode = case_when(
                             regionCode==16 & str_to_lower(RegionName)=='savanna'~ 13, #fix savanna with wrong region codes
+                            str_to_lower(districtName)== 'bole' & regionCode==16 ~ 13,
                             str_to_lower(RegionName)=='northern'~ 12, # fix northern region cases with wrong region codes
                             TRUE ~ regionCode
                            ),
@@ -195,12 +196,13 @@ icbt_data <- icbt_data %>%
                             regionCode==1 & team_number=='WR Team 2' ~ 'WR 2',
                             regionCode==13 & team_number=='UW Team 2' ~ 'Savannah Team 2',
                             regionCode==13 & team_number=='UW Team 1' ~ 'Savannah Team 1',
-                            str_to_lower(districtName)== 'bole' & regionCode==16 ~ 13,
                             TRUE ~ team_number),
     RegionName = case_when(str_to_lower(RegionName)=='savanna'~ 'SAVANNAH',
                            TRUE ~ RegionName),
     RegionName= str_to_title(RegionName),
-    districtName= str_to_title(districtName)
+    districtName= str_to_title(districtName),
+    borderPostName= str_replace_all(borderPostName,'"',''), 
+    borderPostName= str_to_title(gsub("/", "-", borderPostName) ), 
   ) %>%
   subset( regionCode >= user_out_data()$startRegionCode & regionCode <= user_out_data()$endRegionCode 
           & parse_number(team_number)>=user_out_data()$startTeamNumber &   parse_number(team_number)<=user_out_data()$endTeamNumber ) %>%
