@@ -233,16 +233,16 @@ icbt_data1 <- icbt_data %>%
 #save final merged dataset
 
 
-hq_icbt_data <- paste(data_dir,'ICBT_data/',sep='')
+# hq_icbt_data <- paste(data_dir,'ICBT_data/',sep='')
 
-ifelse(!dir.exists(file.path(hq_icbt_data)),
-       dir.create(file.path(hq_icbt_data)),
-       "ICBT_data Directory Exists")
+# ifelse(!dir.exists(file.path(hq_icbt_data)),
+#       dir.create(file.path(hq_icbt_data)),
+#       "ICBT_data Directory Exists")
 
-saveRDS(icbt_data, paste(hq_icbt_data,"finalData.RDS", sep = '') )
+# saveRDS(icbt_data, paste(hq_icbt_data,"finalData.RDS", sep = '') )
 
-saveStataFileName <- paste(hq_icbt_data,'finalData.dta',sep = '')
-readstata13::save.dta13(icbt_data, saveStataFileName)
+#saveStataFileName <- paste(hq_icbt_data,'finalData.dta',sep = '')
+#readstata13::save.dta13(icbt_data, saveStataFileName)
 
 # readstata13::save.dta13(icbt_data %>% as.data.frame(), saveStataFileName, version="15mp")
 # 
