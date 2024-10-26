@@ -79,6 +79,11 @@ fluidPage(
 
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
+    output$clock <- renderText({
+    invalidateLater(180,000) #keep active every 3imins to prevent timeout
+    Sys.time()
+  })
+  
   # Include the logic (server) for each tab
   source(file.path("server/auth/serverloginfunction.R"),  local = TRUE)$value
   # source(file.path("server", "plotUniqueBirds.R"),  local = TRUE)$value
