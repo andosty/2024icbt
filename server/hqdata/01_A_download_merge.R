@@ -32,7 +32,7 @@ set_credentials(
 )
 
 newDataMeta <- select(read_rds("server/users.RDS"),UserId, UserName) %>%  
-  rename(responsibleId = UserId) %>% distinct(responsibleId, .keep_all = T)
+  rename(responsibleId = UserId) %>% distinct(responsibleId,UserName, .keep_all = T)
 
 # get the serve various case versions
 server_qnr <- susoapi::get_questionnaires() %>% 
@@ -53,7 +53,7 @@ download_matching(
 # my_zip_dir <- hqDownload_dir
 
 zipppedFiles <- list.files(path = hqDownload_dir, pattern = "*.zip", full.names = T)
-
+# zipfile<-zipppedFiles[2]
 for (zipfile in zipppedFiles) {
   #take each zip file and extract
   if (file.exists(zipfile)) {
@@ -61,13 +61,27 @@ for (zipfile in zipppedFiles) {
   }
   #take the dataset and process it
   #get user ids and merge with responsible id
-  userID_in_Data <-  read_dta(paste(hq_extracted_dir,"assignment__actions.dta",sep = '')) %>% select(
-    assignment__id, responsible__name
-  ) %>% rename(
-    UserName =  responsible__name
-  )  %>% distinct(UserName, .keep_all = T)
+  # userID_in_Data <-  read_dta(paste(hq_extracted_dir,"assignment__actions.dta",sep = '')) %>% select(
+  #   assignment__id, responsible__name
+  # ) %>% rename(
+  #   UserName =  responsible__name
+  # # )  %>% distinct(UserName,  .keep_all = T)
+  # )  %>% distinct( assignment__id, .keep_all = T)
+  userID_in_Data <-  read_dta(paste(hq_extracted_dir,"interview__actions.dta",sep = '')) %>% select(
+    interview__key, interview__id, action, originator, date, time
+  ) %>%filter(action==12) %>% #filter case with created action, for the one who created the case
+    rename(UserName =  originator,
+           qnr_createdDate =date,
+           qnr_createdTime =time
+           )  %>%
+    mutate(
+      qnr_createdDateTime= paste(qnr_createdDate, 'T' , qnr_createdTime, sep = ''),
+    ) %>%
+    select(-c('action','qnr_createdDate','qnr_createdTime')) %>%
+    distinct( UserName,interview__key,interview__id , .keep_all = T) %>% 
+    arrange(UserName, interview__key,interview__id )
   
-  MajorMeta <- left_join(userID_in_Data,newDataMeta) %>% rename(assignment_id = assignment__id)   
+  MajorMeta <- left_join(userID_in_Data,newDataMeta, by=c("UserName"))
   
   
   # take cases meta data
@@ -178,12 +192,15 @@ colnames(icbt_data) = gsub("__", "_", colnames(icbt_data))
 #   'questionnaireVersion','wasCompleted'),
 #   )
 
-icbt_data <- icbt_data %>% 
+icbt_data1 <- icbt_data %>% 
   filter(!is.na(transpondent_id)) %>%
   mutate(
     borderPostName=  str_remove_all(borderPostName, '"'),
     gps_Timestamp = format(ymd_hms(gps_Timestamp,tz=Sys.timezone()), "%Y-%m-%d %I:%M %p"),
-    createdDate = format(ymd_hms(createdDate,tz=Sys.timezone()), "%Y-%m-%d %I:%M %p")
+    createdDate = format(ymd_hms(createdDate,tz=Sys.timezone()), "%Y-%m-%d %I:%M %p"),
+    qnr_createdDateTime = format(ymd_hms(qnr_createdDateTime,tz=Sys.timezone()), "%Y-%m-%d %I:%M %p"),
+    # gpsCapture_QnrCreated_dayGap= difftime(gps_Timestamp,qnr_createdDateTime, units = "days"), # gps_timestamp - createdDateTimeStamp
+    # gpsCapture_QnrCreated_HourGap= difftime(gps_Timestamp,qnr_createdDateTime, units = "hours") # gps_timestamp - createdDateTimeStamp
   ) %>% 
   mutate(  #fix wrong regionCode & regionName & team numbering assignments
     regionCode = case_when(
@@ -204,7 +221,7 @@ icbt_data <- icbt_data %>%
     borderPostName= str_replace_all(borderPostName,'"',''), 
     borderPostName= str_to_title(gsub("/", "-", borderPostName) ), 
   ) %>%
-  subset( regionCode >= user_out_data()$startRegionCode & regionCode <= user_out_data()$endRegionCode 
+  subset( regionCode >= user_out_data()$startRegionCode & regionCode <= user_out_data()$endRegionCode
           & parse_number(team_number)>=user_out_data()$startTeamNumber &   parse_number(team_number)<=user_out_data()$endTeamNumber ) %>%
   arrange(RegionName, districtName, townCity, borderPostName, team_number, enumerator_name )
 
