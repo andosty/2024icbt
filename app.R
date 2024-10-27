@@ -1,49 +1,6 @@
 # setwd("C:/2024ICBT/")
 source("server/datapackages.R",  local = TRUE)
 
-
-# to use new packages
-# library(modelData)
-# library(DataExplorer)
-
-####  Plot Colour
-# plot_colour <- "#8965CD"
-
-# # Get the Data
-# data_path <- "https://data.melbourne.vic.gov.au/api/explore/v2.1/catalog/datasets/bird-survey-results-for-areas-in-the-city-of-melbourne-february-and-march-2018/exports/csv?lang=en&timezone=Australia%2FSydney&use_labels=true&delimiter=%2C"
-# 
-# data <- read_csv(data_path) %>%
-#   # select and rename relevant columns
-#   select(
-#     sighting_date = `Sighting Date`,
-#     common_name = `Common Name`,
-#     scientific_name = `Scientific Name`,
-#     sighting_count = `Sighting Count`,
-#     lat,
-#     lon,
-#     location_desc = loc1_desc,
-#     site_name
-#   )
-
-# # Info box values ---------------------------------------------------------
-# num_sightings <- sum(data$sighting_count)
-# unique_birds <- length(unique(data$common_name))
-# unique_locations <- length(unique(data$site_name))
-# avg_daily_sightings <- data %>%
-#   group_by(sighting_date) %>%
-#   summarise(sighting_count = sum(sighting_count)) %>%
-#   pull(sighting_count) %>%
-#   mean()
-
-### end of get the data
-##################################
-
-### UI DASHBOARD #####
-###################################
-# Define UI for application that draws a histogram
-
-#auth-pages
-
 ui <-
 fluidPage(
   shiny::singleton(
@@ -69,41 +26,67 @@ fluidPage(
 
 
 
-### END OF UI DASHBOARD #####
-###################################
-
-
-### Server Functions #####
-###################################
-
-
-# Define server logic required to draw a histogram
+# Define server logic required 
 server <- function(input, output, session) {
-    output$clock <- renderText({
-    invalidateLater(180,000) #keep active every 3imins to prevent timeout
-    Sys.time()
+  final_data_toLoad <- paste('Data_final/','icbt_data.RDS' , sep = '')
+  final_error_toLoad <- paste('Data_final/','error_data.RDS' , sep = '')
+  
+  output$totalData_Obs <- renderText({
+    nrow( icbt_dataset()[['icbt_dataset_final']])
   })
+  
+  output$totalError_Obs <- renderText({
+    nrow( icbt_dataset()[['icbt_error_dataset']])
+  })
+  
+  # output$clock <- renderText({
+  #   invalidateLater(180,000) #keep active every 3imins to prevent timeout
+  #   Sys.time()
+  # })
   
   # Include the logic (server) for each tab
   source(file.path("server/auth/serverloginfunction.R"),  local = TRUE)$value
-  # source(file.path("server", "plotUniqueBirds.R"),  local = TRUE)$value
-  # source(file.path("server", "distributionPlotBirds.R"),  local = TRUE)$value
-  # source(file.path("server", "tab2.R"),  local = TRUE)$value
   
   #getAuthCredDataAccess
- 
+  dataRefresh <- reactiveFileReader(3000, session, final_data_toLoad, readRDS)
+  errorDataRefresh <- reactiveFileReader(3000, session, final_error_toLoad, readRDS)
   
   #get data from server  #schedule for every 2hrs refresh
   icbt_dataset <- reactive({
-    invalidateLater(7200000) # scheduled for every 2 hours
-    source(file.path("server/hqdata/01_A_download_merge.R"),  local = TRUE)$value
+    # invalidateLater(7200000) # scheduled for every 2 hours
+    # source(file.path("server/hqdata/01_A_download_merge.R"),  local = TRUE)$value
     # source(file.path("server/hqdata/02_merge_for_final_file.R"),  local = TRUE)$value
-    source(file.path("server/hqdata/03_errorchecks.R"),  local = TRUE)$value
+
+    # NEW PROCESSING OF DATA LOAD WHEN CHANGED
+    user_assigned_data <- read_excel("server/loginDataAccess.xlsx") %>% 
+      filter( 
+        email ==  user_out_email()
+      )
+    
+    head(user_assigned_data)
+    head(  dataRefresh())
+    
+    icbt_data <- data.frame()
+    for(i in 1:nrow(user_assigned_data)) {
+      row <- user_assigned_data[i,]
+      filteredDataset <-  dataRefresh() %>%
+        filter(
+          regionCode %in% (row$startRegionCode:row$endRegionCode)
+        )  %>%
+        filter(
+          parse_number(team_number)>=row$startTeamNumber &   parse_number(team_number)<=row$endTeamNumber
+        ) %>%
+        arrange(RegionName, districtName, townCity, borderPostName, team_number, enumerator_name )
+      
+      icbt_data <- dplyr::bind_rows(icbt_data, filteredDataset)
+      rm(filteredDataset)
+    }
+
+    # source(file.path("server/hqdata/03_errorchecks.R"),  local = TRUE)$value
+  
     list(icbt_dataset_final=icbt_data ,
-         icbt_error_dataset=errorChecks
+         icbt_error_dataset=errorDataRefresh()
          )
-    # icbt_data
-    # errorChecks
   })
   
 
@@ -370,10 +353,10 @@ server <- function(input, output, session) {
                                    list(
                                      extend = 'collection',
                                      buttons = list(
-                                       list(extend = "csv", filename = "data",exportOptions = list(
+                                       list(extend = "csv", filename = "EnumMonitorReport_page",exportOptions = list(
                                          columns = ":visible",modifier = list(page = "all"))
                                        ),
-                                       list(extend = 'excel', filename = "data", title = NULL, 
+                                       list(extend = 'excel', filename = "EnumMonitorReport_allData", title = NULL, 
                                             exportOptions = list(columns = ":visible",modifier = list(page = "all")))),
                                      text = 'Download all data')
                                    
