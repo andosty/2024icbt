@@ -205,7 +205,6 @@ for(i in 1:nrow(user_assigned_data)) {
     parse_number(team_number)>=row$startTeamNumber &   parse_number(team_number)<=row$endTeamNumber
   ) %>%
     arrange(RegionName, districtName, townCity, borderPostName, team_number, enumerator_name ) %>%
-   %>%
   mutate( #fix dataset issues
     productObserved=  gsub("colanut", "cola nut", productObserved, ignore.case = TRUE) ,
   )
