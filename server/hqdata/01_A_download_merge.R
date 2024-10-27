@@ -1,3 +1,10 @@
+user_assigned_data <- read_excel("server/loginDataAccess.xlsx") %>% 
+  filter( 
+    email ==  user_out_email()
+    # email ==  'terryarthur35@gmail.com'
+  )
+
+
 sqlSvr <- readRDS("server/credentials/icbt_svr.rds")
 
 #create directory for saving data download if not exist
@@ -39,7 +46,7 @@ server_qnr <- susoapi::get_questionnaires() %>%
   filter(title == "ICBT FIELD WORK") %>%
   distinct(title, .keep_all = T)
 
-icbt_data <- data.frame()
+downloaded_icbt_data <- data.frame()
 
 download_matching(
   matches = server_qnr$title, 
@@ -67,6 +74,8 @@ for (zipfile in zipppedFiles) {
   #   UserName =  responsible__name
   # # )  %>% distinct(UserName,  .keep_all = T)
   # )  %>% distinct( assignment__id, .keep_all = T)
+  
+  
   userID_in_Data <-  read_dta(paste(hq_extracted_dir,"interview__actions.dta",sep = '')) %>% select(
     interview__key, interview__id, action, originator, date, time
   ) %>%filter(action==12) %>% #filter case with created action, for the one who created the case
@@ -156,31 +165,55 @@ for (zipfile in zipppedFiles) {
     # }
    
     
-    icbt_data <- dplyr::bind_rows(icbt_data, icbt_data_version)
-    
+    downloaded_icbt_data <- dplyr::bind_rows(downloaded_icbt_data, icbt_data_version)
+    rm(icbt_data_version)
     ## end zip loop
   }
     
   
 }
 
-if("s2q6ao" %in% names(icbt_data) ){
-  icbt_data <- icbt_data %>% mutate(
+if("s2q6ao" %in% names(downloaded_icbt_data) ){
+  downloaded_icbt_data <- downloaded_icbt_data %>% mutate(
 
   s2q6ao = haven::as_factor(s2q6ao)
   )
 }
-
 
 #Pull HH level var renames file
 renameData <- read_excel("server/dictionary/varNames.xlsx",sheet = "icbtVarRenames")
 
 for (i in 1:nrow(renameData)  ) {
   row <- renameData[i,]  #filter that row
-  if(row$oldVarName %in% names(icbt_data)){ #if name var exists, then rename the var
-    icbt_data <- rename.vars(icbt_data, from =row$oldVarName, to = row$newVarName)
+  if(row$oldVarName %in% names(downloaded_icbt_data)){ #if name var exists, then rename the var
+    downloaded_icbt_data <- rename.vars(downloaded_icbt_data, from =row$oldVarName, to = row$newVarName)
   }
 }
+
+#filtering for assigned dataset 
+icbt_data <- data.frame()
+# filteredDataset = data.frame()
+
+for(i in 1:nrow(user_assigned_data)) {
+  row <- user_assigned_data[i,]
+  
+  filteredDataset <-  downloaded_icbt_data %>%
+    filter(
+      regionCode %in% (row$startRegionCode:row$endRegionCode)
+    )  %>%
+  filter(
+    parse_number(team_number)>=row$startTeamNumber &   parse_number(team_number)<=row$endTeamNumber
+  ) %>%
+    arrange(RegionName, districtName, townCity, borderPostName, team_number, enumerator_name )
+    
+
+  icbt_data <- dplyr::bind_rows(icbt_data, filteredDataset)
+  rm(filteredDataset)
+  
+  # print(row$startRegionCode)
+}
+
+
 
 # rm(renameData, metaColNames, transpondentNames, row, server_qnr,sqlSvr)
 colnames(icbt_data) = gsub("__", "_", colnames(icbt_data))
@@ -192,7 +225,7 @@ colnames(icbt_data) = gsub("__", "_", colnames(icbt_data))
 #   'questionnaireVersion','wasCompleted'),
 #   )
 
-icbt_data1 <- icbt_data %>% 
+icbt_data <- icbt_data %>% 
   filter(!is.na(transpondent_id)) %>%
   mutate(
     borderPostName=  str_remove_all(borderPostName, '"'),
@@ -221,12 +254,10 @@ icbt_data1 <- icbt_data %>%
     borderPostName= str_replace_all(borderPostName,'"',''), 
     borderPostName= str_to_title(gsub("/", "-", borderPostName) ), 
   ) %>%
-  subset( regionCode >= user_out_data()$startRegionCode & regionCode <= user_out_data()$endRegionCode
-          & parse_number(team_number)>=user_out_data()$startTeamNumber &   parse_number(team_number)<=user_out_data()$endTeamNumber ) %>%
+  # subset( regionCode >= user_out_data()$startRegionCode & regionCode <= user_out_data()$endRegionCode
+  #         & parse_number(team_number)>=user_out_data()$startTeamNumber &   parse_number(team_number)<=user_out_data()$endTeamNumber ) %>%
   arrange(RegionName, districtName, townCity, borderPostName, team_number, enumerator_name )
 
-  # subset( regionCode >= user_out_data()$startRegionCode & regionCode <= user_out_data()$endRegionCode)
-  
 # left_join(caseIdentifier, by = c('interview_id', 'enumerator_name', 'enumerator_contact') ) %>%
 # bind_rows(icbt_data,icbt_data_version)
 
@@ -234,15 +265,15 @@ icbt_data1 <- icbt_data %>%
 
 
 # hq_icbt_data <- paste(data_dir,'ICBT_data/',sep='')
-
+# 
 # ifelse(!dir.exists(file.path(hq_icbt_data)),
-#       dir.create(file.path(hq_icbt_data)),
-#       "ICBT_data Directory Exists")
-
+#        dir.create(file.path(hq_icbt_data)),
+#        "ICBT_data Directory Exists")
+# 
 # saveRDS(icbt_data, paste(hq_icbt_data,"finalData.RDS", sep = '') )
-
-#saveStataFileName <- paste(hq_icbt_data,'finalData.dta',sep = '')
-#readstata13::save.dta13(icbt_data, saveStataFileName)
+# 
+# saveStataFileName <- paste(hq_icbt_data,'finalData.dta',sep = '')
+# readstata13::save.dta13(icbt_data, saveStataFileName)
 
 # readstata13::save.dta13(icbt_data %>% as.data.frame(), saveStataFileName, version="15mp")
 # 
