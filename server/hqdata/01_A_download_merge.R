@@ -214,6 +214,7 @@ for(i in 1:nrow(user_assigned_data)) {
 }
 
 
+rm(downloaded_icbt_data)
 
 # rm(renameData, metaColNames, transpondentNames, row, server_qnr,sqlSvr)
 colnames(icbt_data) = gsub("__", "_", colnames(icbt_data))
