@@ -82,10 +82,28 @@ server <- function(input, output, session) {
       rm(filteredDataset)
     }
 
+       
+    icbt_errors <- data.frame()
+      for(i in 1:nrow(user_assigned_data)) {
+      row <- user_assigned_data[i,]
+      filteredDataset <-  errorDataRefresh() %>%
+        filter(
+          regionCode %in% (row$startRegionCode:row$endRegionCode)
+        )  %>%
+        filter(
+          parse_number(team_number)>=row$startTeamNumber &   parse_number(team_number)<=row$endTeamNumber
+        ) %>%
+        arrange(RegionName, districtName, townCity, borderPostName, team_number, enumerator_name )
+
+      icbt_data <- dplyr::bind_rows(icbt_data, filteredDataset)
+      rm(filteredDataset)
+    }
+
+
     # source(file.path("server/hqdata/03_errorchecks.R"),  local = TRUE)$value
   
     list(icbt_dataset_final=icbt_data ,
-         icbt_error_dataset=errorDataRefresh()
+         icbt_error_dataset=icbt_errors
          )
   })
   
