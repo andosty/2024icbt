@@ -71,8 +71,13 @@
               icon = icon("home")
             ),
             menuItem(
-              "Dashboard",
-              tabName = "dashboard",
+              "Dashboard Errors",
+              tabName = "dashboardError",
+              icon = icon("bar-chart")
+            ),
+            menuItem(
+              "Dashboard Statistics",
+              tabName = "dashboardSummary",
               icon = icon("bar-chart")
             ),
             menuItem(
@@ -111,7 +116,8 @@
           tabItems(
             
           source("ui/dashboard/navbarPages/welcomeHomePage.R", local = TRUE)$value,
-          source("ui/dashboard/navbarPages/dashboardReport.R", local = TRUE)$value,
+          source("ui/dashboard/navbarPages/dashboardErrors.R", local = TRUE)$value,
+          source("ui/dashboard/navbarPages/dashboardStats.R", local = TRUE)$value,
           source("ui/dashboard/navbarPages/monitor_report.R", local = TRUE)$value,
           source("ui/dashboard/navbarPages/view_icbtDataSet.R", local = TRUE)$value,
           source("ui/dashboard/navbarPages/view_icbtErrors.R", local = TRUE)$value,

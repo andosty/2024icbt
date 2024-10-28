@@ -31,17 +31,37 @@ server <- function(input, output, session) {
   final_data_toLoad <- paste('Data_final/','icbt_data.RDS' , sep = '')
   final_error_toLoad <- paste('Data_final/','error_data.RDS' , sep = '')
   
- # regionNames <- renderDataTable(
- #    icbt_dataset()[['icbt_error_dataset']] %>%
- #      distinct(RegionName)
- #  )
- #  
+  #TradeSummaries
   
-  # updateSelectizeInput(session, 'foo', choices = regionNames(), server = TRUE)
+  output$totalTranspondent <- renderText({
+    value<- nrow( icbt_dataset()[['icbt_dataset_final']] %>% distinct(interview_key, interview_id, transpondent_id))
+    format(as.integer(value), big.mark=",")
+  })
+  output$totalCommoditiesTraded <- renderText({
+   value<- nrow( icbt_dataset()[['icbt_dataset_final']] %>% distinct(interview_key, interview_id, transpondent_id,Commodity_id))
+    format(as.integer(value), big.mark=",")
+  })
+  output$totalCommoditiesInflow <- renderText({
+    value<- nrow( icbt_dataset()[['icbt_dataset_final']] %>% filter(tradeDirection=='Coming in (Import)') %>% distinct(interview_key, interview_id, transpondent_id,Commodity_id))
+    format(as.integer(value), big.mark=",")
+  })
+  output$totalCommoditiesOutflow <- renderText({
+    value<- nrow( icbt_dataset()[['icbt_dataset_final']] %>% filter(tradeDirection=='Going out (Export)') %>% distinct(interview_key, interview_id, transpondent_id,Commodity_id))
+    format(as.integer(value), big.mark=",")
+  })
+  output$totalCommoditiesNetflow <- renderText({
+    value<- nrow( icbt_dataset()[['icbt_dataset_final']] %>% filter(tradeDirection=='Going out (Export)') %>% distinct(interview_key, interview_id, transpondent_id,Commodity_id))- 
+      nrow( icbt_dataset()[['icbt_dataset_final']] %>% filter(tradeDirection=='Coming in (Import)') %>% distinct(interview_key, interview_id, transpondent_id,Commodity_id))
+    format(as.integer(value), big.mark=",")
+    
+  })
+  
+  #Error Summaries
   
   output$totalData_Obs <- renderText({
     nrow( icbt_dataset()[['icbt_dataset_final']])
   })
+  
   
   output$totalData_Cases <- renderText({
     nrow( icbt_dataset()[['icbt_dataset_final']] %>% distinct(interview_key, interview_id))
