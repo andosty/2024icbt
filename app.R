@@ -171,9 +171,9 @@ server <- function(input, output, session) {
         filter(
           regionCode %in% (row$startRegionCode:row$endRegionCode)
         )  %>%
-        filter(
-          parse_number(team_number)>=row$startTeamNumber &   parse_number(team_number)<=row$endTeamNumber
-        ) %>%
+       # filter(
+        #  parse_number(team_number)>=row$startTeamNumber &   parse_number(team_number)<=row$endTeamNumber
+       # ) %>%
         arrange(RegionName, districtName, townCity, borderPostName, team_number, enumerator_name )
       
       icbt_data <- dplyr::bind_rows(icbt_data, filteredDataset)
@@ -188,9 +188,9 @@ server <- function(input, output, session) {
         filter(
           regionCode %in% (row$startRegionCode:row$endRegionCode)
         )  %>%
-        filter(
-          parse_number(team_number)>=row$startTeamNumber &   parse_number(team_number)<=row$endTeamNumber
-        ) %>%
+       # filter(
+       #   parse_number(team_number)>=row$startTeamNumber &   parse_number(team_number)<=row$endTeamNumber
+       # ) %>%
         arrange(RegionName, districtName, townCity, borderPostName, team_number, enumerator_name )
 
       icbt_errors <- dplyr::bind_rows(icbt_errors, filteredErrorDataset)
