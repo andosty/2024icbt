@@ -31,13 +31,88 @@ server <- function(input, output, session) {
   final_data_toLoad <- paste('Data_final/','icbt_data.RDS' , sep = '')
   final_error_toLoad <- paste('Data_final/','error_data.RDS' , sep = '')
   
+ # regionNames <- renderDataTable(
+ #    icbt_dataset()[['icbt_error_dataset']] %>%
+ #      distinct(RegionName)
+ #  )
+ #  
+  
+  # updateSelectizeInput(session, 'foo', choices = regionNames(), server = TRUE)
+  
   output$totalData_Obs <- renderText({
     nrow( icbt_dataset()[['icbt_dataset_final']])
   })
   
+  output$totalData_Cases <- renderText({
+    nrow( icbt_dataset()[['icbt_dataset_final']] %>% distinct(interview_key, interview_id))
+  })
   output$totalError_Obs <- renderText({
     nrow( icbt_dataset()[['icbt_error_dataset']])
   })
+  output$totalError_Cases <- renderText({
+    nrow( icbt_dataset()[['icbt_error_dataset']] %>% distinct(interview_key, interview_id))
+  })
+  
+  #plots
+  output$regionalErrorTotal <- renderPlotly({
+    regionalErrors<- icbt_dataset()[['icbt_error_dataset']] %>%
+      distinct(regionCode, RegionName,interview_key, interview_id) %>%
+      group_by(RegionName, regionCode) %>% summarise(totalErrors = n()) %>% arrange(-totalErrors) %>% 
+      mutate(stringsAsFactors = FALSE,
+             RegionName = as.character(RegionName)
+      ) %>% left_join(
+           icbt_dataset()[['icbt_dataset_final']] %>% 
+            distinct(regionCode, RegionName,interview_key, interview_id) %>%
+            group_by(RegionName, regionCode) %>% 
+            summarise(
+              TotalCases= n()
+            )
+      )
+    
+    
+    regionErrorData <- data.frame(regionalErrors$regionCode,regionalErrors$RegionName,regionalErrors$totalErrors, regionalErrors$TotalCases, stringsAsFactors = FALSE)
+    
+    regionErrorData$regionalErrors.RegionName <- factor(regionErrorData$regionalErrors.RegionName, levels = unique(regionErrorData$regionalErrors.RegionName)[order(regionErrorData$regionalErrors.TotalCases, decreasing = F)])
+    regionErrorData <- regionErrorData %>% 
+      rename(  regionCode = regionalErrors.regionCode ,
+              RegionName= regionalErrors.RegionName, 
+             TotalCaseWithErrors= regionalErrors.totalErrors,
+             TotalCases= regionalErrors.TotalCases
+             )
+    plot_ly(regionErrorData,  y = ~RegionName,x = ~TotalCaseWithErrors, marker = list(color = "red"),name = "TotalCase With Errors", type = 'bar', orientation = 'h') %>%
+      # add_bars(x = ~TotalCaseWithErrors, name = "TotalCaseWithErrors", marker = list(color = "red")) %>%
+      add_bars(x = ~TotalCases, name = "TotalCases in Data", marker = list(color = "blue")) %>%
+      layout( #showlegend = F,
+              xaxis = list(categoryorder = "total descending" ,title = ''
+                          ),
+             yaxis = list(title = ''
+                          )
+             )
+    
+  })
+  
+  output$regionalErrorCount <- renderPlotly({
+    regionalErrorFreq<- icbt_dataset()[['icbt_error_dataset']]  %>%
+      group_by(RegionName) %>% summarise(totalErrors = n()) %>% arrange(-totalErrors) %>% mutate(stringsAsFactors = FALSE,
+                                                                                                 RegionName = as.character(RegionName)
+      )
+    regionalErrorFreq <- data.frame(regionalErrors$RegionName,regionalErrors$totalErrors, stringsAsFactors = FALSE)
+    
+    regionalErrorFreq$regionalErrors.RegionName <- factor(regionalErrorFreq$regionalErrors.RegionName, levels = unique(regionalErrorFreq$regionalErrors.RegionName)[order(regionalErrorFreq$regionalErrors.totalErrors, decreasing = F)])
+    # fig <- plot_ly(x = c(20, 14, 23), y = c('giraffes', 'orangutans', 'monkeys'), type = 'bar', orientation = 'h')
+    
+
+    plot_ly(regionalErrorFreq, x = ~regionalErrors.totalErrors, y = ~regionalErrors.RegionName, type = 'bar', orientation = 'h')  %>%
+      layout(
+              xaxis = list(categoryorder = "total descending" ,title = ''
+                          ),
+            yaxis = list(title = ''
+                          )
+              )
+    
+    
+  })
+  
   
   # output$clock <- renderText({
   #   invalidateLater(180,000) #keep active every 3imins to prevent timeout
@@ -79,14 +154,14 @@ server <- function(input, output, session) {
         arrange(RegionName, districtName, townCity, borderPostName, team_number, enumerator_name )
       
       icbt_data <- dplyr::bind_rows(icbt_data, filteredDataset)
-      rm(filteredDataset)
+      rm(filteredDataset,row)
     }
 
-       
+   
     icbt_errors <- data.frame()
       for(i in 1:nrow(user_assigned_data)) {
       row <- user_assigned_data[i,]
-      filteredDataset <-  errorDataRefresh() %>%
+      filteredErrorDataset <-  errorDataRefresh() %>%
         filter(
           regionCode %in% (row$startRegionCode:row$endRegionCode)
         )  %>%
@@ -95,10 +170,9 @@ server <- function(input, output, session) {
         ) %>%
         arrange(RegionName, districtName, townCity, borderPostName, team_number, enumerator_name )
 
-      icbt_data <- dplyr::bind_rows(icbt_data, filteredDataset)
-      rm(filteredDataset)
+      icbt_errors <- dplyr::bind_rows(icbt_errors, filteredErrorDataset)
+      rm(filteredErrorDataset,row)
     }
-
 
     # source(file.path("server/hqdata/03_errorchecks.R"),  local = TRUE)$value
   
