@@ -1,7 +1,9 @@
 #install some packages
 # if(!require(labelled )) install.packages("labelled ")
+if(!require(plotly)) install.packages("plotly")
 if(!require(shinyalert)) install.packages("shinyalert")
 # Load the package
+
 library(shinyalert)
 library(bs4Dash)
 library(dplyr)
