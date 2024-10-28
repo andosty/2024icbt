@@ -92,25 +92,28 @@ server <- function(input, output, session) {
   })
   
   output$regionalErrorCount <- renderPlotly({
-    regionalErrorFreq<- icbt_dataset()[['icbt_error_dataset']]  %>%
+    
+    regionalErrors<- icbt_dataset()[['icbt_error_dataset']]  %>%
       group_by(RegionName) %>% summarise(totalErrors = n()) %>% arrange(-totalErrors) %>% mutate(stringsAsFactors = FALSE,
                                                                                                  RegionName = as.character(RegionName)
       )
-    regionalErrorFreq <- data.frame(regionalErrors$RegionName,regionalErrors$totalErrors, stringsAsFactors = FALSE)
+    regionErrorData <- data.frame(regionalErrors$RegionName,regionalErrors$totalErrors, stringsAsFactors = FALSE)
     
-    regionalErrorFreq$regionalErrors.RegionName <- factor(regionalErrorFreq$regionalErrors.RegionName, levels = unique(regionalErrorFreq$regionalErrors.RegionName)[order(regionalErrorFreq$regionalErrors.totalErrors, decreasing = F)])
-    # fig <- plot_ly(x = c(20, 14, 23), y = c('giraffes', 'orangutans', 'monkeys'), type = 'bar', orientation = 'h')
+    regionErrorData$regionalErrors.RegionName <- factor(regionErrorData$regionalErrors.RegionName, levels = unique(regionErrorData$regionalErrors.RegionName)[order(regionErrorData$regionalErrors.totalErrors, decreasing = F)])
     
+    regionErrorData <- regionErrorData %>% 
+      rename(
+        RegionName= regionalErrors.RegionName,
+        totalErrors = regionalErrors.totalErrors
+      )
 
-    plot_ly(regionalErrorFreq, x = ~regionalErrors.totalErrors, y = ~regionalErrors.RegionName, type = 'bar', orientation = 'h')  %>%
+    plot_ly(regionErrorData, x = ~totalErrors, y = ~RegionName, type = 'bar', orientation = 'h')   %>%
       layout(
-              xaxis = list(categoryorder = "total descending" ,title = ''
-                          ),
-            yaxis = list(title = ''
-                          )
-              )
-    
-    
+        xaxis = list(categoryorder = "total descending" ,title = ''
+        ),
+        yaxis = list(title = ''
+        )
+      )
   })
   
   
