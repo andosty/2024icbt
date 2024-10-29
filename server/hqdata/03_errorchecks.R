@@ -60,7 +60,12 @@ errorChecks <- dplyr::bind_rows(errorChecks, blankCommdtyDesctip) #add to the er
 rm(blankCommdtyDesctip)
 
 #Direction of Trade error
-directionError <-directionCheck  %>%
+directionCheck <- downloaded_icbt_data %>% 
+  mutate(
+    observedRespondentDescription = str_detect(str_squish(trim(trimws(observedRespondentDescription))))
+  )
+
+directionError <- directionCheck  %>%
   filter( 
     str_detect(str_to_lower(observedRespondentDescription),'coming in|going out')
   ) %>%
