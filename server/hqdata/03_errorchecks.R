@@ -94,7 +94,7 @@ rm(directionErrror)
 
 tradeDirectionNotSpecified <- downloaded_icbt_data %>% 
   filter( 
-    !str_detect(observedRespondentDescription,'coming in|going out')
+      !str_detect(str_squish(trim(trimws(str_to_lower(observedRespondentDescription)))),'coming in|going out')
   ) %>%
   distinct(interview_key, interview_id, transpondent_id, .keep_all = T) %>%
   mutate(
