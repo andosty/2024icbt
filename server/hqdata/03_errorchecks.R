@@ -60,11 +60,9 @@ errorChecks <- dplyr::bind_rows(errorChecks, blankCommdtyDesctip) #add to the er
 rm(blankCommdtyDesctip)
 
 #Direction of Trade error
-directionErrror <- downloaded_icbt_data %>% 
+directionError <-directionCheck  %>%
   filter( 
-    str_detect(observedRespondentDescription,'coming in|going out')
-    # str_detect(observedRespondentDescription,'coming in') | str_detect(observedRespondentDescription,'going out') 
-    # grepl('coming in|going out', observedRespondentDescription, ignore.case=TRUE) 
+    str_detect(str_to_lower(observedRespondentDescription),'coming in|going out')
   ) %>%
   distinct(interview_key, interview_id, transpondent_id, .keep_all = T) %>%
   mutate(
@@ -89,12 +87,12 @@ directionErrror <- downloaded_icbt_data %>%
     errorCheck = 'Trade Direction Error',
     errorMessage = paste("trade direction selected ='",tradeDirection, "', but description of transpondent ='",observedRespondentDescription,"'", sep = '')
   ) %>% select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,commodityObervedDescription,Commodity_id, errorCheck,errorMessage)
-errorChecks <- dplyr::bind_rows(errorChecks, directionErrror) #add to the errorData frame file
-rm(directionErrror)
+errorChecks <- dplyr::bind_rows(errorChecks, directionError) #add to the errorData frame file
+rm(directionError)
 
-tradeDirectionNotSpecified <- downloaded_icbt_data %>% 
+tradeDirectionNotSpecified <- directionCheck %>% 
   filter( 
-      !str_detect(str_squish(trim(trimws(str_to_lower(observedRespondentDescription)))),'coming in|going out')
+    !str_detect(str_squish(trim(trimws(str_to_lower(observedRespondentDescription)))),'coming in|going out')
   ) %>%
   distinct(interview_key, interview_id, transpondent_id, .keep_all = T) %>%
   mutate(
@@ -102,7 +100,7 @@ tradeDirectionNotSpecified <- downloaded_icbt_data %>%
     errorMessage = paste("Direction of respondent not specified in description of transpondent ='",observedRespondentDescription,"'", sep = '')
   ) %>% select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,commodityObervedDescription,Commodity_id, errorCheck,errorMessage)
 errorChecks <- dplyr::bind_rows(errorChecks, tradeDirectionNotSpecified) #add to the errorData frame file
-rm(tradeDirectionNotSpecified)
+rm(tradeDirectionNotSpecified, directionCheck)
 
 UoM_Check <- downloaded_icbt_data %>% 
   filter(!is.na(commodityObervedDescription)) %>%
