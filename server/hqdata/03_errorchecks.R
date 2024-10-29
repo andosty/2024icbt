@@ -62,7 +62,12 @@ rm(blankCommdtyDesctip)
 #Direction of Trade error
 directionCheck <- downloaded_icbt_data %>% 
   mutate(
-    observedRespondentDescription = str_detect(str_squish(trim(trimws(observedRespondentDescription))))
+    observedRespondentDescription = str_detect(str_squish(trim(trimws(observedRespondentDescription)))),
+    observedRespondentDescription = case_when(
+      str_detect(str_to_lower(observedRespondentDescription),'coming on') ~  gsub('coming on', 'coming in on', observedRespondentDescription, ignore.case = TRUE),
+      str_detect(str_to_lower(observedRespondentDescription),'going on') ~ gsub('going on', 'going out on', observedRespondentDescription, ignore.case = TRUE),
+      TRUE ~ observedRespondentDescription
+                                            )
   )
 
 directionError <- directionCheck  %>%
