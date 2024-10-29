@@ -210,6 +210,15 @@ downloaded_icbt_data <- downloaded_icbt_data %>%
   arrange(RegionName, districtName, townCity, borderPostName, team_number, enumerator_name ) %>%
   mutate( #fix dataset issues
     productObserved=  gsub("colanut", "cola nut", productObserved, ignore.case = TRUE) ,
+    # fix for 'coming on' and 'going on', phrases to 'comin in on' and 'going out on' 
+    #afterwards, remove it from error check
+    observedRespondentDescription = str_squish(trim(trimws(observedRespondentDescription))),
+    observedRespondentDescription = case_when(
+      str_detect(str_to_lower(observedRespondentDescription),'coming on') ~  gsub('coming on', 'coming in on', observedRespondentDescription, ignore.case = TRUE),
+      str_detect(str_to_lower(observedRespondentDescription),'going on') ~ gsub('going on', 'going out on', observedRespondentDescription, ignore.case = TRUE),
+      TRUE ~ observedRespondentDescription
+    )
+    
   )
 
 #save final dataset
@@ -230,3 +239,5 @@ print("hq download and merge okay")
 # icbt_data <- downloaded_icbt_data
 source(file.path("server/hqdata/03_errorchecks.R"),  local = TRUE)$value
 saveRDS(errorChecks,paste(final_data_dir,'error_data.RDS',sep=''))
+
+#need to script trade direction error text correction
