@@ -171,9 +171,9 @@ server <- function(input, output, session) {
         filter(
           regionCode %in% (row$startRegionCode:row$endRegionCode)
         )  %>%
-       # filter(
-        #  parse_number(team_number)>=row$startTeamNumber &   parse_number(team_number)<=row$endTeamNumber
-       # ) %>%
+        # filter(
+        #   parse_number(team_number)>=row$startTeamNumber &   parse_number(team_number)<=row$endTeamNumber
+        # ) %>%
         arrange(RegionName, districtName, townCity, borderPostName, team_number, enumerator_name )
       
       icbt_data <- dplyr::bind_rows(icbt_data, filteredDataset)
@@ -188,9 +188,9 @@ server <- function(input, output, session) {
         filter(
           regionCode %in% (row$startRegionCode:row$endRegionCode)
         )  %>%
-       # filter(
-       #   parse_number(team_number)>=row$startTeamNumber &   parse_number(team_number)<=row$endTeamNumber
-       # ) %>%
+        # filter(
+        #   parse_number(team_number)>=row$startTeamNumber &   parse_number(team_number)<=row$endTeamNumber
+        # ) %>%
         arrange(RegionName, districtName, townCity, borderPostName, team_number, enumerator_name )
 
       icbt_errors <- dplyr::bind_rows(icbt_errors, filteredErrorDataset)
@@ -756,6 +756,24 @@ server <- function(input, output, session) {
         distinct(errorCheck) %>%
         summarize(errorMessage = str_c(errorCheck, collapse = " ; ")) %>%
         ungroup()
+      
+      #server cred login
+      
+      sqlSvr <- readRDS("server/credentials/icbt_svr.rds")
+      set_credentials(
+        server = sqlSvr$server, workspace = sqlSvr$workspace, 
+        user =sqlSvr$usr, password = sqlSvr$pswd
+      )
+      server_qnr <- susoapi::get_questionnaires() %>% 
+        filter(title == "ICBT MAIN-Field Practice") %>%
+        # filter(title == sqlSvr$title) %>%
+        # dplyr::pull(questionnaireId)
+        # filter(version==max(version))
+        filter(version==1)
+      
+      server_qnr_id <- server_qnr %>%
+        # filter(version==6) %>%
+        dplyr::pull(id)
       
       ##send cases back
       for (i in 1:nrow(CaseReject)  ) {

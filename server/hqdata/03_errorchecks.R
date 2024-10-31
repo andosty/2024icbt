@@ -69,7 +69,7 @@ directionCheck <- downloaded_icbt_data %>%
       TRUE ~ observedRespondentDescription
                                             )
   )
-
+  
 directionError <- directionCheck  %>%
   filter( 
     str_detect(str_to_lower(observedRespondentDescription),'coming in|going out')
@@ -102,7 +102,7 @@ rm(directionError)
 
 tradeDirectionNotSpecified <- directionCheck %>% 
   filter( 
-     !str_detect(str_to_lower(observedRespondentDescription),'coming in|going out')
+    !str_detect(str_squish(trim(trimws(str_to_lower(observedRespondentDescription)))),'coming in|going out')
   ) %>%
   distinct(interview_key, interview_id, transpondent_id, .keep_all = T) %>%
   mutate(
@@ -346,15 +346,15 @@ errorChecks <- dplyr::bind_rows(errorChecks, describedTransportDescriptionTransp
 rm(describedTransportDescriptionTransport)
 
 # river transport and border check
-riverTransport <-  downloaded_icbt_data %>%
-  select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,commodityObervedDescription,Commodity_id, transportMeans, transportMeans_otherSpecify) %>%
-  filter( transportMeans=='canoe' | transportMeans=='boat') %>%
-  mutate(
-    errorCheck = 'river transport validation',
-    errorMessage = paste("Are you sure there is a river transport in crossing this border? This needs validation.", sep = '')
-  ) %>% select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,commodityObervedDescription,Commodity_id, errorCheck,errorMessage)
-errorChecks <- dplyr::bind_rows(errorChecks, riverTransport) #add to the errorData frame file
-rm(riverTransport)
+# riverTransport <-  downloaded_icbt_data %>%
+#   select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,commodityObervedDescription,Commodity_id, transportMeans, transportMeans_otherSpecify) %>%
+#   filter( transportMeans=='canoe' | transportMeans=='boat') %>%
+#   mutate(
+#     errorCheck = 'river transport validation',
+#     errorMessage = paste("Are you sure there is a river transport in crossing this border? This needs validation.", sep = '')
+#   ) %>% select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,commodityObervedDescription,Commodity_id, errorCheck,errorMessage)
+# errorChecks <- dplyr::bind_rows(errorChecks, riverTransport) #add to the errorData frame file
+# rm(riverTransport)
 
 #other specified transport error
 otherSpecifiedTransports <-  downloaded_icbt_data %>%
@@ -456,7 +456,7 @@ errorChecks <- errorChecks %>%
          townCity,borderPostName,team_number,interview_key,interview_id,enumerator_name,enumerator_contact, everything()
   ) %>% 
   arrange(districtCode,borderPostName,team_number,enumerator_name) #  %>%
-   # left_join(ICBT_metaData)
+# left_join(ICBT_metaData)
 
 
 rm(UoM_Check, tronspondentDescription,surveyDatePeriod,pivotedDF,otherCommdtyDescription,icbt_meta,getData,genderWords,summaryPivotedDF)
