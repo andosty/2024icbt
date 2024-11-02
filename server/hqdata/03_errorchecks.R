@@ -573,17 +573,39 @@ rm(wrgProdSel2, wrongSelectedProductDescription)
 
 
 # other specified product description
-otherCommdtyDescription <- downloaded_icbt_data %>%
-  filter(productObserved=='Other (Specify)')
+otherCommdtyDescriptionKK <- downloaded_icbt_data %>%
+  filter(productObserved=='Other (specify)')
 
+otherSPecifiedError1 <-otherCommdtyDescriptionKK %>%
+  filter( #is not alpha but only numeric productObserved_otherSpecify
+    !str_detect(productObserved_otherSpecify, "^[:alpha:]+$")  & # product is not alphabets
+    str_detect(productObserved_otherSpecify, "^[:digit:]+$") # product is numbers
+    # !grepl("^[A-Za-z]+$", productObserved_otherSpecify)  & # product is not alphabets
+    # grepl("\\D", productObserved_otherSpecify)   # product is numbers
+  ) %>%
+mutate(
+  errorCheck = 'other Specified Error',
+  errorMessage = paste("other specified commodity cannot be numeric", sep = '')
+) %>% 
+  select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,commodityObervedDescription,Commodity_id, errorCheck,errorMessage)
+errorChecks <- dplyr::bind_rows(errorChecks, otherSPecifiedError1) #add to the errorData frame file
+rm(otherSPecifiedError1)
 
-
-## merge error messages to meta data CASES HTTP ERROR
-# 
-# ICBT_metaData  <- cases %>%
-#   select(id,key,assignmentId,createdDate,responsibleId ) %>%
-#   rename(interview_id=id, interview_key = key)
-
+otherSPecifiedError2 <-otherCommdtyDescriptionKK %>%
+  filter( #strings already existing as select option
+    str_detect(str_to_lower(productObserved_otherSpecify),
+               "alcohol|fertiliser|fertilizer|chicken|chicks|cock|gas cylinder|pick axe|axe|coconut oil|battery|milk|motor"
+               ) |  #excluded wood
+     str_to_lower(productObserved_otherSpecify)=="water"
+  ) %>%
+mutate(
+  errorCheck = 'other Specified Error',
+  errorMessage = paste("other specified commodity ='",productObserved_otherSpecify,"', already exists as a select option", sep = '')
+) %>% 
+  select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,commodityObervedDescription,Commodity_id, errorCheck,errorMessage)
+errorChecks <- dplyr::bind_rows(errorChecks, otherSPecifiedError2) #add to the errorData frame file
+rm(otherSPecifiedError2)
+  
 
 errorChecks <- errorChecks %>%
   select(.,interview_key, interview_id, 

@@ -15,10 +15,17 @@ borderPersonStat <- icbt_data %>%
     Outflow_male = sum(ifelse(sex=='Male' & tradeDirection=='Going out (Export)',1,0)),
     Outflow_female = sum(ifelse(sex=='Female' & tradeDirection=='Going out (Export)',1,0)),
     
-    `NetInflow_(x-m)` = Outflow_total - Inflow_total,
-    `Net_male_inflow_(x-m)` = Outflow_male - Inflow_male ,
-    `Net_female_inflow_(x-m)` = Outflow_female - Inflow_female
+    `Netflow(x-m)` = Outflow_total - Inflow_total,
+    `Netflow_male(x-m)` = Outflow_male - Inflow_male ,
+    `Netflow_female(x-m)` = Outflow_female - Inflow_female
   )
+
+# animal <- icbt_data %>%
+#   filter(!is.na(livestockAge)) %>%
+#   filter(productObserved=="Other (specify)") %>%
+#   distinct(productObserved_otherSpecify)
+#   distinct(productObserved)
+
 
 ## trade by month
 tradeByMonth <- icbt_data %>%
@@ -83,98 +90,264 @@ productCatalogue <- read_excel("OfflineReporting/Scripts/productCatalogue.xlsx")
 #     `TradeValue_Import(cx)` = format(sum(ifelse(tradeDirection=='Coming in (Import)',tradeValue,0)), scientific = FALSE) ,
 #   )
 
+# 4 possible currency to select in data
+# Ghana Cedi , CFA , USD & Naira 
 
-
-borderTradeValueSummary <- icbt_data %>% 
+dataValua_Calculation <- icbt_data %>% 
   mutate(
     productObserved=  gsub("colanut", "cola nut", productObserved, ignore.case = TRUE),
   ) %>% left_join(
     productCatalogue , by = c("productObserved"="catalogueProduct" , "unit_of_measure"="catalogue_unit_of_measure"), 
     relationship = "many-to-many"
-  ) %>%
+  ) %>% 
+  # filter(is.na(catalogueWeight)) %>%
+  # filter(borderPostName=='Appolenu') %>%
   mutate(
-    tradeValue = case_when(
+    # across(where(is.numeric), ~replace_na(.x, 0)),
+    
+    `tradeValue_(those in GHS)` = case_when(
       productObserved!='Other (specify)' & unit_of_measure !='Other (specify)' & !is.na(unit_of_measure) ~ commodityQuantity * cataloguePrice ,
       productObserved!='Other (specify)' & unit_of_measure =='Other (specify)' & !is.na(CommodityPrice) ~ commodityQuantity * CommodityPrice, 
-      productObserved=='Other (specify)' ~ commodityQuantity * CommodityPrice,
+      productObserved=='Other (specify)' & purchaseCurrency=='Ghana Cedi' ~ commodityQuantity * CommodityPrice,
       TRUE ~ NA
-    )
-  ) %>%
+    ),
+    `tradeValue_(those in CFA)` = case_when(
+      productObserved=='Other (specify)' & purchaseCurrency=='CFA' ~ commodityQuantity * CommodityPrice,
+      TRUE ~ NA
+    ),
+    `tradeValue_(those in USD)` = case_when(
+      productObserved=='Other (specify)' & purchaseCurrency=='USD' ~ commodityQuantity * CommodityPrice,
+      TRUE ~ NA
+    ),
+    `tradeValue_(those in Naira)` = case_when(
+      productObserved=='Other (specify)' & purchaseCurrency=='Naira' ~ commodityQuantity * CommodityPrice,
+      TRUE ~ NA
+    ),
+    
+    # replace trade volume
+    catalogueWeight = ifelse(is.na(catalogueWeight) & !is.na(commodityWeight_Kg) & !is.na(commodityQuantity),commodityWeight_Kg/commodityQuantity, catalogueWeight ),
+                        # case(
+                        #   is.na(catalogueWeight) & !is.na(commodityWeight_Kg) & !is.na(commodityQuantity) ~ (commodityWeight_Kg/commodityQuantity) ,
+                        #   TRUE ~ catalogueWeight
+                        #   ),
+    # across(where(is.numeric), ~replace_na(.x, 0)),
+    
+  ) #%>%  # filter(is.na(catalogueWeight)) %>%
+
+
+borderTradeValueSummary <- dataValua_Calculation %>%
   group_by(regionCode, RegionName, districtName, borderPostName ) %>%
   summarise(
-    TradeVolume_total = sum(commodityQuantity),
-    `TradeVolume_Import(m)` = sum(ifelse(tradeDirection=='Coming in (Import)',commodityQuantity,0)),
-    `TradeVolume_Export(x)` =  sum(ifelse(tradeDirection=='Going out (Export)',commodityQuantity,0)),
-    `TradeVolume_net(x-m)`= `TradeVolume_Export(x)`  - `TradeVolume_Import(m)`,
+    #Trading Qty 
+    TradeQuantity_total = sum(commodityQuantity,na.rm=TRUE),
+    `TradeQuantity_Import(m)` = sum(ifelse(tradeDirection=='Coming in (Import)',commodityQuantity,0),na.rm=TRUE),
+    `TradeQuantity_Export(x)` =  sum(ifelse(tradeDirection=='Going out (Export)',commodityQuantity,0),na.rm=TRUE),
+    `Net-TradeQuantity(x-m)`= `TradeQuantity_Export(x)`  - `TradeQuantity_Import(m)`,
+    
+    `Count_total_observation_with_tradeVolume_valueProvided` = sum(ifelse(!is.na(catalogueWeight) ,1,0 )),
+    `Count_OtherSpecify_obs_with_TradeVolume_Provided` = sum(ifelse(!is.na(catalogueWeight) & productObserved=='Other (specify)' ,1,0 )),
+    `Count_OtherSpecify_Obs_with_missing_TradeVolume` = sum(ifelse(is.na(catalogueWeight)  ,1,0 )), #& productObserved=='Other (specify)'
+    
+    `TradeVolume(kg)_total` =  round(sum(catalogueWeight,na.rm=TRUE), 4), # sum(ifelse(!is.na(catalogueWeight) ,catalogueWeight,0 )), # sum(catalogueWeight),
+    `TradeVolume(Kg)_Import(m)` = round(sum(ifelse(tradeDirection=='Coming in (Import)',catalogueWeight,0),na.rm=TRUE), 4),
+    `TradeVolume(Kg)_Export(x)` = round( sum(ifelse(tradeDirection=='Going out (Export)',catalogueWeight,0), na.rm=TRUE), 4),
+    `Net-TradeVolume(Kg)(x-m)`= `TradeVolume(Kg)_Export(x)` - `TradeVolume(Kg)_Import(m)` ,
     
     #Trade Qty Volume
-    `TradeVolume_maleTranspondent` = sum(ifelse(sex=='Male',commodityQuantity,0)),
-    `TradeVolume_malesImport` = sum(ifelse(sex=='Male' & tradeDirection=='Coming in (Import)',commodityQuantity,0)),
-    `TradeVolume_malesExport` =  sum(ifelse(sex=='Male' & tradeDirection=='Going out (Export)',commodityQuantity,0)),
+    `TradeVolume(kg)_male_total` = sum(ifelse(sex=='Male',catalogueWeight,0), na.rm=TRUE),
+    `TradeVolume(kg)_male_Import` = sum(ifelse(sex=='Male' & tradeDirection=='Coming in (Import)',catalogueWeight,0) , na.rm=TRUE),
+    `TradeVolume(kg)_male_Export` =  sum(ifelse(sex=='Male' & tradeDirection=='Going out (Export)',catalogueWeight,0), na.rm=TRUE),
     
-    `TradeVolume_femaleTranspondent` = sum(ifelse(sex=='Female',commodityQuantity,0)),
-    `TradeVolume_femalesImport` = sum(ifelse(sex=='Female' & tradeDirection=='Coming in (Import)',commodityQuantity,0)),
-    `TradeVolume_femalesExport` =  sum(ifelse(sex=='Female' & tradeDirection=='Going out (Export)',commodityQuantity,0)),
+    `TradeVolume(kg)_female_total` = sum(ifelse(sex=='Female',catalogueWeight,0) , na.rm=TRUE),
+    `TradeVolume(kg)_female_Import` = sum(ifelse(sex=='Female' & tradeDirection=='Coming in (Import)',catalogueWeight,0) , na.rm=TRUE),
+    `TradeVolume(kg)_female_Export` =  sum(ifelse(sex=='Female' & tradeDirection=='Going out (Export)',catalogueWeight,0) , na.rm=TRUE),
     
-    `TradeVolume_fromCatalogue` = sum(ifelse(productObserved!='Other (specify)',commodityQuantity,0)),
-    TradeVolume_otherSpecified = sum(ifelse(productObserved=='Other (specify)',commodityQuantity,0)),
+    `TradeVolume(kg)_Catalogued` = sum(ifelse(productObserved!='Other (specify)' , catalogueWeight ,0)  , na.rm=TRUE),
     
-    `TradeVolume_ImportCatalogued` = sum(
-      ifelse(tradeDirection=='Coming in (Import)' & productObserved!='Other (specify)',commodityQuantity,0)
+    `TradeVolume(kg)_ImportCatalogued` = sum(
+      ifelse(tradeDirection=='Coming in (Import)' & productObserved!='Other (specify)',catalogueWeight,0)  , na.rm=TRUE 
     ),
-    `TradeVolume_ExportCatalogued` =  sum(ifelse(tradeDirection=='Going out (Export)' & productObserved!='Other (specify)' ,commodityQuantity,0)
+    `TradeVolume(kg)_ExportCatalogued` =  sum(ifelse(tradeDirection=='Going out (Export)' & productObserved!='Other (specify)' ,catalogueWeight,0)  , na.rm=TRUE
     ),
     
-    # Trade Value
-    TradeValue_total = round(sum(tradeValue),2) ,# format(round(  sum(tradeValue),2), scientific = FALSE), 
-    `TradeValue_Import(m)` = round(sum(ifelse(tradeDirection=='Coming in (Import)',tradeValue,0)),2) ,# format(round(sum(ifelse(tradeDirection=='Coming in (Import)',tradeValue,0)),2), scientific = FALSE) ,
-    `TradeValue_Export(x)` = round(sum(ifelse(tradeDirection=='Going out (Export)',tradeValue,0)),2), # format(round(sum(ifelse(tradeDirection=='Going out (Export)',tradeValue,0)),2), scientific = FALSE) ,
-    `TradeBalance(x-m)` = `TradeValue_Export(x)` -  `TradeValue_Import(m)`,
-    TradeValue_maleTranspondent = round(sum(ifelse(sex=='Male',tradeValue,0))  ,2) ,# format(round(sum(ifelse(sex=='Male',tradeValue,0))  ,2), scientific = FALSE), 
-    `TradeValue_maleImport` = round(sum(ifelse(sex=='Male' & tradeDirection=='Coming in (Import)',tradeValue,0)),2), # format(round(sum(ifelse(sex=='Male' & tradeDirection=='Coming in (Import)',tradeValue,0)),2), scientific = FALSE) ,
-    `TradeValue_maleExport` = round(sum(ifelse(sex=='Male' & tradeDirection=='Going out (Export)',tradeValue,0)),2), # format(round(sum(ifelse(sex=='Male' & tradeDirection=='Going out (Export)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeVolume(kg)_otherSpecified` = sum(ifelse(productObserved=='Other (specify)' , catalogueWeight ,0)  , na.rm=TRUE),
     
-    TradeValue_femaleTranspondent = round(sum(ifelse(sex=='Female',tradeValue,0))  ,2), # format(round(sum(ifelse(sex=='Female',tradeValue,0))  ,2), scientific = FALSE), 
-    `TradeValue_femaleImport` = round(sum(ifelse(sex=='Female' & tradeDirection=='Coming in (Import)',tradeValue,0)),2), # format(round(sum(ifelse(sex=='Female' & tradeDirection=='Coming in (Import)',tradeValue,0)),2), scientific = FALSE) ,
-    `TradeValue_femaleExport` = round(sum(ifelse(sex=='Female' & tradeDirection=='Going out (Export)',tradeValue,0)),2), # format(round(sum(ifelse(sex=='Female' & tradeDirection=='Going out (Export)',tradeValue,0)),2), scientific = FALSE) ,
+    # Trade Value GHS CURRENCY
+    `TradeValue_total(GHS_currency)`= round(sum(`tradeValue_(those in GHS)` , na.rm=TRUE),2) ,# format(round(  sum(tradeValue),2), scientific = FALSE), 
     
-    `TradeValue_fromCatalogue` = round(sum(ifelse(productObserved!='Other (specify)',tradeValue,0)),2), # format(round(sum(ifelse(productObserved!='Other (specify)',tradeValue,0)),2), scientific = FALSE) ,
-    `TradeValue_otherSpecified` = round(sum(ifelse(productObserved=='Other (specify)',tradeValue,0)),2), # format(round(sum(ifelse(productObserved=='Other (specify)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeValue_Import(m)(GHS)` = round(sum(ifelse(tradeDirection=='Coming in (Import)',`tradeValue_(those in GHS)`,0) , na.rm=TRUE),2) ,# format(round(sum(ifelse(tradeDirection=='Coming in (Import)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeValue_Export(x)(GHS)` = round(sum(ifelse(tradeDirection=='Going out (Export)',`tradeValue_(those in GHS)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(tradeDirection=='Going out (Export)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeBalance(x-m)(GHS)` =round( `TradeValue_Export(x)(GHS)` - `TradeValue_Import(m)(GHS)`,2) ,
+    #BY gender male
+    `TradeValue_maleTranspondent(GHS)` = round(sum(ifelse(sex=='Male',`tradeValue_(those in GHS)`,0) , na.rm=TRUE)  ,2) ,# format(round(sum(ifelse(sex=='Male',tradeValue,0))  ,2), scientific = FALSE), 
+    `TradeValue_maleImport(GHS)` = round(sum(ifelse(sex=='Male' & tradeDirection=='Coming in (Import)',`tradeValue_(those in GHS)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(sex=='Male' & tradeDirection=='Coming in (Import)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeValue_maleExport(GHS)` = round(sum(ifelse(sex=='Male' & tradeDirection=='Going out (Export)',`tradeValue_(those in GHS)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(sex=='Male' & tradeDirection=='Going out (Export)',tradeValue,0)),2), scientific = FALSE) ,
+    #BY gender Female
+    `TradeValue_femaleTranspondent(GHS)` = round(sum(ifelse(sex=='Female',`tradeValue_(those in GHS)`,0) , na.rm=TRUE)  ,2), # format(round(sum(ifelse(sex=='Female',tradeValue,0))  ,2), scientific = FALSE), 
+    `TradeValue_femaleImport(GHS)` = round(sum(ifelse(sex=='Female' & tradeDirection=='Coming in (Import)',`tradeValue_(those in GHS)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(sex=='Female' & tradeDirection=='Coming in (Import)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeValue_femaleExport(GHS)` = round(sum(ifelse(sex=='Female' & tradeDirection=='Going out (Export)',`tradeValue_(those in GHS)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(sex=='Female' & tradeDirection=='Going out (Export)',tradeValue,0)),2), scientific = FALSE) ,
     
-    `TradeValue_ImportCatalogued` = round( sum( ifelse(tradeDirection=='Coming in (Import)' & productObserved!='Other (specify)',tradeValue,0)),2), # format(round( sum( ifelse(tradeDirection=='Coming in (Import)' & productObserved!='Other (specify)',tradeValue,0)),2), scientific = FALSE) ,
-    `TradeValue_ExportCatalogued` = round(sum(ifelse(tradeDirection=='Going out (Export)' & productObserved!='Other (specify)',tradeValue,0)),2) # format(round(sum(ifelse(tradeDirection=='Going out (Export)' & productObserved!='Other (specify)',tradeValue,0)),2), scientific = FALSE) ,
-  )
+    `TradeValue_from_Catalogue(GHS)` = round(sum(ifelse(productObserved!='Other (specify)',`tradeValue_(those in GHS)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(productObserved!='Other (specify)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeValue_ImportCatalogued(GHS)` = round( sum( ifelse(tradeDirection=='Coming in (Import)' & productObserved!='Other (specify)',`tradeValue_(those in GHS)`,0) , na.rm=TRUE),2), # format(round( sum( ifelse(tradeDirection=='Coming in (Import)' & productObserved!='Other (specify)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeValue_ExportCatalogued(GHS)` = round(sum(ifelse(tradeDirection=='Going out (Export)' & productObserved!='Other (specify)',`tradeValue_(those in GHS)`,0) , na.rm=TRUE),2) , # format(round(sum(ifelse(tradeDirection=='Going out (Export)' & productObserved!='Other (specify)',tradeValue,0)),2), scientific = FALSE) ,
+    
+    `TradeValue_from_OtherSpecified(GHS)` = round(sum(ifelse(productObserved=='Other (specify)',`tradeValue_(those in GHS)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(productObserved=='Other (specify)',tradeValue,0)),2), scientific = FALSE) ,
+    
+    # Trade Value CFA CURRENCY
+    `TradeValue_total(CFA_currency)`= round(sum(`tradeValue_(those in CFA)` , na.rm=TRUE),2) ,# format(round(  sum(tradeValue),2), scientific = FALSE), 
+    
+    `TradeValue_Import(m)(CFA)` = round(sum(ifelse(tradeDirection=='Coming in (Import)',`tradeValue_(those in CFA)`,0) , na.rm=TRUE),2) ,# format(round(sum(ifelse(tradeDirection=='Coming in (Import)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeValue_Export(x)(CFA)` = round(sum(ifelse(tradeDirection=='Going out (Export)',`tradeValue_(those in CFA)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(tradeDirection=='Going out (Export)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeBalance(x-m)(CFA)` =`TradeValue_Export(x)(CFA)` - `TradeValue_Import(m)(CFA)` ,
+    #BY gender male
+    `TradeValue_maleTranspondent(CFA)` = round(sum(ifelse(sex=='Male',`tradeValue_(those in CFA)`,0) , na.rm=TRUE)  ,2) ,# format(round(sum(ifelse(sex=='Male',tradeValue,0))  ,2), scientific = FALSE), 
+    `TradeValue_maleImport(CFA)` = round(sum(ifelse(sex=='Male' & tradeDirection=='Coming in (Import)',`tradeValue_(those in CFA)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(sex=='Male' & tradeDirection=='Coming in (Import)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeValue_maleExport(CFA)` = round(sum(ifelse(sex=='Male' & tradeDirection=='Going out (Export)',`tradeValue_(those in CFA)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(sex=='Male' & tradeDirection=='Going out (Export)',tradeValue,0)),2), scientific = FALSE) ,
+    #BY gender Female
+    `TradeValue_femaleTranspondent(CFA)` = round(sum(ifelse(sex=='Female',`tradeValue_(those in CFA)`,0)  , na.rm=TRUE)  ,2), # format(round(sum(ifelse(sex=='Female',tradeValue,0))  ,2), scientific = FALSE), 
+    `TradeValue_femaleImport(CFA)` = round(sum(ifelse(sex=='Female' & tradeDirection=='Coming in (Import)',`tradeValue_(those in CFA)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(sex=='Female' & tradeDirection=='Coming in (Import)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeValue_femaleExport(CFA)` = round(sum(ifelse(sex=='Female' & tradeDirection=='Going out (Export)',`tradeValue_(those in CFA)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(sex=='Female' & tradeDirection=='Going out (Export)',tradeValue,0)),2), scientific = FALSE) ,
+    
+    `TradeValue_from_Catalogue(CFA)` = round(sum(ifelse(productObserved!='Other (specify)',`tradeValue_(those in CFA)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(productObserved!='Other (specify)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeValue_ImportCatalogued(CFA)` = round( sum( ifelse(tradeDirection=='Coming in (Import)' & productObserved!='Other (specify)',`tradeValue_(those in CFA)`,0) , na.rm=TRUE),2), # format(round( sum( ifelse(tradeDirection=='Coming in (Import)' & productObserved!='Other (specify)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeValue_ExportCatalogued(CFA)` = round(sum(ifelse(tradeDirection=='Going out (Export)' & productObserved!='Other (specify)',`tradeValue_(those in CFA)`,0) , na.rm=TRUE),2) , # format(round(sum(ifelse(tradeDirection=='Going out (Export)' & productObserved!='Other (specify)',tradeValue,0)),2), scientific = FALSE) ,
+    
+    `TradeValue_from_OtherSpecified(CFA)` = round(sum(ifelse(productObserved=='Other (specify)',`tradeValue_(those in CFA)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(productObserved=='Other (specify)',tradeValue,0)),2), scientific = FALSE) ,
+    
+    # Trade Value USD CURRENCY
+    `TradeValue_total(USD_currency)`= round(sum(`tradeValue_(those in USD)` , na.rm=TRUE),2) ,# format(round(  sum(tradeValue),2), scientific = FALSE), 
+    
+    `TradeValue_Import(m)(USD)` = round(sum(ifelse(tradeDirection=='Coming in (Import)',`tradeValue_(those in USD)`,0) , na.rm=TRUE),2) ,# format(round(sum(ifelse(tradeDirection=='Coming in (Import)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeValue_Export(x)(USD)` = round(sum(ifelse(tradeDirection=='Going out (Export)',`tradeValue_(those in USD)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(tradeDirection=='Going out (Export)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeBalance(x-m)(USD)` =`TradeValue_Export(x)(USD)` - `TradeValue_Import(m)(USD)` ,
+    #BY gender male
+    `TradeValue_maleTranspondent(USD)` = round(sum(ifelse(sex=='Male',`tradeValue_(those in USD)`,0) , na.rm=TRUE)  ,2) ,# format(round(sum(ifelse(sex=='Male',tradeValue,0))  ,2), scientific = FALSE), 
+    `TradeValue_maleImport(USD)` = round(sum(ifelse(sex=='Male' & tradeDirection=='Coming in (Import)',`tradeValue_(those in USD)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(sex=='Male' & tradeDirection=='Coming in (Import)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeValue_maleExport(USD)` = round(sum(ifelse(sex=='Male' & tradeDirection=='Going out (Export)',`tradeValue_(those in USD)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(sex=='Male' & tradeDirection=='Going out (Export)',tradeValue,0)),2), scientific = FALSE) ,
+    #BY gender Female
+    `TradeValue_femaleTranspondent(USD)` = round(sum(ifelse(sex=='Female',`tradeValue_(those in USD)`,0) , na.rm=TRUE)  ,2), # format(round(sum(ifelse(sex=='Female',tradeValue,0))  ,2), scientific = FALSE), 
+    `TradeValue_femaleImport(USD)` = round(sum(ifelse(sex=='Female' & tradeDirection=='Coming in (Import)',`tradeValue_(those in USD)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(sex=='Female' & tradeDirection=='Coming in (Import)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeValue_femaleExport(USD)` = round(sum(ifelse(sex=='Female' & tradeDirection=='Going out (Export)',`tradeValue_(those in USD)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(sex=='Female' & tradeDirection=='Going out (Export)',tradeValue,0)),2), scientific = FALSE) ,
+    
+    `TradeValue_from_Catalogue(USD)` = round(sum(ifelse(productObserved!='Other (specify)',`tradeValue_(those in USD)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(productObserved!='Other (specify)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeValue_ImportCatalogued(USD)` = round( sum( ifelse(tradeDirection=='Coming in (Import)' & productObserved!='Other (specify)',`tradeValue_(those in USD)`,0) , na.rm=TRUE),2), # format(round( sum( ifelse(tradeDirection=='Coming in (Import)' & productObserved!='Other (specify)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeValue_ExportCatalogued(USD)` = round(sum(ifelse(tradeDirection=='Going out (Export)' & productObserved!='Other (specify)',`tradeValue_(those in USD)`,0) , na.rm=TRUE),2) , # format(round(sum(ifelse(tradeDirection=='Going out (Export)' & productObserved!='Other (specify)',tradeValue,0)),2), scientific = FALSE) ,
+    
+    `TradeValue_from_OtherSpecified(USD)` = round(sum(ifelse(productObserved=='Other (specify)',`tradeValue_(those in USD)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(productObserved=='Other (specify)',tradeValue,0)),2), scientific = FALSE) ,
+    
+    # Trade Value Naira CURRENCY
+    `TradeValue_total(Naira_currency)` = round(sum(`tradeValue_(those in Naira)` , na.rm=TRUE),2) ,# format(round(  sum(tradeValue),2), scientific = FALSE), 
+    
+    `TradeValue_Import(m)(Naira)` = round(sum(ifelse(tradeDirection=='Coming in (Import)',`tradeValue_(those in Naira)`,0) , na.rm=TRUE),2) ,# format(round(sum(ifelse(tradeDirection=='Coming in (Import)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeValue_Export(x)(Naira)` = round(sum(ifelse(tradeDirection=='Going out (Export)',`tradeValue_(those in Naira)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(tradeDirection=='Going out (Export)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeBalance(x-m)(Naira)` =`TradeValue_Export(x)(Naira)` - `TradeValue_Import(m)(Naira)` ,
+    #BY gender male
+    `TradeValue_maleTranspondent(Naira)` = round(sum(ifelse(sex=='Male',`tradeValue_(those in Naira)`,0))  ,2) ,# format(round(sum(ifelse(sex=='Male',tradeValue,0))  ,2), scientific = FALSE), 
+    `TradeValue_maleImport(Naira)` = round(sum(ifelse(sex=='Male' & tradeDirection=='Coming in (Import)',`tradeValue_(those in Naira)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(sex=='Male' & tradeDirection=='Coming in (Import)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeValue_maleExport(Naira)` = round(sum(ifelse(sex=='Male' & tradeDirection=='Going out (Export)',`tradeValue_(those in Naira)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(sex=='Male' & tradeDirection=='Going out (Export)',tradeValue,0)),2), scientific = FALSE) ,
+    #BY gender Female
+    `TradeValue_femaleTranspondent(Naira)` = round(sum(ifelse(sex=='Female',`tradeValue_(those in Naira)`,0) , na.rm=TRUE)  ,2), # format(round(sum(ifelse(sex=='Female',tradeValue,0))  ,2), scientific = FALSE), 
+    `TradeValue_femaleImport(Naira)` = round(sum(ifelse(sex=='Female' & tradeDirection=='Coming in (Import)',`tradeValue_(those in Naira)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(sex=='Female' & tradeDirection=='Coming in (Import)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeValue_femaleExport(Naira)` = round(sum(ifelse(sex=='Female' & tradeDirection=='Going out (Export)',`tradeValue_(those in Naira)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(sex=='Female' & tradeDirection=='Going out (Export)',tradeValue,0)),2), scientific = FALSE) ,
+    
+    `TradeValue_from_Catalogue(Naira)` = round(sum(ifelse(productObserved!='Other (specify)',`tradeValue_(those in Naira)`,0)  , na.rm=TRUE),2), # format(round(sum(ifelse(productObserved!='Other (specify)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeValue_ImportCatalogued(Naira)` = round( sum( ifelse(tradeDirection=='Coming in (Import)' & productObserved!='Other (specify)',`tradeValue_(those in Naira)`,0) , na.rm=TRUE),2), # format(round( sum( ifelse(tradeDirection=='Coming in (Import)' & productObserved!='Other (specify)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeValue_ExportCatalogued(Naira)` = round(sum(ifelse(tradeDirection=='Going out (Export)' & productObserved!='Other (specify)',`tradeValue_(those in Naira)`,0) , na.rm=TRUE),2) , # format(round(sum(ifelse(tradeDirection=='Going out (Export)' & productObserved!='Other (specify)',tradeValue,0)),2), scientific = FALSE) ,
+    
+    `TradeValue_from_OtherSpecified(Naira)` = round(sum(ifelse(productObserved=='Other (specify)',`tradeValue_(those in Naira)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(productObserved=='Other (specify)',tradeValue,0)),2), scientific = FALSE) ,
+    
+    #ANIMALS
+    totalAnimalCrossingFrequency = sum(ifelse(!is.na(livestockAge), 1,0), na.rm = T),
+    
+    totalAnimalCrossingInwardFrequency = sum(ifelse(!is.na(livestockAge) & tradeDirection=='Coming in (Import)', 1,0), na.rm = T),
+    totalAnimalCrossingOutwardFrequency =  sum(ifelse(!is.na(livestockAge) & tradeDirection=='Going out (Export)', 1,0), na.rm = T),
+    `net-totalAnimalCrossingInwardFrequency` = totalAnimalCrossingOutwardFrequency - totalAnimalCrossingInwardFrequency, 
+    
+    totalAnimalCrossingCount = sum(ifelse(!is.na(livestockAge), commodityQuantity,0), na.rm = T),
+    totalAnimalCrossingInwardCount = sum(ifelse(!is.na(livestockAge) & tradeDirection=='Coming in (Import)', commodityQuantity,0), na.rm = T),
+    totalAnimalCrossingOutwardCount =  sum(ifelse(!is.na(livestockAge) & tradeDirection=='Going out (Export)', commodityQuantity,0), na.rm = T),
+    `net-totalAnimalCrossingCount` = totalAnimalCrossingOutwardCount - totalAnimalCrossingInwardCount ,
+    
+    #Currency GHS
+    totalAnimalCrossingValue_GHS = round(sum(ifelse(!is.na(livestockAge), `tradeValue_(those in GHS)`,0), na.rm = T) ,2),
+   `AnimalCrossingInward(x)_Value_GHS` = round(sum(ifelse(!is.na(livestockAge) & tradeDirection=='Coming in (Import)', `tradeValue_(those in GHS)`,0), na.rm = T), 2),
+   `AnimalCrossingOutward(x)_Value_GHS` = round(sum(ifelse(!is.na(livestockAge) & tradeDirection=='Going out (Export)', `tradeValue_(those in GHS)`,0), na.rm = T) ,2),
+   `net-AnimalCrossing_Value_GHS(x-m)` =  `AnimalCrossingOutward(x)_Value_GHS` -  `AnimalCrossingInward(x)_Value_GHS`,
+   
+    #Currency CFA
+   totalAnimalCrossingValue_CFA = round(sum(ifelse(!is.na(livestockAge), `tradeValue_(those in CFA)`,0), na.rm = T) ,2),
+   `AnimalCrossingInward(x)_Value_CFA` = round(sum(ifelse(!is.na(livestockAge) & tradeDirection=='Coming in (Import)', `tradeValue_(those in CFA)`,0), na.rm = T), 2),
+   `AnimalCrossingOutward(x)_Value_CFA` = round(sum(ifelse(!is.na(livestockAge) & tradeDirection=='Going out (Export)', `tradeValue_(those in CFA)`,0), na.rm = T) ,2),
+   `net-AnimalCrossing_Value_CFA(x-m)` =  `AnimalCrossingOutward(x)_Value_CFA` -  `AnimalCrossingInward(x)_Value_CFA`,
+   
+    #Currency USD
+   totalAnimalCrossingValue_USD = round(sum(ifelse(!is.na(livestockAge), `tradeValue_(those in USD)`,0), na.rm = T) ,2),
+   `AnimalCrossingInward(x)_Value_USD` = round(sum(ifelse(!is.na(livestockAge) & tradeDirection=='Coming in (Import)', `tradeValue_(those in USD)`,0), na.rm = T), 2),
+   `AnimalCrossingOutward(x)_Value_USD` = round(sum(ifelse(!is.na(livestockAge) & tradeDirection=='Going out (Export)', `tradeValue_(those in USD)`,0), na.rm = T) ,2),
+   `net-AnimalCrossing_Value_USD(x-m)` =  `AnimalCrossingOutward(x)_Value_USD` -  `AnimalCrossingInward(x)_Value_USD`,
+   
+   totalAnimalCrossingValue_Naira = round(sum(ifelse(!is.na(livestockAge), `tradeValue_(those in Naira)`,0), na.rm = T) ,2),
+   `AnimalCrossingInward(x)_Value_Naira` = round(sum(ifelse(!is.na(livestockAge) & tradeDirection=='Coming in (Import)', `tradeValue_(those in Naira)`,0), na.rm = T), 2),
+   `AnimalCrossingOutward(x)_Value_Naira` = round(sum(ifelse(!is.na(livestockAge) & tradeDirection=='Going out (Export)', `tradeValue_(those in Naira)`,0), na.rm = T) ,2),
+   `net-AnimalCrossing_Value_Naira(x-m)` =  `AnimalCrossingOutward(x)_Value_Naira` -  `AnimalCrossingInward(x)_Value_Naira`,
+   
+  ) %>% ungroup()
 
 
-borderCommodityDetailValueSummary <- icbt_data %>% 
-  mutate(
-    productObserved=  gsub("colanut", "cola nut", productObserved, ignore.case = TRUE),
-  ) %>% left_join(
-    productCatalogue , by = c("productObserved"="catalogueProduct" , "unit_of_measure"="catalogue_unit_of_measure"), 
-    relationship = "many-to-many"
-  ) %>%
-  mutate(
-    tradeValue = case_when(
-                    productObserved!='Other (specify)' & unit_of_measure !='Other (specify)' & !is.na(unit_of_measure) ~ commodityQuantity * cataloguePrice ,
-                    productObserved!='Other (specify)' & unit_of_measure =='Other (specify)' & !is.na(CommodityPrice) ~ commodityQuantity * CommodityPrice, 
-                    productObserved=='Other (specify)' ~ commodityQuantity * CommodityPrice,
-                    TRUE ~ NA
-                  )
-  ) %>%
+borderCommodityDetailValueSummary <- dataValua_Calculation %>% ungroup() %>%
   group_by(regionCode, RegionName, districtName, borderPostName,productObserved ) %>%
   summarise(
   distinct_unit_of_measures = n_distinct(unit_of_measure),
   totalTradeFrequency = n(),
-  totalTradeQuantity =  sum(commodityQuantity),
-  totalTradeValue = round(sum(tradeValue)  ,2),
+
+  TradeQuantity_total = sum(commodityQuantity,na.rm=TRUE),
+  `TradeQuantity_Import(m)` = sum(ifelse(tradeDirection=='Coming in (Import)',commodityQuantity,0),na.rm=TRUE),
+  `TradeQuantity_Export(x)` =  sum(ifelse(tradeDirection=='Going out (Export)',commodityQuantity,0),na.rm=TRUE),
+  `Net-TradeQuantity(x-m)`= `TradeQuantity_Export(x)`  - `TradeQuantity_Import(m)`,
   
-  maleTradeFrequency = sum(ifelse(sex=='Male',1,0)),,
-  maleTradeQuantity =  sum(ifelse(sex=='Male',commodityQuantity,0)),
-  maleTradeValue =round(  sum(ifelse(sex=='Male',tradeValue,0))  ,2), 
+
+  `TradeVolume(kg)_total` =  round(sum(catalogueWeight,na.rm=TRUE),4), # sum(ifelse(!is.na(catalogueWeight) ,catalogueWeight,0 )), # sum(catalogueWeight),
+  `TradeVolume(Kg)_Import(m)` = round(sum(ifelse(tradeDirection=='Coming in (Import)',catalogueWeight,0),na.rm=TRUE) , 4),
+  `TradeVolume(Kg)_Export(x)` = round( sum(ifelse(tradeDirection=='Going out (Export)',catalogueWeight,0), na.rm=TRUE) , 4),
+  `Net-TradeVolume(Kg)(x-m)`= `TradeVolume(Kg)_Export(x)` - `TradeVolume(Kg)_Import(m)` ,
   
-  femaleTradeFrequency = sum(ifelse(sex=='Female',1,0)),,
-  femaleTradeQuantity =  sum(ifelse(sex=='Female',commodityQuantity,0)),
-  femaleTradeValue = round(sum(ifelse(sex=='Female',tradeValue,0)) ,2), 
+  # Trade Value GHS CURRENCY
+  `TradeValue_total(GHS_currency)`= round(sum(`tradeValue_(those in GHS)` , na.rm=TRUE),2) ,# format(round(  sum(tradeValue),2), scientific = FALSE), 
+  
+  `TradeValue_Import(m)(GHS)` = round(sum(ifelse(tradeDirection=='Coming in (Import)',`tradeValue_(those in GHS)`,0) , na.rm=TRUE),2) ,# format(round(sum(ifelse(tradeDirection=='Coming in (Import)',tradeValue,0)),2), scientific = FALSE) ,
+  `TradeValue_Export(x)(GHS)` = round(sum(ifelse(tradeDirection=='Going out (Export)',`tradeValue_(those in GHS)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(tradeDirection=='Going out (Export)',tradeValue,0)),2), scientific = FALSE) ,
+  `TradeBalance(x-m)(GHS)` =round( `TradeValue_Export(x)(GHS)` - `TradeValue_Import(m)(GHS)`,2) ,
+  
+  # Trade Value CFA CURRENCY
+  `TradeValue_total(CFA_currency)`= round(sum(`tradeValue_(those in CFA)` , na.rm=TRUE),2) ,# format(round(  sum(tradeValue),2), scientific = FALSE), 
+  
+  `TradeValue_Import(m)(CFA)` = round(sum(ifelse(tradeDirection=='Coming in (Import)',`tradeValue_(those in CFA)`,0) , na.rm=TRUE),2) ,# format(round(sum(ifelse(tradeDirection=='Coming in (Import)',tradeValue,0)),2), scientific = FALSE) ,
+  `TradeValue_Export(x)(CFA)` = round(sum(ifelse(tradeDirection=='Going out (Export)',`tradeValue_(those in CFA)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(tradeDirection=='Going out (Export)',tradeValue,0)),2), scientific = FALSE) ,
+  `TradeBalance(x-m)(CFA)` =`TradeValue_Export(x)(CFA)` - `TradeValue_Import(m)(CFA)` ,
+  
+  # Trade Value USD CURRENCY
+  `TradeValue_total(USD_currency)`= round(sum(`tradeValue_(those in USD)` , na.rm=TRUE),2) ,# format(round(  sum(tradeValue),2), scientific = FALSE), 
+  
+  `TradeValue_Import(m)(USD)` = round(sum(ifelse(tradeDirection=='Coming in (Import)',`tradeValue_(those in USD)`,0) , na.rm=TRUE),2) ,# format(round(sum(ifelse(tradeDirection=='Coming in (Import)',tradeValue,0)),2), scientific = FALSE) ,
+  `TradeValue_Export(x)(USD)` = round(sum(ifelse(tradeDirection=='Going out (Export)',`tradeValue_(those in USD)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(tradeDirection=='Going out (Export)',tradeValue,0)),2), scientific = FALSE) ,
+  `TradeBalance(x-m)(USD)` =`TradeValue_Export(x)(USD)` - `TradeValue_Import(m)(USD)` ,
+  
+  
+  # Trade Value Naira CURRENCY
+  `TradeValue_total(Naira_currency)`= round(sum(`tradeValue_(those in Naira)` , na.rm=TRUE),2) ,# format(round(  sum(tradeValue),2), scientific = FALSE), 
+  
+  `TradeValue_Import(m)(Naira)` = round(sum(ifelse(tradeDirection=='Coming in (Import)',`tradeValue_(those in Naira)`,0) , na.rm=TRUE),2) ,# format(round(sum(ifelse(tradeDirection=='Coming in (Import)',tradeValue,0)),2), scientific = FALSE) ,
+  `TradeValue_Export(x)(Naira)` = round(sum(ifelse(tradeDirection=='Going out (Export)',`tradeValue_(those in Naira)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(tradeDirection=='Going out (Export)',tradeValue,0)),2), scientific = FALSE) ,
+  `TradeBalance(x-m)(Naira)` =`TradeValue_Export(x)(Naira)` - `TradeValue_Import(m)(Naira)` ,
+  
+  
+  # maleTradeFrequency = sum(ifelse(sex=='Male',1,0)),,
+  # maleTradeQuantity =  sum(ifelse(sex=='Male',commodityQuantity,0)),
+  # maleTradeValue =round(  sum(ifelse(sex=='Male',tradeValue,0))  ,2), 
+  # 
+  # femaleTradeFrequency = sum(ifelse(sex=='Female',1,0)),,
+  # femaleTradeQuantity =  sum(ifelse(sex=='Female',commodityQuantity,0)),
+  # femaleTradeValue = round(sum(ifelse(sex=='Female',tradeValue,0)) ,2), 
   ) %>% 
   arrange(
     RegionName,districtName,productObserved
@@ -182,46 +355,76 @@ borderCommodityDetailValueSummary <- icbt_data %>%
 
 
 
-borderCommodityGeneralValueSummary <- icbt_data %>% 
+borderCommodityGeneralValueSummary <- dataValua_Calculation %>% 
   mutate(
-    productObserved=  gsub("colanut", "cola nut", productObserved, ignore.case = TRUE),
-  ) %>% left_join(
-    productCatalogue , by = c("productObserved"="catalogueProduct" , "unit_of_measure"="catalogue_unit_of_measure"), 
-    relationship = "many-to-many"
-  ) %>%
-  mutate(
-    tradeValue = case_when(
-      productObserved!='Other (specify)' & unit_of_measure !='Other (specify)' & !is.na(unit_of_measure) ~ commodityQuantity * cataloguePrice ,
-      productObserved!='Other (specify)' & unit_of_measure =='Other (specify)' & !is.na(CommodityPrice) ~ commodityQuantity * CommodityPrice, 
-      productObserved=='Other (specify)' ~ commodityQuantity * CommodityPrice,
-      TRUE ~ NA
-    ),
-    #generalise the products
-    productObserved =  gsub("\\s*\\([^\\)]+\\)", "", productObserved),
-    productObserved= gsub("[^[:alpha:][:space:]]","",productObserved),
-    productObserved= str_squish(trim(trimws(productObserved))),
-    productObserved = case_when(
-      productObserved =="empty gallon L" ~ "empty gallon",
-      productObserved =="barrels L" ~ "barrels",
-      str_detect(productObserved,"fowl") ~ "fowl, cock, hen",
-      TRUE ~ productObserved
-    ),
-     
-  ) %>%
+        #generalise the products
+        productObserved =  gsub("\\s*\\([^\\)]+\\)", "", productObserved),
+        productObserved= gsub("[^[:alpha:][:space:]]","",productObserved),
+        productObserved= str_squish(trim(trimws(productObserved))),
+        productObserved = case_when(
+          productObserved =="empty gallon L" ~ "empty gallon",
+          productObserved =="barrels L" ~ "barrels",
+          str_detect(productObserved,"fowl") ~ "fowl, cock, hen",
+          TRUE ~ productObserved
+        ),
+      ) %>%
   group_by(regionCode, RegionName, districtName, borderPostName,productObserved ) %>%
   summarise(
     distinct_unit_of_measures = n_distinct(unit_of_measure),
     totalTradeFrequency = n(),
-    totalTradeQuantity =  sum(commodityQuantity),
-    totalTradeValue = round(sum(tradeValue)  ,2),
+    # totalTradeQuantity =  sum(commodityQuantity),
+    # totalTradeValue = round(sum(tradeValue)  ,2),
+    # 
+    # maleTradeFrequency = sum(ifelse(sex=='Male',1,0)),,
+    # maleTradeQuantity =  sum(ifelse(sex=='Male',commodityQuantity,0)),
+    # maleTradeValue =round(  sum(ifelse(sex=='Male',tradeValue,0))  ,2), 
+    # 
+    # femaleTradeFrequency = sum(ifelse(sex=='Female',1,0)),,
+    # femaleTradeQuantity =  sum(ifelse(sex=='Female',commodityQuantity,0)),
+    # femaleTradeValue = round(sum(ifelse(sex=='Female',tradeValue,0)) ,2), 
     
-    maleTradeFrequency = sum(ifelse(sex=='Male',1,0)),,
-    maleTradeQuantity =  sum(ifelse(sex=='Male',commodityQuantity,0)),
-    maleTradeValue =round(  sum(ifelse(sex=='Male',tradeValue,0))  ,2), 
     
-    femaleTradeFrequency = sum(ifelse(sex=='Female',1,0)),,
-    femaleTradeQuantity =  sum(ifelse(sex=='Female',commodityQuantity,0)),
-    femaleTradeValue = round(sum(ifelse(sex=='Female',tradeValue,0)) ,2), 
+    TradeQuantity_total = sum(commodityQuantity,na.rm=TRUE),
+    `TradeQuantity_Import(m)` = sum(ifelse(tradeDirection=='Coming in (Import)',commodityQuantity,0),na.rm=TRUE),
+    `TradeQuantity_Export(x)` =  sum(ifelse(tradeDirection=='Going out (Export)',commodityQuantity,0),na.rm=TRUE),
+    `Net-TradeQuantity(x-m)`= `TradeQuantity_Export(x)`  - `TradeQuantity_Import(m)`,
+    
+    
+    `TradeVolume(kg)_total` =  round(sum(catalogueWeight,na.rm=TRUE),4), # sum(ifelse(!is.na(catalogueWeight) ,catalogueWeight,0 )), # sum(catalogueWeight),
+    `TradeVolume(Kg)_Import(m)` = round(sum(ifelse(tradeDirection=='Coming in (Import)',catalogueWeight,0),na.rm=TRUE) , 4),
+    `TradeVolume(Kg)_Export(x)` = round( sum(ifelse(tradeDirection=='Going out (Export)',catalogueWeight,0), na.rm=TRUE) , 4),
+    `Net-TradeVolume(Kg)(x-m)`= `TradeVolume(Kg)_Export(x)` - `TradeVolume(Kg)_Import(m)` ,
+    
+    # Trade Value GHS CURRENCY
+    `TradeValue_total(GHS_currency)`= round(sum(`tradeValue_(those in GHS)` , na.rm=TRUE),2) ,# format(round(  sum(tradeValue),2), scientific = FALSE), 
+    
+    `TradeValue_Import(m)(GHS)` = round(sum(ifelse(tradeDirection=='Coming in (Import)',`tradeValue_(those in GHS)`,0) , na.rm=TRUE),2) ,# format(round(sum(ifelse(tradeDirection=='Coming in (Import)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeValue_Export(x)(GHS)` = round(sum(ifelse(tradeDirection=='Going out (Export)',`tradeValue_(those in GHS)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(tradeDirection=='Going out (Export)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeBalance(x-m)(GHS)` =round( `TradeValue_Export(x)(GHS)` - `TradeValue_Import(m)(GHS)`,2) ,
+    
+    # Trade Value CFA CURRENCY
+    `TradeValue_total(CFA_currency)`= round(sum(`tradeValue_(those in CFA)` , na.rm=TRUE),2) ,# format(round(  sum(tradeValue),2), scientific = FALSE), 
+    
+    `TradeValue_Import(m)(CFA)` = round(sum(ifelse(tradeDirection=='Coming in (Import)',`tradeValue_(those in CFA)`,0) , na.rm=TRUE),2) ,# format(round(sum(ifelse(tradeDirection=='Coming in (Import)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeValue_Export(x)(CFA)` = round(sum(ifelse(tradeDirection=='Going out (Export)',`tradeValue_(those in CFA)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(tradeDirection=='Going out (Export)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeBalance(x-m)(CFA)` =`TradeValue_Export(x)(CFA)` - `TradeValue_Import(m)(CFA)` ,
+    
+    # Trade Value USD CURRENCY
+    `TradeValue_total(USD_currency)`= round(sum(`tradeValue_(those in USD)` , na.rm=TRUE),2) ,# format(round(  sum(tradeValue),2), scientific = FALSE), 
+    
+    `TradeValue_Import(m)(USD)` = round(sum(ifelse(tradeDirection=='Coming in (Import)',`tradeValue_(those in USD)`,0) , na.rm=TRUE),2) ,# format(round(sum(ifelse(tradeDirection=='Coming in (Import)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeValue_Export(x)(USD)` = round(sum(ifelse(tradeDirection=='Going out (Export)',`tradeValue_(those in USD)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(tradeDirection=='Going out (Export)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeBalance(x-m)(USD)` =`TradeValue_Export(x)(USD)` - `TradeValue_Import(m)(USD)` ,
+    
+    
+    # Trade Value Naira CURRENCY
+    `TradeValue_total(Naira_currency)`= round(sum(`tradeValue_(those in Naira)` , na.rm=TRUE),2) ,# format(round(  sum(tradeValue),2), scientific = FALSE), 
+    
+    `TradeValue_Import(m)(Naira)` = round(sum(ifelse(tradeDirection=='Coming in (Import)',`tradeValue_(those in Naira)`,0) , na.rm=TRUE),2) ,# format(round(sum(ifelse(tradeDirection=='Coming in (Import)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeValue_Export(x)(Naira)` = round(sum(ifelse(tradeDirection=='Going out (Export)',`tradeValue_(those in Naira)`,0) , na.rm=TRUE),2), # format(round(sum(ifelse(tradeDirection=='Going out (Export)',tradeValue,0)),2), scientific = FALSE) ,
+    `TradeBalance(x-m)(Naira)` =`TradeValue_Export(x)(Naira)` - `TradeValue_Import(m)(Naira)` ,
+    
+    
   ) %>% 
   arrange(
     RegionName,districtName,productObserved
