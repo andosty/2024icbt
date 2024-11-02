@@ -11,8 +11,40 @@
 #   qnr_version= 2  # This should be an integer, not a string
 # )
 # 
+setwd("C:/2024ICBT/")
 
-all_users <- get_interviewers()
+#load packages
+library(dplyr)
+
+library(lubridate)
+library(stringi)
+library(stringr)
+library(susoapi)
+library(susoflows)
+library(tidyr)
+library(tidytext)
+library(tidyverse)
+library(haven)
+library(readxl)
+library(gdata)
+sqlSvr <- readRDS("server/credentials/icbt_svr.rds") 
+
+# server authentication:
+set_credentials(
+  server = sqlSvr$server, workspace = sqlSvr$workspace, 
+  user =sqlSvr$usr, password = sqlSvr$pswd
+)
+
+# get the serve various case versions
+server_qnr <- susoapi::get_questionnaires() %>% 
+  filter(title == "ICBT FIELD WORK") %>%
+  distinct(title, .keep_all = T)
+
+intvwr_status<- get_interview_stats(
+  "da115dde4e47417fa8e5d95075f8b171"
+)
+
+new_users <- get_interviewers()
 
 get_interviews(
   nodes = c("id", "key", "assignmentId", "identifyingData", "questionnaireId",
@@ -27,3 +59,82 @@ get_interviews(
 )
 
 saveRDS(all_users, "server/users.RDS")
+
+##to mannually rejet the errors
+
+CaseReject <- icbt_dataset()[['icbt_error_dataset']] %>%
+  filter(!is.na(responsibleId)) %>%
+  # filter(enumerator_name == "Ibrahim Bukari") %>%
+  arrange(regionCode, districtCode, borderPostName,interview_key, interview_id)%>%
+  group_by( regionCode ,interview_key,responsibleId,interview_id) %>%
+  # group_by(interview_key,responsibleId,interview_id) %>%
+  distinct(errorCheck) %>%
+  summarize(errorMessage = str_c(errorCheck, collapse = " ; ")) %>%
+  ungroup()
+
+#server cred login
+
+sqlSvr <- readRDS("server/credentials/icbt_svr.rds")
+set_credentials(
+  server = sqlSvr$server, workspace = sqlSvr$workspace, 
+  user =sqlSvr$usr, password = sqlSvr$pswd
+)
+server_qnr <- susoapi::get_questionnaires() %>% 
+  filter(title == "ICBT MAIN-Field Practice") %>%
+  # filter(title == sqlSvr$title) %>%
+  # dplyr::pull(questionnaireId)
+  # filter(version==max(version))
+  filter(version==1)
+
+server_qnr_id <- server_qnr %>%
+  # filter(version==6) %>%
+  dplyr::pull(id)
+
+
+
+##send cases back
+CaseReject <- readRDS('C:/2024ICBT/Data_final/error_data.RDS') %>%
+  mutate(
+    enumerator_name = str_squish(trimws(trim(str_to_lower(enumerator_name))))
+  )
+
+# try Enumerator sandow wansuba jacob
+UsersCheck <- new_users %>% mutate(
+  FullName = str_squish(trimws(trim(str_to_lower(FullName))))
+)
+
+testResjectEnumCase <- CaseReject %>%
+  filter(str_detect(str_to_lower(enumerator_name), "sandow wansuba"))
+
+testIntervierviwer <- UsersCheck  %>%
+  filter(str_to_lower(UserName)=='f15092')
+  # filter(str_detect(str_to_lower(FullName), "sandow wansuba"))
+
+for (i in 1:nrow(CaseReject)  ) {
+  row <- CaseReject[i,]  #filter that row
+  # print(row$interview_key)
+  #send the case back as rejected
+  #Rejecting a case as hq
+  
+  # print(row$interview_id)
+  # print(row$responsibleId)
+  
+  # get_interview_stats(
+  #   interview_id=row$interview_id
+  # )
+  
+  # reject_interview_as_hq(
+  #     interview_id=row$interview_id,
+  #     comment = "",
+  #     responsible_id = row$responsibleId,
+  #     # verbose = TRUE
+  #   )
+  
+  rejections<- reject_interview_as_hq(
+    interview_id=row$interview_id,
+    comment = row$errorMessage,
+    responsible_id = row$responsibleId,
+    verbose = TRUE
+  )
+}
+

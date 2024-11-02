@@ -750,6 +750,7 @@ server <- function(input, output, session) {
     if(nrow(icbt_dataset()[['icbt_error_dataset']])>0)   { 
       CaseReject <- icbt_dataset()[['icbt_error_dataset']] %>%
         filter(!is.na(responsibleId)) %>%
+        # filter(enumerator_name == "Ibrahim Bukari") %>%
         arrange(regionCode, districtCode, borderPostName,interview_key, interview_id)%>%
         group_by( regionCode ,interview_key,responsibleId,interview_id) %>%
         # group_by(interview_key,responsibleId,interview_id) %>%
@@ -781,12 +782,30 @@ server <- function(input, output, session) {
         # print(row$interview_key)
         #send the case back as rejected
         #Rejecting a case as hq
+        
+        # print(row$interview_id)
+        # print(row$responsibleId)
+        
+        # get_interview_stats(
+        #   interview_id=row$interview_id
+        # )
+      
+      # reject_interview_as_hq(
+      #     interview_id=row$interview_id,
+      #     comment = "",
+      #     responsible_id = row$responsibleId,
+      #     # verbose = TRUE
+      #   )
+        
         rejections<- reject_interview_as_hq(
           interview_id=row$interview_id,
           comment = row$errorMessage,
           responsible_id = row$responsibleId,
-          verbose = FALSE
-        ) }
+          verbose = TRUE
+        )
+        }
+      
+  
       
       shinyalert(title = "Error Cases Rejected Succesfullly!", type = "success")
       

@@ -371,64 +371,206 @@ rm(transportOptions)
 
 
 #described commodity and the selected product Error
+# wrongSelectedProductDescription <-  downloaded_icbt_data %>%
+#   filter( str_to_lower(productObserved) !='other (specify)' ) %>% 
+#   mutate(
+#     productObserved = case_when( productObserved=="lining (linen)" ~  "lining",
+#                                 TRUE ~  productObserved
+#                          ),
+#     productObserved = str_to_lower(productObserved),
+#     commodityObervedDescription = str_squish(trim(trimws(str_to_lower(commodityObervedDescription)))),
+#     # productObserved = str_squish(trim(trimws(gsub("\\s*\\([^\\)]+\\)", "",singularize(productObserved) ))))
+#   ) %>%
+#   select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id,commodityObervedDescription, productObserved) %>%
+#   mutate(productObserved0= productObserved) %>%
+#   cSplit(splitCols="productObserved", sep = " ") %>% #drop =F
+#   gather(varDescription, val, 
+#          -c(interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id,commodityObervedDescription,productObserved0
+#          ), 
+#          na.rm = T) %>%
+#   filter(str_length(val)>2 ) %>%  #remove two words or 1 word such as a, to , of , in, etc
+#   mutate(
+#     # commodityObervedDescription=  gsub("under wear","underwear", str_to_lower(commodityObervedDescription) ) ,
+#     # commodityObervedDescription=  gsub("under wears","underwear", str_to_lower(commodityObervedDescription) ) ,
+#     # commodityObervedDescription=  gsub("okra","okro", str_to_lower(commodityObervedDescription) ) ,
+#     # commodityObervedDescription=  gsub("alefo","alefu", str_to_lower(commodityObervedDescription) ) ,
+#     # commodityObervedDescription=  gsub("water melon","watermelon", str_to_lower(commodityObervedDescription) ) ,
+#     # commodityObervedDescription=  gsub(" tea ","lipton (teabag)", str_to_lower(commodityObervedDescription) ) ,
+#     # commodityObervedDescription=  gsub("local tea","lipton (teabag)", str_to_lower(commodityObervedDescription) ) ,
+#     # commodityObervedDescription=  gsub("kitchen ware","Kitchenware", str_to_lower(commodityObervedDescription) ) ,
+#     # commodityObervedDescription=  gsub("kitchen wares","Kitchenware", str_to_lower(commodityObervedDescription) ) ,
+#     # commodityObervedDescription=  gsub("alcohol in gallons","akpeteshie", str_to_lower(commodityObervedDescription) ) ,
+#     # commodityObervedDescription=  gsub("alcohol in gallon","akpeteshie", str_to_lower(commodityObervedDescription) ) ,
+#     # commodityObervedDescription=  gsub("cyclinder","cylinder", str_to_lower(commodityObervedDescription) ) ,
+#     # commodityObervedDescription=  gsub("barber machine","hair accessories", str_to_lower(commodityObervedDescription) ) ,
+#     # commodityObervedDescription=  gsub("ayilo","ayilor", str_to_lower(commodityObervedDescription) ) ,
+#     # commodityObervedDescription=  gsub("ladels","ladle", str_to_lower(commodityObervedDescription) ) ,
+#     # commodityObervedDescription=  gsub("body lotion","pomade", str_to_lower(commodityObervedDescription) ) ,
+#     # commodityObervedDescription=  gsub("frying pan","saucepan", str_to_lower(commodityObervedDescription) ) ,
+#     # commodityObervedDescription=  gsub("sacepan","saucepan", str_to_lower(commodityObervedDescription) ) ,
+#     # commodityObervedDescription=  gsub("sauce pans","saucepan", str_to_lower(commodityObervedDescription) ) ,
+#     # commodityObervedDescription=  gsub("sauce pan","saucepan", str_to_lower(commodityObervedDescription) ) ,
+#     # commodityObervedDescription=  gsub("groudnut","groundnut", str_to_lower(commodityObervedDescription) ) ,
+#     # commodityObervedDescription=  gsub("ground nut","groundnut", str_to_lower(commodityObervedDescription) ) ,
+#     # commodityObervedDescription =str_replace(str_to_lower(commodityObervedDescription),"chicken|chick", "fowl"),  #replace chicken or chick with fowl
+#     valRecode =gsub("[^[:alpha:]]","",val), #keep only alphanumeric characters and space in a string
+#     valRecode = case_when(!is.na(valRecode) & str_to_lower(valRecode)=='yrs' ~ NA, TRUE ~ valRecode),
+#     # rootWordA = singularize(valRecode),
+#     rootWord =str_to_lower( SnowballC::wordStem(valRecode, language = "english")),
+#   ) %>%
+#   filter(str_length(rootWord)>2 ) %>% filter(!is.na(valRecode)) %>%
+#   arrange(interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id, rootWord) %>%
+#   mutate(
+#     totalCount = case_when(
+#       str_detect(str_to_lower(trim(commodityObervedDescription)),singularize(str_to_lower(trim(valRecode)))) ~ 1,
+#       str_detect(str_to_lower(trim(commodityObervedDescription)),(trim(SnowballC::wordStem(rootWord, language = "english") ))) ~ 1,
+#       TRUE ~ 0
+#     )
+#   ) %>%
+#   group_by(interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id,commodityObervedDescription) %>%
+#   summarise(
+#     totCount = sum(totalCount),
+#     # rootWord= first(rootWord),
+#     productObserved = first(productObserved0),
+#     # totCount =   sum(ifelse(str_detect(str_to_lower(commodityObervedDescription),str_to_lower(rootWord)),1,0) ),
+#     # totalCGRE =   sum(ifelse(grepl(rootWord,commodityObervedDescription,ignore.case=T),1,0) )
+#   ) %>% filter(totCount==0) %>%
+#   mutate(
+#     errorCheck = 'selected product Error',
+#     errorMessage = paste("The selected product of '",productObserved,"' is not described in the product description of '",commodityObervedDescription,"'", sep = '')
+#   ) %>% select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,commodityObervedDescription,Commodity_id, errorCheck,errorMessage)
+# errorChecks <- dplyr::bind_rows(errorChecks, wrongSelectedProductDescription) #add to the errorData frame file
+# rm(wrongSelectedProductDescription)
+
 wrongSelectedProductDescription <-  downloaded_icbt_data %>%
+  filter( str_to_lower(productObserved) !='other (specify)' ) %>% 
+  mutate(productObserved = str_to_lower(productObserved)) %>%
+  select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id,commodityObervedDescription, productObserved)
+
+wrgProdSel1 <- wrongSelectedProductDescription %>% #  filter(interview_key=='01-49-75-84' & transpondent_id==21 ) %>%
   select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id,commodityObervedDescription, productObserved) %>%
-  filter( str_to_lower(productObserved) !='other (specify)' ) %>% mutate(productObserved0= productObserved) %>%
-  cSplit(splitCols="productObserved", sep = " ") %>% #drop =F
+  filter( #take oneword products
+    str_count(productObserved, '\\w+') == 1
+  ) %>%
+  mutate(
+    productObserved = singularize(productObserved),
+    cmsdesc =  sub("\\(", " (", commodityObervedDescription),
+    cmsdesc =  sub("\\)", ") ", cmsdesc),
+    cmsdesc = str_squish(cmsdesc)
+  ) %>%
+  #now take the product description and also singularise it
+  cSplit(splitCols="cmsdesc", sep = " ") %>%
   gather(varDescription, val, 
-         -c(interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id,commodityObervedDescription,productObserved0
+         -c(interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id,commodityObervedDescription,productObserved
          ), 
          na.rm = T) %>%
-  filter(str_length(val)>2 ) %>%  #remove two words or 1 word such as a, to , of , in, etc
+  filter(str_length(val)>2 & grepl("[A-Za-z]", val)) %>% #remove vals with only numbers out
   mutate(
-    commodityObervedDescription=  gsub("under wear","underwear", str_to_lower(commodityObervedDescription) ) ,
-    commodityObervedDescription=  gsub("under wears","underwear", str_to_lower(commodityObervedDescription) ) ,
-    commodityObervedDescription=  gsub("okra","okro", str_to_lower(commodityObervedDescription) ) ,
-    commodityObervedDescription=  gsub("alefo","alefu", str_to_lower(commodityObervedDescription) ) ,
-    commodityObervedDescription=  gsub("water melon","watermelon", str_to_lower(commodityObervedDescription) ) ,
-    commodityObervedDescription=  gsub(" tea ","lipton (teabag)", str_to_lower(commodityObervedDescription) ) ,
-    commodityObervedDescription=  gsub("local tea","lipton (teabag)", str_to_lower(commodityObervedDescription) ) ,
-    commodityObervedDescription=  gsub("kitchen ware","Kitchenware", str_to_lower(commodityObervedDescription) ) ,
-    commodityObervedDescription=  gsub("kitchen wares","Kitchenware", str_to_lower(commodityObervedDescription) ) ,
-    commodityObervedDescription=  gsub("alcohol in gallons","akpeteshie", str_to_lower(commodityObervedDescription) ) ,
-    commodityObervedDescription=  gsub("alcohol in gallon","akpeteshie", str_to_lower(commodityObervedDescription) ) ,
-    commodityObervedDescription=  gsub("cyclinder","cylinder", str_to_lower(commodityObervedDescription) ) ,
-    commodityObervedDescription=  gsub("barber machine","hair accessories", str_to_lower(commodityObervedDescription) ) ,
-    commodityObervedDescription=  gsub("ayilo","ayilor", str_to_lower(commodityObervedDescription) ) ,
-    commodityObervedDescription=  gsub("ladels","ladle", str_to_lower(commodityObervedDescription) ) ,
-    commodityObervedDescription=  gsub("body lotion","pomade", str_to_lower(commodityObervedDescription) ) ,
-    commodityObervedDescription=  gsub("frying pan","saucepan", str_to_lower(commodityObervedDescription) ) ,
-    commodityObervedDescription=  gsub("sacepan","saucepan", str_to_lower(commodityObervedDescription) ) ,
-    commodityObervedDescription=  gsub("sauce pans","saucepan", str_to_lower(commodityObervedDescription) ) ,
-    commodityObervedDescription=  gsub("sauce pan","saucepan", str_to_lower(commodityObervedDescription) ) ,
-    commodityObervedDescription=  gsub("groudnut","groundnut", str_to_lower(commodityObervedDescription) ) ,
-    commodityObervedDescription=  gsub("ground nut","groundnut", str_to_lower(commodityObervedDescription) ) ,
-    commodityObervedDescription =str_replace(str_to_lower(commodityObervedDescription),"Chicken|chicken|Chick|chick", "fowl"),  #replace chicken or chick with fowl
-    valRecode =gsub("[^[:alpha:]]","",val), #keep only alphanumeric characters and space in a string
-    valRecode = case_when(!is.na(valRecode) & str_to_lower(valRecode)=='yrs' ~ NA, TRUE ~ valRecode),
-    rootWord =str_to_lower( SnowballC::wordStem(valRecode, language = "english")),
-  ) %>%
-  filter(str_length(rootWord)>2 ) %>%
-  arrange(interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id, rootWord) %>%
-  mutate(
-    totalCount = case_when(
-      str_detect(str_to_lower(trim(commodityObervedDescription)),str_to_lower(trim(rootWord))) ~ 1, TRUE ~ 0
+    valNew= gsub("\\s*\\([^\\)]+\\)", "", str_to_lower(val)), #remove parenthesis
+    valNew = removePunctuation(valNew),
+    
+    val = (gsub("\\(|\\)", "", str_to_lower(removePunctuation(val)))),
+    productObserved = (gsub("\\(|\\)", "", str_to_lower(productObserved))),
+    # val = (gsub("\\(|\\)", "", str_to_lower(val))),
+    
+    
+    # productObserved = singularize(productObserved),
+    # val = ,
+    totCountCheck = case_when(
+      #valNew
+      #############
+      str_detect(productObserved, valNew )  ~ 1,
+      str_detect(productObserved,  singularize(valNew) )  ~ 1,
+      str_detect( singularize(productObserved), valNew )  ~ 1 ,
+      str_detect( singularize(productObserved), singularize(valNew) )  ~ 1,
+      
+      # str_detect(productObserved, singularize(str_to_lower(valNew)) )  ~ 1,
+      str_detect(productObserved, SnowballC::wordStem((valNew), language = "english"))  ~ 1,
+      str_detect(SnowballC::wordStem((productObserved), language = "english"), valNew)  ~ 1,
+      str_detect(SnowballC::wordStem((productObserved), language = "english"), SnowballC::wordStem((valNew), language = "english"))  ~ 1,
+      
+      #val
+      ########
+      str_detect(productObserved, val )  ~ 1,
+      str_detect(productObserved,  singularize(val) )  ~ 1,
+      str_detect( singularize(productObserved), val )  ~ 1,
+      str_detect( singularize(productObserved), singularize(val) )  ~ 1,
+      
+      # str_detect(productObserved, singularize(str_to_lower(val)) )  ~ 1,
+      str_detect(productObserved, SnowballC::wordStem((val), language = "english"))  ~ 1,
+      str_detect(SnowballC::wordStem((productObserved), language = "english"), val)  ~ 1,
+      str_detect(SnowballC::wordStem((productObserved), language = "english"), SnowballC::wordStem((val), language = "english"))  ~ 1,
+      
+      TRUE ~ 0
     )
-  ) %>%
+  )  %>%
   group_by(interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id,commodityObervedDescription) %>%
   summarise(
-    totCount = sum(totalCount),
-    # rootWord= first(rootWord),
-    productObserved = first(productObserved0),
-    # totCount =   sum(ifelse(str_detect(str_to_lower(commodityObervedDescription),str_to_lower(rootWord)),1,0) ),
-    # totalCGRE =   sum(ifelse(grepl(rootWord,commodityObervedDescription,ignore.case=T),1,0) )
-  ) %>% filter(totCount==0) %>%
+    productObserved = first(productObserved),
+    totCount = sum(totCountCheck)
+  ) %>%
+  filter(totCount==0) %>%
   mutate(
     errorCheck = 'selected product Error',
     errorMessage = paste("The selected product of '",productObserved,"' is not described in the product description of '",commodityObervedDescription,"'", sep = '')
-  ) %>% select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,commodityObervedDescription,Commodity_id, errorCheck,errorMessage)
-errorChecks <- dplyr::bind_rows(errorChecks, wrongSelectedProductDescription) #add to the errorData frame file
-rm(wrongSelectedProductDescription)
+  ) %>% 
+  select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,commodityObervedDescription,Commodity_id, errorCheck,errorMessage)
+errorChecks <- dplyr::bind_rows(errorChecks, wrgProdSel1) #add to the errorData frame file
+rm(wrgProdSel1)
+
+
+wrgProdSel2 <- wrongSelectedProductDescription  %>% #filter(interview_key=='76-21-67-79') %>%
+  select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id,commodityObervedDescription, productObserved) %>%
+  filter( #take more than one-word products
+    str_count(productObserved, '\\w+') > 1
+  ) %>%
+  # slice(1:100) %>% # keep or use top 100
+  mutate(
+    cmdyDesc=  gsub(","," , ", str_to_lower(commodityObervedDescription) ) ,
+    productObserved=  gsub(","," , ", str_to_lower(productObserved) ) ,
+  ) %>% #># split and collect commodity description into singular, then join it back
+  cSplit(splitCols="cmdyDesc", sep = " ") %>%
+  gather(varDescription, val, 
+         -c(interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id,commodityObervedDescription,productObserved
+         ), 
+         na.rm = T) %>%
+  mutate(
+    val = singularize(str_to_lower(val)),
+  ) %>%
+  group_by(interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id,commodityObervedDescription,productObserved) %>%
+  summarise(
+    cmdtyDescription = paste(val, collapse = " "),
+    prodSel = first(productObserved)
+  ) %>% #now to split the product
+  cSplit(splitCols="prodSel", sep = " ") %>%
+  gather(varDescription, val, 
+         -c(interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id,commodityObervedDescription,productObserved,cmdtyDescription
+         ), 
+         na.rm = T) %>%
+  filter(str_length(val)>2 & grepl("[A-Za-z]", val)) %>% #remove vals with only numbers out
+  mutate(
+    val = (gsub("\\(|\\)", "", str_to_lower(val))),
+    totCountCheckok = case_when( 
+      str_detect(cmdtyDescription,val) ~ 1,
+      str_detect(cmdtyDescription,singularize(val)) ~ 1,
+      str_detect(cmdtyDescription,SnowballC::wordStem(val, language = "english")) ~ 1,
+      TRUE ~ 0  
+    )
+  )  %>%
+  group_by(interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id,commodityObervedDescription,productObserved) %>%
+  summarise(
+    # productObserved = first(productObserved),
+    totCount = sum(totCountCheckok) #sum(ifelse(str_detect(cmdtyDescription, gsub("\\(|\\)", "", val)  ), 1,0))
+  ) %>%
+  filter(totCount==0) %>%
+  mutate(
+    errorCheck = 'selected product Error',
+    errorMessage = paste("The selected product of '",productObserved,"' is not described in the product description of '",commodityObervedDescription,"'", sep = '')
+  ) %>% 
+  select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,commodityObervedDescription,Commodity_id, errorCheck,errorMessage)
+errorChecks <- dplyr::bind_rows(errorChecks, wrgProdSel2) #add to the errorData frame file
+rm(wrgProdSel2, wrongSelectedProductDescription)
+
 
 # other specified product description
 otherCommdtyDescription <- downloaded_icbt_data %>%
