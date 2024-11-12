@@ -1,3 +1,21 @@
+setwd("C:/2024ICBT/")
+source("server/datapackages.R",  local = TRUE)
+
+final_data_toLoad <- paste('Data_final/','icbt_data.RDS' , sep = '')
+icbt_data <- readRDS(final_data_toLoad)
+
+##Check Alice team for animals
+library(tidyr)
+
+aliceFilter <- icbt_data %>%
+  filter(str_to_lower(RegionName)=='volta') %>%
+  filter(extract_numeric(team_number)==41) %>%
+  filter(!is.na(livestockAge)) %>%
+  select(RegionName, districtName, borderPostName, enumerator_name, enumerator_contact, createdDate, observedRespondentDescription, tradeDirection, commodityObervedDescription,productObserved)
+
+write.xlsx(aliceFilter,"aliceAnimals.xlsx")
+
+
 user_out_email <- 'terryarthur35@gmail.com'
 # user_out_email <- 'andosty@gmail.com'
 # user_out_email <- 'alexboateng160@gmail.com'

@@ -703,7 +703,7 @@ server <- function(input, output, session) {
   
   serverDataDownload<- reactive({
     switch( input$dataset,
-            "icbt data" = icbt_dataset()[['icbt_dataset_final']],
+            "icbt data" = icbt_dataset()[['icbt_dataset_final']] %>% select(-gps_Latitude ,-gps_Longitude, -gps_Accuracy, -gps_Altitude),
             "icbt errors" = icbt_dataset()[['icbt_error_dataset']]
     )
   })

@@ -210,13 +210,75 @@ summaryPivotedDF <-summaryPivotedDF %>%
   left_join(getData, by=c("interview_key"="interview_key", "interview_id"="interview_id", 
                           "transpondent_id"="transpondent_id", "Commodity_id"="Commodity_id"))
 
-commodityQtyMismatchError <- summaryPivotedDF %>% 
+
+# commodityQtyMismatchError <- downloaded_icbt_data %>%
+#   select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id,commodityObervedDescription, productObserved,commodityQuantity) %>%
+#   # filter(
+#   #   (interview_key=='43-78-93-19' & transpondent_id==20) | 
+#   #     (interview_key=="23-01-64-19" & transpondent_id==3) |
+#   #     (interview_key=="24-15-76-11" & transpondent_id==2) |
+#   #     (interview_key=="82-69-48-34" & transpondent_id==2 )
+#   #   ) %>% 
+#   # filter(transpondent_id==20) %>%
+#   #remove brackets from commodity discriptions
+#   mutate(
+#     commodityObervedDescription =  gsub("\\s*\\([^\\)]+\\)", "", commodityObervedDescription), #remove parenthesis
+#     cmdityDesc = str_squish(trim(trimws(str_to_lower(commodityObervedDescription)))) #trim out all unnecessary spaces
+#   ) %>%
+#   # convert each work to column and then gather
+#   cSplit(splitCols="cmdityDesc", sep = " ") %>%
+#   gather(varDescription, val, 
+#          -c(interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id,commodityObervedDescription,productObserved,commodityQuantity
+#          ), 
+#          na.rm = T) %>%
+#   #keep columns vals that are only numeric quantityes 
+#   mutate(val=removePunctuation(val)) %>%
+#   mutate_at(c('val'), ~na_if(., '')) %>%
+#   filter(!grepl("[A-Za-z]", val) & !is.na(val)) %>%
+#   filter(
+#     commodityQuantity !=val
+#   ) %>%
+#   mutate(
+#     errorCheck = 'product Qty mismatch',
+#     errorMessage = paste("product description implies the quantity ='",val, "'. commodityQuantity entered = '", commodityQuantity, "'. production description = '",commodityObervedDescription,"'",sep = '')
+#   ) %>%
+#   select(.,interview_key,interview_id,observedRespondentDescription,transpondent_id,commodityObervedDescription,Commodity_id, errorCheck,errorMessage)
+
+commodityQtyMismatchError <- downloaded_icbt_data %>%
+  select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id,commodityObervedDescription, productObserved,commodityQuantity) %>%
+  filter(
+    (interview_key=='74-36-02-42' )
+    # |
+    #   (interview_key=="23-01-64-19" & transpondent_id==3) |
+    #   (interview_key=="24-15-76-11" & transpondent_id==2) |
+    #   (interview_key=="82-69-48-34" & transpondent_id==2 )
+  ) %>%
+  # filter(transpondent_id==20) %>%
+  #remove brackets from commodity discriptions
+  mutate(
+    commodityObervedDescription =  gsub("\\s*\\([^\\)]+\\)", "", commodityObervedDescription), #remove parenthesis
+    cmdityDesc = str_squish(trim(trimws(str_to_lower(commodityObervedDescription)))) #trim out all unnecessary spaces
+  ) %>%
+  # convert each work to column and then gather
+  cSplit(splitCols="cmdityDesc", sep = " ") %>%
+  gather(varDescription, val, 
+         -c(interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id,commodityObervedDescription,productObserved,commodityQuantity
+         ), 
+         na.rm = T) %>%
+  #keep columns vals that are only numeric quantityes 
+  mutate(val=removePunctuation(val)) %>%
+  mutate_at(c('val'), ~na_if(., '')) %>%
+  filter(!grepl("[A-Za-z]", val) & !is.na(val)) %>%
+  group_by(interview_key,interview_id,observedRespondentDescription,transpondent_id,commodityObervedDescription,Commodity_id,commodityQuantity) %>%
+  summarise(
+    qtyMismatch = sum(ifelse(commodityQuantity ==val,1,0)),
+    val=val
+  ) %>% 
   ungroup() %>%
-  filter(!is.na(commodity_description_uom_qty)) %>%
-  filter(commodity_description_uom_qty != commodityQuantity) %>%
+  filter(qtyMismatch==0  ) %>%
   mutate(
     errorCheck = 'product Qty mismatch',
-    errorMessage = paste("product description implies the quantity ='",commodity_description_uom_qty, "'. observed product quantity entered = '", commodityQuantity, "'. production description = '",commodityObervedDescription,"'",sep = '')
+    errorMessage = paste("product description implies the quantity ='",val, "'. commodityQuantity entered = '", commodityQuantity, "'. production description = '",commodityObervedDescription,"'",sep = '')
   ) %>%
   select(.,interview_key,interview_id,observedRespondentDescription,transpondent_id,commodityObervedDescription,Commodity_id, errorCheck,errorMessage)
 
@@ -260,16 +322,48 @@ errorChecks <- dplyr::bind_rows(errorChecks, unit_ofMeasure_detailedDescription)
 rm(unit_ofMeasure_detailedDescription)
 
 #interviewer start date not in range
-surveyDatePeriod <- read_excel("server/dictionary/dataCollectionPeriod.xlsx") %>%
-  mutate(
-    data_startDate =as.Date(paste(Year,'-',monthNumber,'-',startDate, sep=''), format= "%Y-%m-%d"), 
-    data_endDate =as.Date(paste(Year,'-',monthNumber,'-',endDate, sep=''), format= "%Y-%m-%d") 
-  )
 
-wrongDate <- downloaded_icbt_data %>% 
-  mutate( gps_Timestamp= as.Date(gps_Timestamp, format= "%Y-%m-%d")  ) %>%
-  subset(!(gps_Timestamp >= surveyDatePeriod$data_startDate & gps_Timestamp <= surveyDatePeriod$data_endDate)) %>% arrange(interview_key,transpondent_id)%>%
+dateCheck <- downloaded_icbt_data %>% 
+  select(interview_key,interview_id, gps_Timestamp) %>%
   distinct(interview_key, .keep_all = T) %>%
+  mutate( gps_Timestamp= ymd(as.Date(gps_Timestamp, format= "%Y-%m-%d"))  ) 
+  
+  surveyDatePeriod <- read_excel("server/dictionary/dataCollectionPeriod.xlsx") %>%
+    mutate(
+      data_startDate =ymd(paste(Year,'-',monthNumber,'-',startDay, sep='')), 
+      data_endDate =ymd(paste(Year,'-',monthNumber,'-',endDay, sep='')) ,
+      # ps=as.character(paste(
+      #                       seq(
+      #                           as.Date(as.character(data_startDate)),as.Date(as.character(data_endDate)),
+      #                           by = "day")
+      #                         , collapse = " ")
+      #                 )
+      # ps = paste(seq(as.Date(data_startDate,format= "%Y-%m-%d"),as.Date(data_endDate,format= "%Y-%m-%d"),by = "day"))
+      # numStart = as.numeric(data_startDate),
+      # numEnd = as.numeric(data_endDate),
+    )
+  
+ValidDatedCase = data.frame()  
+  
+# casesInValidDate
+for (i in 1:nrow(surveyDatePeriod)) {
+    period <- surveyDatePeriod[i,]
+    startDate <- as.character(period$data_startDate)
+    endDate  <- as.character(period$data_endDate)
+    dateVals = seq(as.Date(startDate,format= "%Y-%m-%d"), as.Date(endDate,format= "%Y-%m-%d"), by = "day")
+    
+    okayDatedCase <- dateCheck %>%
+      subset(
+        (gps_Timestamp %in% dateVals )
+      )
+    ValidDatedCase = rbind(ValidDatedCase,okayDatedCase)
+}
+
+#invalidDatedCases
+wrongDate <- downloaded_icbt_data %>% 
+  filter(
+    !(interview_key %in% ValidDatedCase$interview_key)
+  ) %>% distinct(interview_key, interview_id , .keep_all = T) %>%
   mutate(
     errorCheck = 'invalid Date',
     errorMessage = paste("invalid start date of case. Gps Date taken ='",gps_Timestamp,"'",'. Error is reported on the 1st transpondent for the Case', sep = '')

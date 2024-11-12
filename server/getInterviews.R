@@ -45,6 +45,24 @@ intvwr_status<- get_interview_stats(
 )
 
 new_users <- get_interviewers()
+new_usersAssignments <- get_assignments()
+saveRDS(new_usersAssignments, "server/new_users_assignments.RDS")
+saveRDS(new_users, "server/users.RDS").
+
+cases1 <- get_interviews(
+  nodes = c("id", "key", "assignmentId", "identifyingData", "questionnaireId",
+            "questionnaireVersion", "questionnaireVariable", "responsibleName", "responsibleId",
+            "responsibleRole", "supervisorName", "status", "actionFlags", "wasCompleted",
+            "notAnsweredCount", "errorsCount", "createdDate", "updateDateUtc",
+            "receivedByInterviewerAtUtc", "interviewMode"),
+  chunk_size = 100,
+  server = Sys.getenv("SUSO_SERVER"),
+  workspace = Sys.getenv("SUSO_WORKSPACE"),
+  user = Sys.getenv("SUSO_USER"),
+  password = Sys.getenv("SUSO_PASSWORD")
+)
+
+stats <- get_possible_interview_statuses()
 
 get_interviews(
   nodes = c("id", "key", "assignmentId", "identifyingData", "questionnaireId",
@@ -138,3 +156,10 @@ for (i in 1:nrow(CaseReject)  ) {
   )
 }
 
+
+# check for Ibrahim Bukari 
+errorDataFile <- paste('Data_final/','error_data.RDS' , sep = '')
+errorData <- readRDS(errorDataFile)
+
+ibrahimStatus <- errorData %>%
+  filter(enumerator_name=="Ibrahim Bukari")
