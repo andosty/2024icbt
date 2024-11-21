@@ -169,7 +169,7 @@
     metaColNames <- c("interview__key", "interview__id","enumerator_name" ,"enumerator_contact", "team_number" ,      
                       "id02","id02a","id03","id03b","id04",
                       "id06","gps__Latitude","gps__Longitude","gps__Accuracy","gps__Altitude",
-                      "gps__Timestamp","assignment__id", "quarter" , 'date_and_time_collection'
+                      "gps__Timestamp","assignment__id", "quarter" , 'date_and_time_collection',"quarter"
     )
     
     
@@ -183,7 +183,7 @@
     
     if (nrow(icbt_data_version)>0){
       icbt_data_version <- icbt_data_version %>%
-        select(all_of(metaColNames)) %>%
+        select(all_of(metaColNames),contains(c("quarter","month","date_and_time_collection"))) %>%
         dplyr::mutate(  #bring in stata factor labels
           id02 = haven::as_factor(id02),
           id03 = haven::as_factor(id03),
@@ -321,7 +321,9 @@
       commodityObervedDescription=  gsub("ayilo","ayilor", str_to_lower(commodityObervedDescription) ) ,
       commodityObervedDescription=  gsub("ladels","ladles", str_to_lower(commodityObervedDescription) ) ,
       commodityObervedDescription=  gsub("ladel","ladle", str_to_lower(commodityObervedDescription) ) ,
-      commodityObervedDescription=  gsub("body lotion","pomade", str_to_lower(commodityObervedDescription) ) ,
+      commodityObervedDescription=  gsub("pomade","body lotion", str_to_lower(commodityObervedDescription) ) ,
+      commodityObervedDescription=  gsub("body cream","body lotion", str_to_lower(commodityObervedDescription) ) ,
+      # commodityObervedDescription=  gsub("body lotion","pomade", str_to_lower(commodityObervedDescription) ) ,
       commodityObervedDescription=  gsub("frying pan","saucepan", str_to_lower(commodityObervedDescription) ) ,
       commodityObervedDescription=  gsub("sacepan","saucepan", str_to_lower(commodityObervedDescription) ) ,
       commodityObervedDescription=  gsub("sauce pans","saucepan", str_to_lower(commodityObervedDescription) ) ,
@@ -336,8 +338,8 @@
       commodityObervedDescription=  gsub("0ranges","orange", str_to_lower(commodityObervedDescription) ) ,
       commodityObervedDescription=  gsub("indoime","indomie ", str_to_lower(commodityObervedDescription) ) ,
       commodityObervedDescription=  gsub("morta","mortar", str_to_lower(commodityObervedDescription) ) ,
-      commodityObervedDescription=  gsub("pomade(pomade)","body cream", str_to_lower(commodityObervedDescription) ) ,
-      commodityObervedDescription=  gsub("pomade","body lotion (body cream)", str_to_lower(commodityObervedDescription) ) ,
+      # commodityObervedDescription=  gsub("body lotion (body cream)","pomade", str_to_lower(commodityObervedDescription) ) ,
+      # commodityObervedDescription=  gsub("body cream","pomade", str_to_lower(commodityObervedDescription) ) ,
       commodityObervedDescription=  gsub("beens","beans", str_to_lower(commodityObervedDescription) ) ,
       commodityObervedDescription=  gsub("chacoal","charcoal", str_to_lower(commodityObervedDescription) ) ,
       commodityObervedDescription=  gsub("ofmcharcoal","of charcoal", str_to_lower(commodityObervedDescription) ) ,
@@ -348,6 +350,7 @@
       commodityObervedDescription=  gsub("akpeteshi","akpeteshie", str_to_lower(commodityObervedDescription) ) ,
       commodityObervedDescription=  gsub("akpeteshiee","akpeteshie", str_to_lower(commodityObervedDescription) ) ,
       commodityObervedDescription=  gsub("akpteshie","akpeteshie", str_to_lower(commodityObervedDescription) ) ,
+      commodityObervedDescription=  gsub("akpetshie","akpeteshie", str_to_lower(commodityObervedDescription) ) ,
       commodityObervedDescription=  gsub("apketeshie","akpeteshie", str_to_lower(commodityObervedDescription) ) ,
       commodityObervedDescription=  gsub("akpeteshei","akpeteshie", str_to_lower(commodityObervedDescription) ) ,
       commodityObervedDescription=  gsub("apketshie","akpeteshie", str_to_lower(commodityObervedDescription) ) ,
@@ -386,7 +389,25 @@
   downloaded_icbt_data <- downloaded_icbt_data %>%
     filter(
       !(enumerator_name=="Yachambe kuporkpa moses" & interview_key=="06-08-58-38") |  # enum was making a test trial case to see if syncing will work
+      !(enumerator_name=="Juliana Sekyiraa" & interview_key=="14-40-62-43") |  # enum was making a test trial case to see if syncing will work
+      !(enumerator_name=="Juliana Sekyiraa" & interview_key=="71-14-18-31") |  # enum was making a test trial case to see if syncing will work
+      !(str_squish(trim(str_to_lower(enumerator_name)))=="patience gyabeng" & interview_key=="87-78-60-56") |  # enum was making a test trial case to see if syncing will work
       !(enumerator_name=="Ababagre Noah Assibi" & interview_key=="38-50-57-79")  # enum was making a test trial case to see if syncing will work
+    )
+  
+  #fix blank month and qtr
+  downloaded_icbt_data <- downloaded_icbt_data %>%
+    mutate(
+      month = case_when(
+        is.na(month) ~ as.character(month(gps_Timestamp, label = TRUE, abbr = FALSE)),
+        TRUE ~ month
+      ),
+      quarter = case_when(
+        is.na(quarter) & str_to_lower(month)=="october" ~ as.character(1),
+        TRUE ~ quarter
+      ),
+      dates = as.Date(gps_Timestamp),
+      
     )
   
   
@@ -401,6 +422,7 @@
   
   #save final dataset
   saveRDS(downloaded_icbt_data,paste(final_data_dir,'icbt_data.RDS',sep=''))
+  saveRDS(downloaded_icbt_data %>% distinct(month,quarter),paste(final_data_dir,'dataCollectionPeriod.RDS',sep=''))
   print("hq download and merge okay")
   
   
@@ -408,6 +430,9 @@
   # icbt_data <- downloaded_icbt_data
   source(file.path("server/hqdata/03_errorchecks.R"),  local = TRUE)$value
   saveRDS(errorChecks,paste(final_data_dir,'error_data.RDS',sep=''))
+  
+  new_interviwer_users <- get_interviewers()
+  saveRDS(new_interviwer_users,paste(final_data_dir,'users.RDS',sep=''))
   
   #need to script trade direction error text correction
   #ok

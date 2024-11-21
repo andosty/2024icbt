@@ -44,101 +44,11 @@ intvwr_status<- get_interview_stats(
   "da115dde4e47417fa8e5d95075f8b171"
 )
 
-#########################
-## Monitor user
-##################################
-# To monitor user activity on tablets, one needs to follow these steps.
-# First, collect the list of users and their profile details
-
-# collect all interviewers, their supervisors, and their attributes
-# this includes both account details and personal details
-all_users <- get_interviewers()
-
-#---- Then, identify the user of interest by filtering the data.
-#--------------------------------------------------------------
-library(dplyr)
-
-# extract the user ID for the target user
-# this will be used as a parameter for the next step
-# target_user_id <- filter(all_users, UserName == "f07020") %>%
-#   pull(UserId)
-target_user_id <- filter(all_users, str_to_upper(FullName) == "EDINAM KOJO DOH") %>%
-  pull(UserId)
-
-# collect a log of activity on the tablet within specified dates
-tablet_activity <- get_user_action_log(
-  user_id = target_user_id,
-  start = "2020-02-15",
-  end = "2025-03-15"
-)
-
-# assignments <- get_assignments()
-
-assignment_id <- get_assignments(
-  # search_by = "",
-  # qnr_id = "",
-  # qnr_version = "",
-  responsible = target_user_id,
-  # supervisor_id = "",
-  # show_archive = FALSE,
-  # order = "",
-  server = Sys.getenv("SUSO_SERVER"),
-  workspace = Sys.getenv("SUSO_WORKSPACE"),
-  user = Sys.getenv("SUSO_USER"),
-  password = Sys.getenv("SUSO_PASSWORD")
-) %>% 
-  # filter(ResponsibleId==target_user_id) %>%
-  pull(Id)
-
-# Get details for a single assignment
-ass_Details<- get_assignment_details(
-  id=assignment_id
-  # server = Sys.getenv("SUSO_SERVER"),
-  # workspace = Sys.getenv("SUSO_WORKSPACE"),
-  # user = Sys.getenv("SUSO_USER"),
-  # password = Sys.getenv("SUSO_PASSWORD")
-)
-
-
-# userInfo <-get_user_details(user_id=target_user_id)
-# interviews <-get_interviews(chunk_size = 100)
-
-interviewID <- 
-
-reject_interview_as_hq(
-  interview_id="20df3e04b39745209a961b68f024e25b",
-  comment = "check and fix errors",
-  responsible_id = ass_Details$ResponsibleId,
-  verbose = TRUE,
-  server = Sys.getenv("SUSO_SERVER"),
-  workspace = Sys.getenv("SUSO_WORKSPACE"),
-  user = Sys.getenv("SUSO_USER"),
-  password = Sys.getenv("SUSO_PASSWORD")
-)
-
-if(reject_interview_as_hq(
-  interview_id="20df3e04b39745209a961b68f024e25b",
-  comment = "check and fix errors",
-  responsible_id = "b125f8e7-175e-4660-978f-8100bad779bf",
-  verbose = TRUE,
-  server = Sys.getenv("SUSO_SERVER"),
-  workspace = Sys.getenv("SUSO_WORKSPACE"),
-  user = Sys.getenv("SUSO_USER"),
-  password = Sys.getenv("SUSO_PASSWORD")
-)==TRUE){
-  print("it was okay")
-} else {
-  #add case to be retried for re-rejections
-    print("it  is an error")
-  }
-
-
-
 new_users <- get_interviewers()
 new_usersAssignments <- get_assignments()
 saveRDS(new_usersAssignments, "server/new_users_assignments.RDS")
-saveRDS(new_users, "server/users.RDS").
- 
+saveRDS(new_users, "server/users.RDS")
+
 cases1 <- get_interviews(
   nodes = c("id", "key", "assignmentId", "identifyingData", "questionnaireId",
             "questionnaireVersion", "questionnaireVariable", "responsibleName", "responsibleId",
@@ -146,7 +56,8 @@ cases1 <- get_interviews(
             "notAnsweredCount", "errorsCount", "createdDate", "updateDateUtc",
             "receivedByInterviewerAtUtc", "interviewMode"),
   chunk_size = 100,
-  server = Sys.getenv("SUSO_SERVER"), 
+  server = Sys.getenv("SUSO_SERVER"),
+  workspace = Sys.getenv("SUSO_WORKSPACE"),
   user = Sys.getenv("SUSO_USER"),
   password = Sys.getenv("SUSO_PASSWORD")
 )
@@ -165,15 +76,7 @@ get_interviews(
   password = Sys.getenv("SUSO_PASSWORD")
 )
 
-goodIntvw <- all_users %>% filter(InterviewsCount>0) %>%
-  rename(UserID = ResponsibleName) %>%
-  group_by(UserID,ResponsibleId) %>%   #    hhq01 = "Region Code", hhq02 = "District Code", hhq09 = "Structure",cluster = "Cluster", hhq07.1 = HouseholdName,  hhq08 = "Locality Name",
-  mutate(duplicate.flag = n() > 1) %>%
-  filter(duplicate.flag) # %>%  #Then, you could use filter to subset each group, as needed:
-# %>% filter(!duplicate.flag)  #keep none dups
-
 saveRDS(all_users, "server/users.RDS")
-
 
 ##to mannually rejet the errors
 

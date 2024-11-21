@@ -30,7 +30,7 @@ output$monthDataCollection <- renderUI({
 })
 
 
-filtered_ICBT_data <- icbt_dataset()[['icbt_dataset_final']]  %>%
+filtered_ICBT_data <- icbt_dataset()[['icbt_dataset_final']] %>%
   filter(month=="November") # %>% 
   # arrange(regionCode, team_number,districtCode, borderPostName, enumerator_name) %>%
   # filter(RegionName=="Western North")

@@ -129,4 +129,19 @@ for (zipfile in zipppedFiles) {
 # save final pricing dataset
 saveRDS(pricingDataset, "C:/2024ICBT/Data_final/icbt_pricing_data.RDS")
 
+pricingTeamMonitorReport <- pricingDataset %>%
+  group_by(regionCode, regionName, districtCode, districtName, team_number) %>%
+  summarise(
+    uniquePricedItems = n_distinct(product_with_UnitMeasure)
+  ) %>% arrange(districtCode, team_number)
+
+PricingMeta <- PricingProductsList_OCT_2024 <- read_excel("pricing/PricingProductsList OCT 2024.xlsx") %>% 
+  select(-team_number) %>%
+  rename(team_number=team_id) %>%
+  group_by(team_number) %>%
+  summarise(
+    ExpectedPricedItems = n_distinct(unique_product)
+  ) 
+
+pricingTeamStats <- merge(PricingMeta, pricingTeamMonitorReport)
 ## Monitor report for Pricing Data

@@ -1,6 +1,8 @@
 # setwd("C:/2024ICBT/")
 source("server/datapackages.R",  local = TRUE)
 
+
+
 ui <-
 fluidPage(
   shiny::singleton(
@@ -28,8 +30,12 @@ fluidPage(
 
 # Define server logic required 
 server <- function(input, output, session) {
+  
+
+  
   final_data_toLoad <- paste('Data_final/','icbt_data.RDS' , sep = '')
   final_error_toLoad <- paste('Data_final/','error_data.RDS' , sep = '')
+  newInterviewersDataFile <- paste('Data_final/','newInterviewerUsers.RDS' , sep = '')
   
   #TradeSummaries
   
@@ -149,6 +155,35 @@ server <- function(input, output, session) {
   dataRefresh <- reactiveFileReader(3000, session, final_data_toLoad, readRDS)
   errorDataRefresh <- reactiveFileReader(3000, session, final_error_toLoad, readRDS)
   
+  newInterviewers <- reactiveFileReader(3000, session, newInterviewersDataFile, readRDS)
+  
+
+  # collectionPeriod <- reactiveFileReader(3000, session, paste('Data_final/','dataCollectionPeriod.RDS' , sep = ''), readRDS)
+  
+
+  
+  # output$dateRangeDataCollection <- renderUI({
+  #     dateRangeInput(inputId = "selectdateRange", 
+  #                 label = "Data Range:",
+  #                 # start = as.Date(min(ymd(dataRefresh()$CreatedDate))),
+  #                 # end = as.Date(max(dataRefresh()$CreatedDate)),
+  #                 # min = as.Date(min(dataRefresh()$CreatedDate)),
+  #                 # max = as.Date(max(dataRefresh()$CreatedDate))
+  #                 
+  #                
+  #                 start =  date(as.character(icbt_data%>% filter(month== input$selectMonth) %>% filter(quarter==input$selectQuarter) %>% select(createdDate) %>% slice_min(createdDate) %>%first())),
+  #                 # start = as.Date(as.character(dataRefresh()%>% filter(month== input$selectMonth)  %>% filter(quarter==input$selectQuarter) %>% summarise(min(createdDate)))),
+  #                 end = date(as.character(icbt_data%>% filter(month== input$selectMonth) %>% filter(quarter==input$selectQuarter) %>% select(createdDate) %>% slice_max(createdDate) %>%first())),
+  #                 min = date(as.character(icbt_data%>% filter(month== input$selectMonth) %>% filter(quarter==input$selectQuarter) %>% select(createdDate) %>% slice_min(createdDate) %>%first())),
+  #                 max =date(as.character(icbt_data%>% filter(month== input$selectMonth) %>% filter(quarter==input$selectQuarter) %>% select(createdDate) %>% slice_max(createdDate) %>%first()))
+  #                 )
+  #   })
+  
+  # output$monthChoices <- renderTable({
+  #   # unique(collectionPeriod()$month)
+  #   collectionPeriod() %>% distinct(month)
+  # })
+  
   #get data from server  #schedule for every 2hrs refresh
   icbt_dataset <- reactive({
     # invalidateLater(7200000) # scheduled for every 2 hours
@@ -161,8 +196,8 @@ server <- function(input, output, session) {
         email ==  user_out_email()
       )
     
-    head(user_assigned_data)
-    head(  dataRefresh())
+    # head(user_assigned_data)
+    # head(  dataRefresh())
     
     icbt_data <- data.frame()
     for(i in 1:nrow(user_assigned_data)) {
@@ -747,6 +782,7 @@ server <- function(input, output, session) {
   
   
   observeEvent(input$doReject, {
+    
     if(nrow(icbt_dataset()[['icbt_error_dataset']])>0)   { 
       CaseReject <- icbt_dataset()[['icbt_error_dataset']] %>%
         filter(!is.na(responsibleId)) %>%
@@ -776,6 +812,8 @@ server <- function(input, output, session) {
         # filter(version==6) %>%
         dplyr::pull(id)
       
+      failedRejections = data.frame()
+      
       ##send cases back
       for (i in 1:nrow(CaseReject)  ) {
         row <- CaseReject[i,]  #filter that row
@@ -797,26 +835,118 @@ server <- function(input, output, session) {
       #     # verbose = TRUE
       #   )
         
-        rejections<- reject_interview_as_hq(
+        if(reject_interview_as_hq(
           interview_id=row$interview_id,
           comment = row$errorMessage,
           responsible_id = row$responsibleId,
-          verbose = TRUE
-        )
+          verbose = TRUE,
+          
+          server = Sys.getenv("SUSO_SERVER"),
+          workspace = Sys.getenv("SUSO_WORKSPACE"),
+          user = Sys.getenv("SUSO_USER"),
+          password = Sys.getenv("SUSO_PASSWORD")
+        )==TRUE){
+          print("case successfully rejected")
+        } else {
+          #add case to failedRejections Dataframe be retried for re-rejections
+          print("rejection failed")
+          failedRejections <- rbind(failedRejections,row)
         }
+        
+      }
       
-  
+      if(nrow(failedRejections)>0){
+        # library(dplyr)
+        
+        needManualRejections =  data.frame()
+        
+        for (i in 1:nrow(failedRejections)  ) {
+            errorRetryRow <- failedRejections[i,]
+            # extract the user ID for the target user
+            print("to Retry Error Re-Rejection Again")
+            target_user_id <- newInterviewers() %>%
+                              filter( 
+                                # str_to_upper(FullName) == str_to_upper(errorRetryRow$enumerator_name) & 
+                                       UserId == errorRetryRow$responsibleId
+                                    ) %>%
+                              pull(UserId)
+            
+            # collect a log of activity on the tablet within specified dates
+            tablet_activity <- get_user_action_log(
+              user_id = target_user_id,
+              start = "2020-02-15",
+              end = "2025-12-30"
+            )
+            
+            
+            assignment_id <- get_assignments(
+              # search_by = "",
+              # qnr_id = "",
+              # qnr_version = "",
+              responsible = target_user_id,
+              # supervisor_id = "",
+              # show_archive = FALSE,
+              # order = "",
+              server = Sys.getenv("SUSO_SERVER"),
+              workspace = Sys.getenv("SUSO_WORKSPACE"),
+              user = Sys.getenv("SUSO_USER"),
+              password = Sys.getenv("SUSO_PASSWORD")
+            ) %>% 
+             arrange(
+                CreatedAtUtc
+              ) %>% 
+              last() %>%
+              # filter(ResponsibleId==target_user_id) %>%
+              pull(Id)
+            
+            print(assignment_id)
+            
+            # Get details for a single assignment
+            ass_Details<- get_assignment_details(
+              id=assignment_id
+              # server = Sys.getenv("SUSO_SERVER"),
+              # workspace = Sys.getenv("SUSO_WORKSPACE"),
+              # user = Sys.getenv("SUSO_USER"),
+              # password = Sys.getenv("SUSO_PASSWORD")
+            ) %>% arrange(
+              CreatedAtUtc
+            ) %>% last()
+           
+            
+            #retry rejection
+            if(
+            reject_interview_as_hq(
+              interview_id= errorRetryRow$interview_id ,
+              comment = "check and fix errors",
+              responsible_id = ass_Details$ResponsibleId,
+              verbose = TRUE,
+              server = Sys.getenv("SUSO_SERVER"),
+              workspace = Sys.getenv("SUSO_WORKSPACE"),
+              user = Sys.getenv("SUSO_USER"),
+              password = Sys.getenv("SUSO_PASSWORD")
+            )==TRUE){
+              print("retry Rejection of case successfully")
+            } else {
+              #add case to failedRejections Dataframe be retried for re-rejections
+              print("retry to Reject still failed")
+              needManualRejections <- rbind(needManualRejections,errorRetryRow)
+            }
+            
+          } #end
+        
+        if(nrow(needManualRejections)>0 ){
+          saveRDS(needManualRejections,paste0("Data_final/","finalFailedRejections.RDS"))
+        }
+      }
+    
       
-      shinyalert(title = "Error Cases Rejected Succesfullly!", type = "success")
+    shinyalert(title = "Error Cases Rejected Succesfullly!", type = "success")
       
     }else{
-      shinyalert(title = "No Error Messages to Reject!", type = "warning")
+      shinyalert(title = "There are NO CASES with Error Messages to Reject!", type = "warning")
     }
   })
     
-  # all_users <- get_interviewers()
-
-
 }
 ### End of Server Functions #####
 ###################################

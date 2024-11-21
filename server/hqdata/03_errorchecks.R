@@ -713,7 +713,13 @@ errorChecks <- errorChecks %>%
          regionCode, RegionName,districtCode,districtName,
          townCity,borderPostName,team_number,interview_key,interview_id,enumerator_name,enumerator_contact, everything()
   ) %>% 
-  arrange(districtCode,borderPostName,team_number,enumerator_name) #  %>%
+  arrange(districtCode,borderPostName,team_number,enumerator_name) %>%
+  mutate(
+    dates = as.Date(gps_Timestamp),
+    year = year(as.Date( gps_Timestamp )),
+    month = as.character(month(gps_Timestamp, label = TRUE, abbr = FALSE))
+  )
+#  %>%
 # left_join(ICBT_metaData)
 
 
