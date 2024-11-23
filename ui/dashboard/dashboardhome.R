@@ -99,10 +99,17 @@
               "Action Menu",
               tabName = "actionMenu",
               icon = icon("cloud-download")
+            ),
+            menuItem(
+              "Manual Rejection",
+              tabName = "manualRejectionMenu",
+              icon = icon(name="filter-circle-xmark", class = NULL, lib = "font-awesome")
+              # icon = icon("fa-filter-circle-xmark")
+              # icon = icon("table")
             )
           ) 
         ),
-        
+        # https://www.rdocumentation.org/packages/shiny/versions/1.9.1/topics/icon
         controlbar = dashboardControlbar(),
         
         #footer
@@ -121,7 +128,8 @@
           source("ui/dashboard/navbarPages/monitor_report.R", local = TRUE)$value,
           source("ui/dashboard/navbarPages/view_icbtDataSet.R", local = TRUE)$value,
           source("ui/dashboard/navbarPages/view_icbtErrors.R", local = TRUE)$value,
-          source("ui/dashboard/navbarPages/icbt_actionMenus.R", local = TRUE)$value
+          source("ui/dashboard/navbarPages/icbt_actionMenus.R", local = TRUE)$value,
+          source("ui/dashboard/navbarPages/manualRejectionMenu.R", local = TRUE)$value
             
             
           )

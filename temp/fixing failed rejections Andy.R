@@ -15,6 +15,9 @@ library(tidyverse)
 library(haven)
 library(readxl)
 library(gdata)
+library(openxlsx)
+
+
 sqlSvr <- readRDS("server/credentials/icbt_svr.rds") 
 
 # server authentication:
@@ -29,8 +32,8 @@ server_qnr <- susoapi::get_questionnaires() %>%
   distinct(title, .keep_all = T)
 
 
-errordata <- readRDS("C:/2024ICBT/Data_final/error_data.RDS") 
-finalfails <- readRDS("C:/2024ICBT/Data_final/finalFailedRejections.RDS") %>% distinct(responsibleId,interview_id,interview_key, .keep_all = T)
+errordata <- readRDS("C:/2024ICBT/Data_final/error_data.RDS") # %>% filter(enumerator_name=="ABUBAKAR AMINATU" ) %>% distinct(responsibleId,interview_id,interview_key, .keep_all = )
+finalfails <- readRDS("C:/2024ICBT/Data_final/finalFailedRejections.RDS") %>% distinct(responsibleId,interview_id,interview_key, .keep_all = T) # %>% filter(interview_id== errordata$interview_id)
 
 # errordata <- readRDS("C:/2024ICBT/Data_final/error_data.RDS") %>% filter(enumerator_name=="PATIENCE GYABENG")
 # finalfails <- readRDS("C:/2024ICBT/Data_final/finalFailedRejections.RDS") %>%
@@ -123,6 +126,9 @@ failedServerRejects <- failedServerRejects %>%
   ) %>% select(
     regionCode, regionName,districtCode,districtName, townCity,borderName, everything()
   )
+write.xlsx(failedRejectedCases, "rejectionfeedbacks/failedServerRejects.xlsx")
+saveRDS(failedRejectedCases, "rejectionfeedbacks/failedRejectedCases.RDS")
+saveRDS(failedServerRejects, "rejectionfeedbacks/failedServerRejects.RDS")
 
 sucessInterviewerServerRejects <-sucessInterviewerServerRejects %>% distinct(team_number,enumerator_name,enumerator_contact, .keep_all = T) %>%
   select( -any_of(c("Password","WebMode","IsAudioRecordingEnabled","Email","Quantity","Archived")))%>%

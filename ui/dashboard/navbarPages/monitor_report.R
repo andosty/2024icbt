@@ -8,6 +8,14 @@ tabItem(
                   # br(),
                   # br(),
                   h4("Monitor Report"),
+                  # box(
+                  #   selectInput("month_selct", label="Month",
+                  #                 choice=list(monthChoices) )
+                  #                 ),
+                  
+                  uiOutput(outputId = "monthDataCollection"),
+                  uiOutput(outputId = "quarterDataCollection"),
+                  uiOutput(outputId = "dateRangeDataCollection"),
                   
                   
                   tabBox(

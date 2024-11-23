@@ -780,7 +780,36 @@ server <- function(input, output, session) {
                   }
   )
   
+  #manual rejection filters
+  #-------------------------start
+  output$rejectionRegion <- renderUI({
+    selectInput(inputId = "selectRegionToReject", 
+                label = "Select Region:",
+                choices = unique(icbt_dataset()[['icbt_error_dataset']] %>% distinct(RegionName)),
+                selected= first(unique(icbt_dataset()[['icbt_error_dataset']] %>% distinct(RegionName))) )
+  })
   
+  output$rejectionTeamNumber <- renderUI({
+    selectInput(inputId = "selectTeamToReject", 
+                label = "Select Team:",
+                choices = unique(icbt_dataset()[['icbt_error_dataset']] %>% filter(RegionName==input$selectRegionToReject) %>% distinct(team_number) %>% arrange(team_number)),
+                selected= first(
+                            unique(icbt_dataset()[['icbt_error_dataset']] %>% filter(RegionName==input$selectRegionToReject) %>% distinct(team_number) %>% arrange(team_number))
+                                )
+                )
+  })
+  
+  output$rejectionEnumeatorName <- renderUI({
+    selectInput(inputId = "selectEnumeratorToReject", 
+                label = "Select Enumarator:",
+                choices = unique(icbt_dataset()[['icbt_error_dataset']] %>% filter(RegionName==input$selectRegionToReject & team_number==input$selectTeamToReject) %>% distinct(team_number) %>% arrange(team_number)),
+                selected= first(
+                            unique(icbt_dataset()[['icbt_error_dataset']] %>% filter(RegionName==input$selectRegionToReject & team_number==input$selectTeamToReject) %>% distinct(team_number) %>% arrange(team_number))
+                                )
+                )
+  })
+  
+  #-------------------------end
   observeEvent(input$doReject, {
     
     if(nrow(icbt_dataset()[['icbt_error_dataset']])>0)   { 
