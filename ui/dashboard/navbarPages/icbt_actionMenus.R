@@ -35,9 +35,9 @@ tabItem(
       radioButtons("type","format type:",
                    choices = c("Excel (CSV)","Stata","R")
                     ),
-       br(),
+       # br(),
       helpText("Click on the download button to download the dataset observations assigned to you"),
-      downloadButton('downloadData','Download'),
+      downloadButton('downloadData','Download', class="btn btn-primary"),
       
       # tableOutput(outputId = 'selectedDataset'),
       

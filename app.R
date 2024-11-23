@@ -1,6 +1,16 @@
 # setwd("C:/2024ICBT/")
 source("server/datapackages.R",  local = TRUE)
+# library("assertthat")
+library("bslib")
 
+theme=bs_theme(
+  version = 5,
+  bg = "#FFFFFF",
+  fg = "#000000",
+  primary = "#0199F8",
+  secondary = "#FF374B",
+  base_font = "Maven Pro"
+)
 
 
 ui <-
@@ -31,7 +41,7 @@ fluidPage(
 # Define server logic required 
 server <- function(input, output, session) {
   
-
+  # bs_themer()
   
   final_data_toLoad <- paste('Data_final/','icbt_data.RDS' , sep = '')
   final_error_toLoad <- paste('Data_final/','error_data.RDS' , sep = '')
@@ -782,34 +792,439 @@ server <- function(input, output, session) {
   
   #manual rejection filters
   #-------------------------start
-  output$rejectionRegion <- renderUI({
-    selectInput(inputId = "selectRegionToReject", 
-                label = "Select Region:",
-                choices = unique(icbt_dataset()[['icbt_error_dataset']] %>% distinct(RegionName)),
-                selected= first(unique(icbt_dataset()[['icbt_error_dataset']] %>% distinct(RegionName))) )
+  #Select region
+  #select the REGION  ####################
+  output$rejectionRegion <- tryCatch({
+    renderUI({
+            selectInput(inputId = "selectRegionToReject",
+                        label = "Select Region:",
+                        choices = array(unlist(icbt_dataset()[['icbt_error_dataset']] %>% distinct(RegionName))),
+                        # choices = unique(icbt_dataset()[['icbt_error_dataset']] %>% distinct(RegionName)),
+                        selected= first(array(unlist(icbt_dataset()[['icbt_error_dataset']] %>% distinct(RegionName))) )
+            )
+          })
+    },
+    error=function(cond) {
+      message(paste("colnames caused a warning:"))
+      # message(paste("colnames caused a warning:", temp_colnames))
+      # message(cond)
+      
+    },
+    warning=function(cond) {
+      message(paste("colnames caused a warning:"))
+      # message(paste("colnames caused a warning:", temp_colnames))
+      # message(cond)
+      
+    },
+  finally={
+    message(paste("Processing colnames: "))
+    # message(paste("Processing colnames: ", temp_colnames))
+  })
+  #select the rEGION END ####################
+  
+  #select team number
+  #select the tEAM  ####################
+  observeEvent(input$selectRegionToReject, {
+    if(!is.null(input$selectRegionToReject)){ 
+        output$rejectionTeamNumber <-  renderUI({
+                selectInput(inputId = "selectTeamToReject",
+                            label = "Select Team:",
+                            choices = array(unlist(icbt_dataset()[['icbt_error_dataset']] %>% filter(RegionName==input$selectRegionToReject) %>% distinct(team_number) %>% arrange(team_number))),
+                            selected= first(
+                              array(unlist(icbt_dataset()[['icbt_error_dataset']] %>% filter(RegionName==input$selectRegionToReject) %>% distinct(team_number) %>% arrange(team_number)))
+                            )
+                )
+              })
+    } else {
+      output$rejectionTeamNumber <-  renderUI({
+        selectInput(inputId = "selectTeamToReject",
+                    label = "No Team Selected:",
+                    choices = c(""),
+                    selected= ""
+        )
+      })
+      }
+  })
+  #select the tEAM END ####################
+  
+  # #select the enumerator  ####################
+  observeEvent(input$selectTeamToReject, {
+          if(!is.null(input$selectTeamToReject)){ 
+                output$rejectionEnumeratorName <-  renderUI({
+                        selectInput(inputId = "selectEnumeratorToReject",
+                                    label = "Select Enumarator:",
+                                    choices = array(unlist( icbt_dataset()[['icbt_error_dataset']] %>% filter(RegionName==input$selectRegionToReject & team_number==input$selectTeamToReject) %>% distinct(enumerator_name) %>% arrange(enumerator_name))),
+                                    selected= first(
+                                      array(unlist( icbt_dataset()[['icbt_error_dataset']] %>% filter(RegionName==input$selectRegionToReject & team_number==input$selectTeamToReject) %>% distinct(enumerator_name) %>% arrange(enumerator_name)))
+                                                    )
+                                    )
+                })
+          } else {
+                      output$rejectionEnumeratorName <-  renderUI({
+                        selectInput(inputId = "selectEnumeratorToReject",
+                                    label = "No Enumerator Selected:",
+                                    choices = c(""),
+                                    selected= ""
+                        )
+                      })
+          }
   })
   
-  output$rejectionTeamNumber <- renderUI({
-    selectInput(inputId = "selectTeamToReject", 
-                label = "Select Team:",
-                choices = unique(icbt_dataset()[['icbt_error_dataset']] %>% filter(RegionName==input$selectRegionToReject) %>% distinct(team_number) %>% arrange(team_number)),
-                selected= first(
-                            unique(icbt_dataset()[['icbt_error_dataset']] %>% filter(RegionName==input$selectRegionToReject) %>% distinct(team_number) %>% arrange(team_number))
-                                )
-                )
+  # #select the CASE
+  # #select the CASE  ####################
+  observeEvent(input$selectEnumeratorToReject, {
+    if(!is.null(input$selectEnumeratorToReject)){ 
+      output$rejectionEnumeratorCase <-  renderUI({
+                selectInput(inputId = "selectEnumeratorCaseToReject",
+                            label = "Select Case:",
+                            choices = array(unlist( icbt_dataset()[['icbt_error_dataset']] %>% filter(RegionName==input$selectRegionToReject & team_number==input$selectTeamToReject & enumerator_name==input$selectEnumeratorToReject) %>% distinct(interview_key) %>% arrange(interview_key))),
+                            selected= first(
+                              array(unlist( icbt_dataset()[['icbt_error_dataset']] %>% filter(RegionName==input$selectRegionToReject & team_number==input$selectTeamToReject & enumerator_name==input$selectEnumeratorToReject) %>% distinct(interview_key) %>% arrange(interview_key)))                                )
+                            )
+      })
+    } else {
+      output$rejectionEnumeratorName <-  renderUI({
+        selectInput(inputId = "selectEnumeratorCaseToReject",
+                    label = "No Case is Selected:",
+                    choices = c(""),
+                    selected= ""
+        )
+      })
+    }
   })
   
-  output$rejectionEnumeatorName <- renderUI({
-    selectInput(inputId = "selectEnumeratorToReject", 
-                label = "Select Enumarator:",
-                choices = unique(icbt_dataset()[['icbt_error_dataset']] %>% filter(RegionName==input$selectRegionToReject & team_number==input$selectTeamToReject) %>% distinct(team_number) %>% arrange(team_number)),
-                selected= first(
-                            unique(icbt_dataset()[['icbt_error_dataset']] %>% filter(RegionName==input$selectRegionToReject & team_number==input$selectTeamToReject) %>% distinct(team_number) %>% arrange(team_number))
-                                )
-                )
+  # #button to click  to get Tablet Sync History  ####################
+  observeEvent(input$selectEnumeratorCaseToReject, {
+    if(!is.null(input$selectEnumeratorCaseToReject)){ 
+      div(style = "bootstrap",
+        output$tabletHistoryButton <-  renderUI({
+          actionButton("doGetTabletHistoryButton", "Sync Stats",type="button", class="btn btn-primary")
+        }),
+        output$clickManualRejection <-  renderUI({
+          actionButton("doManualReject", "Reject Case",type="button", class="btn btn-danger")
+        })
+        
+      )
+    } else {
+        output$tabletHistoryButton <-  renderUI()
+     }
+   })
+    
+
+  
+  interview_idToReject <- reactive(
+                filter(
+                  icbt_dataset()[['icbt_error_dataset']] %>% 
+                    filter(RegionName==input$selectRegionToReject &
+                             team_number==input$selectTeamToReject &
+                             enumerator_name==input$selectEnumeratorToReject &
+                             interview_key==input$selectEnumeratorCaseToReject 
+                    )
+                ) %>% distinct(interview_key,enumerator_name,responsibleId, .keep_all = T) %>% pull(interview_id)
+  )
+  
+  interviewerCaseStatus  <- reactive({
+    get_interview_stats(
+      interview_idToReject()
+    )
   })
+  
+  getTabletActivity <- reactive({
+    get_user_action_log(
+      user_id = interviewerCaseStatus()$ResponsibleId,
+      start =  as.character(today()-1),
+      end = as.character(today()+1)
+    ) %>% filter( Message !="Sync started (Online)")
+  })
+  
+  
+  # Get tablet history
+  observeEvent(input$doGetTabletHistoryButton, {
+    interview_idToReject()
+    interviewerCaseStatus()
+    # getTabletActivity()
+    
+    output$tabletSyncStat <- DT::renderDataTable({
+                        DT::datatable(getTabletActivity() %>%
+                                        mutate(
+                                            region = input$selectRegionToReject ,
+                                            team=input$selectTeamToReject ,
+                                            enumerator_name=input$selectEnumeratorToReject,
+                                            Time = format(ymd_hms(Time,tz=Sys.timezone()), "%Y-%m-%d %I:%M %p"),
+                                          ) %>% select(-UserId)
+                                      )
+    })
+    
+    # if(not_empty(input$selectRegionToReject) &
+    #             not_empty(input$selectTeamToReject) &
+    #             not_empty(input$selectEnumeratorToReject) &
+    #             not_empty(input$selectEnumeratorCaseToReject) ){
+    # 
+    #       # if(!is.null(input$selectEnumeratorCaseToReject) & !is.null(input$selectEnumeratorCaseToReject)){
+    #   # toReject <- filter(
+    #   #                     icbt_dataset()[['icbt_error_dataset']] %>% 
+    #   #                       filter(RegionName==input$selectRegionToReject &
+    #   #                                team_number==input$selectTeamToReject &
+    #   #                                enumerator_name==input$selectEnumeratorToReject &
+    #   #                                interview_key==input$selectEnumeratorCaseToReject 
+    #   #                              )
+    #   #                 ) %>% distinct(interview_key,enumerator_name,responsibleId, .keep_all = T)
+    #   #                                                                    
+    #   
+    #   # interviewerCase_status<- reactive({
+    #   #   get_interview_stats(
+    #   #     toReject$interview_id
+    #   #   )
+    #   # }) 
+    #     
+    #   # get_tablet_activity <- reactive({
+    #   #     get_user_action_log(
+    #   #   user_id = interviewerCase_status()$ResponsibleId,
+    #   #   start =  as.character(today()-1),
+    #   #   end = as.character(today()+1)
+    #   # ) %>% filter( Message !="Sync started (Online)")
+    #   # })
+    #   
+    #   ######
+    #   tryCatch({
+    #     interview_idToReject()
+    #     interviewerCaseStatus()
+    #     getTabletActivity()
+    #     
+    #     output$tabletSyncStat <- DT::renderDataTable({
+    #       DT::datatable(getTabletActivity() %>% mutate(
+    #         region = input$selectRegionToReject ,
+    #         team_number=input$selectTeamToReject ,
+    #         enumerator_name=input$selectEnumeratorToReject
+    #       ) 
+    #       )
+    #     })
+    #     
+    #   },
+    #   warning=function(cond) {
+    #     message(paste("colnames caused a warning:"))
+    #     # message(cond)
+    #   })
+      ########
+          
+    # }  
+      
+    # else {
+    #   output$tabletSyncStat <- DT::renderDataTable({
+    #     DT::datatable(data.frame() )  #pass empty dataframe
+    #   })
+    # }
+  })
+  
+        
+     
+   
+  observeEvent(input$doManualReject, {
+
+    if(nrow(interviewerCaseStatus()) >0)   {
+      
+      if(reject_interview_as_hq(
+        interview_id= interviewerCaseStatus()$InterviewId,
+        comment = "check and correct your errors",
+        responsible_id = interviewerCaseStatus()$ResponsibleId,
+        verbose = TRUE
+      )==TRUE){
+        shinyalert(
+          title ="Task Successfull!",
+          text = paste0("Case-Key '",interviewerCaseStatus()$InterviewKey,"' Rejected Succesfullly!"," to Interviewer Name:", str_to_title(input$selectEnumeratorToReject) ),
+          type = "success"
+          )
+      } else {
+        shinyalert(
+          title ="Rejection Error!",
+          text = paste0("Case-Key '",interviewerCaseStatus()$InterviewKey,"' Rejected Failed!"," for Interviewer Name: ", str_to_title(input$selectEnumeratorToReject) ),
+          type = "warning"
+        )
+      }
+      
+    } else{
+      shinyalert(title = "There are NO CASES with Error Messages to Reject!", type = "warning")
+    }
+  })    
+  
+  #get tablet sync history table
+  # observeEvent(input$getTabletHistory, {
+  #   
+  # })
+    
+  
+  
+  # #select the CASE END ####################
+  
+  
+  
+  #select team number
+  #select the tEAM start ####################
+  # if(!is.null(input$selectRegionToReject)){
+  #   output$rejectionTeamNumber <- tryCatch({
+  #     renderUI({
+  #       selectInput(inputId = "selectTeamToReject",
+  #                   label = "Select Team:",
+  #                   choices = array(unlist(icbt_dataset()[['icbt_error_dataset']] %>% filter(RegionName==input$selectRegionToReject) %>% distinct(team_number) %>% arrange(team_number))),
+  #                   selected= first(
+  #                     array(unlist(icbt_dataset()[['icbt_error_dataset']] %>% filter(RegionName==input$selectRegionToReject) %>% distinct(team_number) %>% arrange(team_number)))
+  #                   )
+  #       )
+  #     })
+  #     # temp_t_test_result <- t.test(formula(paste0("`", temp_colnames,"`~group")), data = temp_data)
+  #     
+  #   },
+  #   error=function(cond) {
+  #     message(paste("colnames caused a warning:"))
+  #     # message(paste("colnames caused a warning:", temp_colnames))
+  #     # message(cond)
+  #     
+  #   },
+  #   warning=function(cond) {
+  #     message(paste("colnames caused a warning:"))
+  #     # message(paste("colnames caused a warning:", temp_colnames))
+  #     # message(cond)
+  #     
+  #   },
+  #   finally={
+  #     message(paste("Processing colnames: "))
+  #     # message(paste("Processing colnames: ", temp_colnames))
+  #   })
+  # } else {
+  #   renderUI({
+  #     selectInput(inputId = "selectTeamToReject",
+  #                 label = "Select Team:",
+  #                 choices = c(""),
+  #                 selected= ""
+  #     )
+  #   })
+  # }
+  
+
+  
+  #select the tEAM END ####################
+  
+  # #select the enumerator
+  # #select the enumerator start ####################
+  # output$rejectionEnumeatorName <- tryCatch({
+  #   renderUI({
+  #       selectInput(inputId = "selectEnumeratorToReject",
+  #                   label = "Select Enumarator:",
+  #                   choices = array(unlist( icbt_dataset()[['icbt_error_dataset']] %>% filter(RegionName==input$selectRegionToReject & team_number==input$selectTeamToReject) %>% distinct(enumerator_name) %>% arrange(enumerator_name))),
+  #                   selected= first(
+  #                     array(unlist( icbt_dataset()[['icbt_error_dataset']] %>% filter(RegionName==input$selectRegionToReject & team_number==input$selectTeamToReject) %>% distinct(enumerator_name) %>% arrange(enumerator_name)))
+  #                                   )
+  #                   )
+  #   })
+  #   # temp_t_test_result <- t.test(formula(paste0("`", temp_colnames,"`~group")), data = temp_data)
+  #   
+  # },
+  # error=function(cond) {
+  #   message(paste("colnames caused a warning:"))
+  #   # message(paste("colnames caused a warning:", temp_colnames))
+  #   # message(cond)
+  #   
+  # },
+  # warning=function(cond) {
+  #   message(paste("colnames caused a warning:"))
+  #   # message(paste("colnames caused a warning:", temp_colnames))
+  #   # message(cond)
+  #   
+  # },
+  # finally={
+  #   message(paste("Processing colnames: "))
+  #   # message(paste("Processing colnames: ", temp_colnames))
+  # })
+  # #select the enumerator eND ####################
+  # #select the case
+  # 
+  # #select the CASE start ####################
+  # output$rejectionEnumeratorCase <- tryCatch({
+  #   renderUI({
+  #         selectInput(inputId = "selectEnumeratorCaseToReject",
+  #                     label = "Select Case:",
+  #                     choices = array(unlist( icbt_dataset()[['icbt_error_dataset']] %>% filter(RegionName==input$selectRegionToReject & team_number==input$selectTeamToReject & enumerator_name==input$selectEnumeratorToReject) %>% distinct(interview_key) %>% arrange(interview_key))),
+  #                     selected= first(
+  #                       array(unlist( icbt_dataset()[['icbt_error_dataset']] %>% filter(RegionName==input$selectRegionToReject & team_number==input$selectTeamToReject & enumerator_name==input$selectEnumeratorToReject) %>% distinct(interview_key) %>% arrange(interview_key)))                                )
+  #                     )
+  #   })
+  #   # temp_t_test_result <- t.test(formula(paste0("`", temp_colnames,"`~group")), data = temp_data)
+  #   
+  # },
+  # error=function(cond) {
+  #   message(paste("colnames caused a warning:"))
+  #   # message(paste("colnames caused a warning:", temp_colnames))
+  #   # message(cond)
+  #   
+  # },
+  # warning=function(cond) {
+  #   message(paste("colnames caused a warning:"))
+  #   # message(paste("colnames caused a warning:", temp_colnames))
+  #   # message(cond)
+  #   
+  # },
+  # finally={
+  #   message(paste("Processing colnames: "))
+  #   # message(paste("Processing colnames: ", temp_colnames))
+  # })
+  # #select the case end ####################
+  
+  # END ALL -------------------------------
+  
+  # output$rejectionTeamNumber <- renderUI({
+  #   selectInput(inputId = "selectTeamToReject",
+  #               label = "Select Team:",
+  #               choices = array(unlist(icbt_dataset()[['icbt_error_dataset']] %>% filter(RegionName==input$selectRegionToReject) %>% distinct(team_number) %>% arrange(team_number))),
+  #               selected= first(
+  #                 array(unlist(icbt_dataset()[['icbt_error_dataset']] %>% filter(RegionName==input$selectRegionToReject) %>% distinct(team_number) %>% arrange(team_number)))
+  #                               )
+  #               )
+  # })
+
+  # output$rejectionEnumeatorName <- renderUI({
+  #   selectInput(inputId = "selectEnumeratorToReject",
+  #               label = "Select Enumarator:",
+  #               choices = array(unlist( icbt_dataset()[['icbt_error_dataset']] %>% filter(RegionName==input$selectRegionToReject & team_number==input$selectTeamToReject) %>% distinct(enumerator_name) %>% arrange(enumerator_name))),
+  #               selected= first(
+  #                 array(unlist( icbt_dataset()[['icbt_error_dataset']] %>% filter(RegionName==input$selectRegionToReject & team_number==input$selectTeamToReject) %>% distinct(enumerator_name) %>% arrange(enumerator_name)))
+  #                               )
+  #               )
+  # })
+# 
+#   output$rejectionEnumeratorCase <- renderUI({
+#     selectInput(inputId = "selectEnumeratorCaseToReject",
+#                 label = "Select Case:",
+#                 choices = array(unlist( icbt_dataset()[['icbt_error_dataset']] %>% filter(RegionName==input$selectRegionToReject & team_number==input$selectTeamToReject & enumerator_name==input$selectEnumeratorToReject) %>% distinct(interview_key) %>% arrange(interview_key))),
+#                 selected= first(
+#                   array(unlist( icbt_dataset()[['icbt_error_dataset']] %>% filter(RegionName==input$selectRegionToReject & team_number==input$selectTeamToReject & enumerator_name==input$selectEnumeratorToReject) %>% distinct(interview_key) %>% arrange(interview_key)))                                )
+#                 )
+#   })
+  
+  # 
+  # #get enum case
+  # caseToReject <- icbt_dataset()[['icbt_error_dataset']] %>% 
+  #   filter(RegionName==input$selectRegionToReject & team_number==input$selectTeamToReject & enumerator_name==input$selectEnumeratorToReject & interview_key==input$selectEnumeratorCaseToReject  ) %>%
+  #   distinct(interview_key, .keep_all = T) 
+  # 
+  # interviewerCase_status<- get_interview_stats(
+  #   caseToReject$interview_id
+  # )
+  # 
+  # #to display in table
+  # # InterviewKey, ResponsibleName, NumberOfInterviewers, NumberRejectionsBySupervisor,NumberRejectionsByHq,InterviewDuration,UpdatedAtUtc
+  # 
+  # get_tablet_activity <- get_user_action_log(
+  #   user_id = interviewerCase_status$ResponsibleId,
+  #   start =  as.character(today()-1),
+  #   end = as.character(today()+1)
+  # ) %>% filter( Message !="Sync started (Online)")
+  # 
+  
   
   #-------------------------end
+  
+  # reject all enum cases  
+  #-------------------------start
   observeEvent(input$doReject, {
     
     if(nrow(icbt_dataset()[['icbt_error_dataset']])>0)   { 
@@ -868,17 +1283,12 @@ server <- function(input, output, session) {
           interview_id=row$interview_id,
           comment = row$errorMessage,
           responsible_id = row$responsibleId,
-          verbose = TRUE,
-          
-          server = Sys.getenv("SUSO_SERVER"),
-          workspace = Sys.getenv("SUSO_WORKSPACE"),
-          user = Sys.getenv("SUSO_USER"),
-          password = Sys.getenv("SUSO_PASSWORD")
+          verbose = TRUE
         )==TRUE){
           print("case successfully rejected")
         } else {
           #add case to failedRejections Dataframe be retried for re-rejections
-          print("rejection failed")
+          # print("rejection failed")
           failedRejections <- rbind(failedRejections,row)
         }
         
@@ -982,3 +1392,4 @@ server <- function(input, output, session) {
 
 # Run the application 
 shinyApp(ui = ui, server = server)
+# run_with_themer(shinyApp(ui = ui, server = server))

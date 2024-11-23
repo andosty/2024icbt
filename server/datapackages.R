@@ -2,6 +2,9 @@
 # if(!require(labelled )) install.packages("labelled ")
 if(!require(plotly)) install.packages("plotly")
 if(!require(shinyalert)) install.packages("shinyalert")
+if(!require(bslib)) install.packages("bslib")
+if(!require(bsicons)) install.packages("bsicons")
+# install.packages("bslib")
 # Load the package
 
 library(shinyalert)
@@ -23,6 +26,8 @@ library(readr)
 library(readxl)
 library(shiny)
 library(shinyjs)
+library(tidyverse)
+library(jsonlite)
 # library(SnowballC)
 # library(splitstackshape)
 # library(stopwords)
@@ -35,7 +40,7 @@ library(tidytext)
 library(tidyverse)
 library(tm)
 
-
+library(bslib)
 
 # library(readstata13)
 # library(gdata)
