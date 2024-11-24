@@ -18,7 +18,7 @@
                  # fluidRow(
                    column( width = 9,align = "left",
                            fluidRow(
-                             div("Last Accessed Downloaded at:",  textOutput("lastAccessedDataDownload") )
+                             div("Last Accessed:",  textOutput("lastAccessedDataDownload") )
                            )
                    ),
                    

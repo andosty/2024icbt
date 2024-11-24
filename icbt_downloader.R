@@ -129,7 +129,7 @@ setwd("C:/2024ICBT/")
   # FreshUsersAssignments<- new_usersAssignments %>% filter(QuestionnaireId=="49957160c7e44af9a658b99111b9104d$1")
   
   #date and time of cuurent last data download run
-  saveRDS(format(now(), "%a %B %Y, %I:%M %p"), "Data_final/lastDataAccessedDateTime.RDS")
+  saveRDS(format(now(), "%a %b %Y, %I:%M %p"), "Data_final/lastDataAccessedDateTime.RDS")
   
   downloaded_icbt_data <- data.frame()
   
