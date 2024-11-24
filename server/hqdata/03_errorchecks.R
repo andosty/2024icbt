@@ -692,6 +692,7 @@ otherSPecifiedError2 <-otherCommdtyDescriptionKK %>%
                ) |  #excluded wood
      str_to_lower(productObserved_otherSpecify)=="water"
   ) %>%
+  filter(!(str_detect(str_to_lower(productObserved_otherSpecify),"alcoholic crate|alcohol crate"))) %>% #remove "empty alcoholic crate" as an error
 mutate(
   errorCheck = 'other Specified Error',
   errorMessage = paste("other specified commodity ='",productObserved_otherSpecify,"', already exists as a select option", sep = '')
