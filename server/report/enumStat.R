@@ -1,58 +1,14 @@
-output$quarterDataCollection <- tryCatch({
-  renderUI({
-    selectInput(inputId = "selectQuarter",
-                label = "Select Quarter:",
-                choices = array(unlist(unique(icbt_dataset()[['icbt_dataset_final']]$quarter))),
-                selected= first(array(unlist(unique(icbt_dataset()[['icbt_dataset_final']]$quarter))) )
-        )
-      })
-    },
-    error=function(cond) {
-      message(paste("colnames caused a warning:"))
-      # message(paste("colnames caused a warning:", temp_colnames))
-    },
-    warning=function(cond) {
-      message(paste("colnames caused a warning:"))
-})
-
-observeEvent(input$selectQuarter, {
-  output$monthDataCollection <-  renderUI({
-    selectInput(inputId = "selectMonth",
-                label = "Month of data collection:",
-                choices = array(unlist(unique(icbt_dataset()[['icbt_dataset_final']]%>% filter(quarter==input$selectQuarter) %>% distinct(month)))),
-                selected= first(
-                                array(unlist(icbt_dataset()[['icbt_dataset_final']]%>% filter(quarter==input$selectQuarter) %>% distinct(month)))                  
-                                )
-                  )
-  })
-})
 
 
-
-observeEvent(input$selectMonth, {
-  output$dateRangeDataCollection <-  renderUI({
-    dateRange <- icbt_dataset()[['icbt_dataset_final']]%>% 
-      filter(quarter==input$selectQuarter & month==input$selectMonth ) %>% 
-      distinct(dates) %>%
-      summarise(min = min(dates),
-                max = max(dates))
-      
-    dateRangeInput(inputId = "selectdateRange", 
-                   label = "Data Range:",
-                   start = as.Date(dateRange$min),
-                   end = as.Date(dateRange$max),
-                   min = as.Date(dateRange$min),
-                   max = as.Date(dateRange$max)
-                   )
-  })
-})
-
-
-filteredIcbtData <- reactive({
-  icbt_dataset()[['icbt_dataset_final']]   %>%
-    filter(quarter==input$selectQuarter)  %>%
-    filter(month==input$selectMonth)
-})
+# dateRangeSubsetICBTDataset() <- reactive({
+#   dateRangeSubsetICBTDataset()
+#   head(dateRangeSubsetICBTDataset())
+#   # icbt_dataset()[['icbt_dataset_final']]   %>%
+#   #   filter(quarter==input$selectQuarter)  %>%
+#   #   filter(as.character(month)==as.character('October'))
+#     # filter(as.character(month)==as.character('November'))
+#     # filter(as.character(month)==as.character(input$selectMonth))
+# })
 
 # filtered_ICBT_data <- icbt_dataset()[['icbt_dataset_final']]   %>%
 #   filter(quarter==input$selectQuarter)  %>%
@@ -87,13 +43,13 @@ filtered_ICBT_Errors<-  icbt_dataset()[['icbt_error_dataset']] %>%
 #   )
 # })
 
-enumMeta <- filteredIcbtData() %>%   select(regionCode, RegionName, districtCode, districtName, townCity, borderPostName,team_number,
+enumMeta <- dateRangeSubsetICBTDataset() %>%   select(regionCode, RegionName, districtCode, districtName, townCity, borderPostName,team_number,
                                                                 enumerator_name, enumerator_contact ,) %>%
   distinct(regionCode, RegionName, districtCode, districtName, townCity, borderPostName,team_number,
            enumerator_name, enumerator_contact
   )
 
-enumStat_respondent_flow<- filteredIcbtData() %>% 
+enumStat_respondent_flow<- dateRangeSubsetICBTDataset() %>% 
   distinct(regionCode, RegionName, districtCode, districtName, townCity, borderPostName,team_number,
            enumerator_name, enumerator_contact ,interview_key,
            interview_id, interview_key, transpondent_id, observedRespondentDescription,.keep_all = T) %>%
@@ -146,7 +102,7 @@ enumStat_respondent_flow<- filteredIcbtData() %>%
   
 
 
-enumStat_trade <- filteredIcbtData() %>%
+enumStat_trade <- dateRangeSubsetICBTDataset() %>%
   group_by(regionCode, RegionName, districtCode, districtName, townCity, borderPostName,team_number,
            enumerator_name, enumerator_contact) %>%
   summarise(

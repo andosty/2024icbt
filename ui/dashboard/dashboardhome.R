@@ -14,68 +14,28 @@
             
             # img(src = "gss.png")
           ) ,
-          column(
-            align = "right",
-            10, #12
-            tags$button(
-              id = "submit_sign_out",
-              type = "button",
-              "Sign Out",
-              class = "btn-danger",
-              # class = "btn-danger pull-right",
-              style = "color: white;"
-            )
-          )
-          
-          # tags$button(
-          #   align = "right",
-          #   id = "submit_sign_out",
-          #   type = "button",
-          #   "Sign Out",
-          #   class = "btn-danger pull-right",
-          #   style = "color: white;"
-          # )
-          
-          
-          # ,
-          # 
-          # rightUi = 
-          #   dropdownMenu(
-          #   badgeStatus = "info",
-          #   type = "notifications",
-          #   
-          # ,
-          #   
-          #   # actionButton("titleBtId", "", icon = icon("refresh"),
-          #   #              class = "btn-primary btn-s", title = "Sign Out" , id = "submit_sign_out"),
-          #   
-          #   # box(
-          #   #   title = p("Title 1", 
-          #   #             actionButton("titleBtId", "", icon = icon("refresh"),
-          #   #                          class = "btn-xs", title = "Update")
-          #   #   ), 
-          #   #   width = 4, solidHeader = FALSE, status = "warning",
-          #   #   # uiOutput("boxContentUI2")
-          #   # ),
-          #   # 
-          #   
-          #   notificationItem(
-          #     text = "Success",
-          #     status = "success",
-          #     icon = icon("circle-check")
-          #   )
-          #   # notificationItem(
-          #   #   text = "Warning",
-          #   #   status = "warning",
-          #   #   icon = icon("circle-exclamation")
-          #   # ),
-          #   # notificationItem(
-          #   #   text = "Error",
-          #   #   status = "danger",
-          #   #   icon = icon("circle-xmark")
-          #   # )
-          # )
-          # end of right ui
+          # column(width = 11,
+                 # fluidRow(
+                   column( width = 9,align = "left",
+                           fluidRow(
+                             div("Last Accessed Downloaded at:",  textOutput("lastAccessedDataDownload") )
+                           )
+                   ),
+                   
+                   column(
+                     align = "right",
+                     width = 2, #12
+                     tags$button(
+                       id = "submit_sign_out",
+                       type = "button",
+                       "Sign Out",
+                       class = "btn-danger",
+                       # class = "btn-danger pull-right",
+                       style = "color: white;"
+                     )
+                   )
+                 # )
+                 # )
         ),
         
         sidebar = dashboardSidebar(
@@ -126,7 +86,7 @@
           ) 
         ),
         # https://www.rdocumentation.org/packages/shiny/versions/1.9.1/topics/icon
-        controlbar = dashboardControlbar(),
+        # controlbar = dashboardControlbar(),
         
         #footer
         footer = dashboardFooter(

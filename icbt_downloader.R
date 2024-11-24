@@ -127,7 +127,10 @@ setwd("C:/2024ICBT/")
   
   # FreshUsersAssignments<- get_assignments()# %>% filter(QuestionnaireId=="49957160-c7e4-4af9-a658-b99111b9104d")
   # FreshUsersAssignments<- new_usersAssignments %>% filter(QuestionnaireId=="49957160c7e44af9a658b99111b9104d$1")
-    
+  
+  #date and time of cuurent last data download run
+  saveRDS(format(now(), "%a %B %Y, %I:%M %p"), "Data_final/lastDataAccessedDateTime.RDS")
+  
   downloaded_icbt_data <- data.frame()
   
   download_matching(
@@ -278,7 +281,10 @@ setwd("C:/2024ICBT/")
       RegionName= str_to_title(RegionName),
       districtName= str_to_title(districtName),
       borderPostName= str_replace_all(borderPostName,'"',''), 
-      borderPostName= str_to_title(gsub("/", "-", borderPostName) ), 
+      borderPostName= str_to_title(gsub("/", "-", borderPostName) ),
+      borderPostName =  gsub("Boader","Border", (commodityObervedDescription) ) ,
+      borderPostName =  gsub("boader","Border", (commodityObervedDescription) ) ,
+      borderPostName =  gsub("BOADER","Border", (commodityObervedDescription) ) 
     ) %>%
     arrange(RegionName, districtName, townCity, borderPostName, team_number, enumerator_name ) %>%
     mutate( #fix dataset issues
@@ -292,7 +298,7 @@ setwd("C:/2024ICBT/")
         is.na(quarter) & str_to_lower(month)=="october" ~ as.character(1),
         TRUE ~ quarter
       ),
-      dates = as.Date(gps_Timestamp),
+      
 
       
       team_number= parse_number(team_number),
@@ -408,14 +414,17 @@ setwd("C:/2024ICBT/")
       gps_Timestamp = case_when(
                                   interview_key=="59-82-19-59" & interview_id=="592423b19c864fd4a714eeb3b8c0c9fb" ~ qnr_createdDateTime,
                                   interview_key=="50-47-81-71" & interview_id=="6a2bc43595fd4df0b98b2088eca88dd3" ~ qnr_createdDateTime,
+                                  interview_key=="19-97-73-94" & interview_id=="de6bb15e5e5e4e2ebb971a8270fa16be" ~ qnr_createdDateTime,
                                   TRUE ~ gps_Timestamp
-                                )
+                                ),
+      dates = as.Date(gps_Timestamp),
     )
   
   #removal of invalid cases
   downloaded_icbt_data <- downloaded_icbt_data %>%
     filter(
       !(str_squish(trim(str_to_lower(enumerator_name)))=="yachambe kuporkpa moses" & interview_key=="06-08-58-38") |  ## he said he wanted to sync and he was finding difficulty with it so he entered a any random information to be able to help him sync.
+      !(enumerator_name=="Yachambe kuporkpa moses" & interview_key=="06-08-58-38") |  # 
       !(enumerator_name=="Juliana Sekyiraa" & interview_key=="14-40-62-43") |  # 
       !(enumerator_name=="Juliana Sekyiraa" & interview_key=="71-14-18-31") |  # 
       !(str_squish(trim(str_to_lower(enumerator_name)))=="patience gyabeng" & interview_key=="87-78-60-56") |  #

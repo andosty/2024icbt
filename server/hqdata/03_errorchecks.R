@@ -366,7 +366,7 @@ wrongDate <- downloaded_icbt_data %>%
   ) %>% distinct(interview_key, interview_id , .keep_all = T) %>%
   mutate(
     errorCheck = 'invalid Date',
-    errorMessage = paste("invalid start date of case. Gps Date taken ='",gps_Timestamp,"'",'. Error is reported on the 1st transpondent for the Case', sep = '')
+    errorMessage = paste("invalid start date of case. Gps Date taken ='",gps_Timestamp,"'", sep = '')
   ) %>% select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,commodityObervedDescription,Commodity_id, errorCheck,errorMessage)
 errorChecks <- dplyr::bind_rows(errorChecks, wrongDate) #add to the errorData frame file
 rm(wrongDate)

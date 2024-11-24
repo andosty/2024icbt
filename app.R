@@ -46,8 +46,13 @@ server <- function(input, output, session) {
   final_data_toLoad <- paste('Data_final/','icbt_data.RDS' , sep = '')
   final_error_toLoad <- paste('Data_final/','error_data.RDS' , sep = '')
   newInterviewersDataFile <- paste('Data_final/','newInterviewerUsers.RDS' , sep = '')
+  lastAccessedData <- paste('Data_final/','lastDataAccessedDateTime.RDS' , sep = '')
   
   #TradeSummaries
+  output$lastAccessedDataDownload <- renderText({
+      accessedDate()
+    })
+
   
   output$totalTranspondent <- renderText({
     value<- nrow( icbt_dataset()[['icbt_dataset_final']] %>% distinct(interview_key, interview_id, transpondent_id))
@@ -71,6 +76,79 @@ server <- function(input, output, session) {
     format(as.integer(value), big.mark=",")
     
   })
+  
+  
+  ## Monitor report filters
+  output$quarterDataCollection <- tryCatch({
+    renderUI({
+      selectInput(inputId = "selectQuarter",
+                  label = "Select Quarter:",
+                  choices = array(unlist(unique(icbt_dataset()[['icbt_dataset_final']]$quarter))),
+                  selected= first(array(unlist(unique(icbt_dataset()[['icbt_dataset_final']]$quarter))) )
+      )
+    })
+  },
+  error=function(cond) {
+    message(paste("colnames caused a warning:"))
+    # message(paste("colnames caused a warning:", temp_colnames))
+  },
+  warning=function(cond) {
+    message(paste("colnames caused a warning:"))
+  })
+  
+  
+  observeEvent(input$selectQuarter, {
+    output$monthDataCollection <-  renderUI({
+      selectInput(inputId = "selectMonth",
+                  label = "Month of data collection:",
+                  choices = array(unlist((icbt_dataset()[['icbt_dataset_final']]%>% filter(quarter==input$selectQuarter) %>% distinct(month)))),
+                  selected= first(
+                    array(unlist(icbt_dataset()[['icbt_dataset_final']]%>% filter(quarter==input$selectQuarter) %>% distinct(month)))
+                  )
+      )
+    })
+  })
+  
+  quaterSubsetICBTDataset <- reactive({
+    icbt_dataset()[['icbt_dataset_final']] %>% subset(as.integer(quarter) %in% as.integer(input$selectQuarter))
+  })
+  
+  monthSubsetICBTDataset <- reactive({
+    quaterSubsetICBTDataset() %>% subset(
+      (as.integer(quarter) %in% as.integer(input$selectQuarter)) & 
+        (month %in% input$selectMonth)
+      )
+  })
+  
+  dateRangeSubsetICBTDataset <- reactive({
+    monthSubsetICBTDataset() %>% subset(
+      (as.integer(quarter) %in% as.integer(input$selectQuarter)) &
+        (month %in% input$selectMonth)  &
+        ( dates >= as.Date(input$selectdateRange[1]) & dates <= as_date(input$selectdateRange[2]) )
+      )
+  })
+
+  # filteredIcbtData <- quaterSubsetICBTDataset()
+  
+  observeEvent(input$selectMonth, {
+    output$dateRangeDataCollection <-  renderUI({
+      dateRange <- icbt_dataset()[['icbt_dataset_final']]%>% 
+        filter(quarter==input$selectQuarter & month==input$selectMonth ) %>% 
+        distinct(dates) %>%
+        summarise(min = min(dates),
+                  max = max(dates))
+      
+      dateRangeInput(inputId = "selectdateRange", 
+                     label = "Data Range:",
+                     start = as.Date(dateRange$min),
+                     end = as.Date(dateRange$max),
+                     min = as.Date(dateRange$min),
+                     max = as.Date(dateRange$max),
+                     format = "yyyy-mm-dd",
+      )
+    })
+  })
+  
   
   #Error Summaries
   
@@ -167,6 +245,7 @@ server <- function(input, output, session) {
   
   newInterviewers <- reactiveFileReader(3000, session, newInterviewersDataFile, readRDS)
   
+  accessedDate <- reactiveFileReader(3000, session, lastAccessedData, readRDS)
 
   # collectionPeriod <- reactiveFileReader(3000, session, paste('Data_final/','dataCollectionPeriod.RDS' , sep = ''), readRDS)
   
@@ -213,13 +292,18 @@ server <- function(input, output, session) {
     for(i in 1:nrow(user_assigned_data)) {
       row <- user_assigned_data[i,]
       filteredDataset <-  dataRefresh() %>%
-        filter(
-          regionCode %in% (row$startRegionCode:row$endRegionCode)
-        )  %>%
+        subset(
+          regionCode %in% (row$startRegionCode:row$endRegionCode) & 
+            (team_number >= row$startTeamNumber & team_number<=row$endTeamNumber)
+        ) %>%
+        arrange(RegionName, districtName, townCity, borderPostName, team_number, enumerator_name )
+      
+        # filter(
+        #   regionCode %in% (row$startRegionCode:row$endRegionCode)
+        # )  %>%
         # filter(
         #   parse_number(team_number)>=row$startTeamNumber &   parse_number(team_number)<=row$endTeamNumber
         # ) %>%
-        arrange(RegionName, districtName, townCity, borderPostName, team_number, enumerator_name )
       
       icbt_data <- dplyr::bind_rows(icbt_data, filteredDataset)
       rm(filteredDataset,row)
@@ -230,9 +314,13 @@ server <- function(input, output, session) {
       for(i in 1:nrow(user_assigned_data)) {
       row <- user_assigned_data[i,]
       filteredErrorDataset <-  errorDataRefresh() %>%
-        filter(
-          regionCode %in% (row$startRegionCode:row$endRegionCode)
-        )  %>%
+        subset(
+          regionCode %in% (row$startRegionCode:row$endRegionCode) & 
+            (team_number >= row$startTeamNumber & team_number<=row$endTeamNumber)
+        ) %>%
+        # filter(
+        #   regionCode %in% (row$startRegionCode:row$endRegionCode)
+        # )  %>%
         # filter(
         #   parse_number(team_number)>=row$startTeamNumber &   parse_number(team_number)<=row$endTeamNumber
         # ) %>%
@@ -244,8 +332,8 @@ server <- function(input, output, session) {
 
     # source(file.path("server/hqdata/03_errorchecks.R"),  local = TRUE)$value
   
-    list(icbt_dataset_final=icbt_data ,
-         icbt_error_dataset=icbt_errors
+    list(icbt_dataset_final=icbt_data %>% mutate(enumerator_name=str_to_title(str_squish(trim(enumerator_name))))  ,
+         icbt_error_dataset=icbt_errors %>%  mutate(enumerator_name=str_to_title(str_squish(trim(enumerator_name)))) 
          )
   })
   
@@ -476,7 +564,8 @@ server <- function(input, output, session) {
   #---  Enum Stats datatable
   output$enumStatsReport <- DT::renderDataTable(server = FALSE,{
     DT::datatable(enumMonitorReport() %>%
-                    select(-regionCode, -districtCode,-townCity)
+                    arrange(region, district,team, border, enumerator_name) # %>%
+                    # select(-regionCode, -districtCode,-townCity)
                   ,
                   filter = "top",
                   extensions = c('FixedColumns','Buttons'),
@@ -532,7 +621,7 @@ server <- function(input, output, session) {
   #--- Team Stats datatable  
   output$teamStatsReport <- DT::renderDataTable(server = FALSE,{
     DT::datatable(teamMonitorReport()
-                  %>%
+                  %>%   arrange(region,district, team, border) %>%
                     select(-regionCode, -districtCode,-townCity)
                   ,
                   filter = "top",
@@ -586,7 +675,7 @@ server <- function(input, output, session) {
   #--- Border Stats datatable  
   output$borderStatsReport <- DT::renderDataTable(server = FALSE,{
     DT::datatable(borderMonitorReport() 
-                  %>%
+                  %>%  arrange(region, district, border) %>%
                     select(-regionCode, -districtCode,-townCity)
                   ,
                   filter = "top",
@@ -639,7 +728,7 @@ server <- function(input, output, session) {
   #--- District Stats datatable  
   output$districtStatsReport <- DT::renderDataTable(server = FALSE,{
     DT::datatable(districtMonitorReport() 
-                  %>%
+                  %>%  arrange(region, district) %>% 
                     select(-regionCode, -districtCode)
                   ,
                   filter = "top",
@@ -692,7 +781,7 @@ server <- function(input, output, session) {
   #--- Region Stats datatable  
   output$regionalStatsReport <- DT::renderDataTable(server = FALSE,{
     DT::datatable(regionalMonitorReport() 
-                  %>%
+                  %>% arrange(region) %>%
                     select(-regionCode)
                   ,
                   filter = "top",
@@ -798,9 +887,9 @@ server <- function(input, output, session) {
     renderUI({
             selectInput(inputId = "selectRegionToReject",
                         label = "Select Region:",
-                        choices = array(unlist(icbt_dataset()[['icbt_error_dataset']] %>% distinct(RegionName))),
+                        choices = array(unlist(icbt_dataset()[['icbt_error_dataset']] %>% distinct(RegionName) %>% arrange(RegionName))),
                         # choices = unique(icbt_dataset()[['icbt_error_dataset']] %>% distinct(RegionName)),
-                        selected= first(array(unlist(icbt_dataset()[['icbt_error_dataset']] %>% distinct(RegionName))) )
+                        selected= first(array(unlist(icbt_dataset()[['icbt_error_dataset']] %>% distinct(RegionName)%>% arrange(RegionName))) )
             )
           })
     },
@@ -951,7 +1040,7 @@ server <- function(input, output, session) {
                                             team=input$selectTeamToReject ,
                                             enumerator_name=input$selectEnumeratorToReject,
                                             Time = format(ymd_hms(Time,tz=Sys.timezone()), "%Y-%m-%d %I:%M %p"),
-                                          ) %>% select(-UserId)
+                                          ) %>% select(-UserId) %>% arrange(region,team,enumerator_name, desc(Time))
                                       )
     })
     
