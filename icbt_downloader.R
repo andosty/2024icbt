@@ -282,9 +282,9 @@ setwd("C:/2024ICBT/")
       districtName= str_to_title(districtName),
       borderPostName= str_replace_all(borderPostName,'"',''), 
       borderPostName= str_to_title(gsub("/", "-", borderPostName) ),
-      borderPostName =  gsub("Boader","Border", (commodityObervedDescription) ) ,
-      borderPostName =  gsub("boader","Border", (commodityObervedDescription) ) ,
-      borderPostName =  gsub("BOADER","Border", (commodityObervedDescription) ) 
+      borderPostName =  gsub("Boader","Border", (borderPostName) ) ,
+      borderPostName =  gsub("boader","Border", (borderPostName) ) ,
+      borderPostName =  gsub("BOADER","Border", (borderPostName) ) 
     ) %>%
     arrange(RegionName, districtName, townCity, borderPostName, team_number, enumerator_name ) %>%
     mutate( #fix dataset issues
