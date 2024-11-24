@@ -129,7 +129,9 @@ setwd("C:/2024ICBT/")
   # FreshUsersAssignments<- new_usersAssignments %>% filter(QuestionnaireId=="49957160c7e44af9a658b99111b9104d$1")
   
   #date and time of cuurent last data download run
-  saveRDS(format(now(), "%a %b %Y, %I:%M %p"), "Data_final/lastDataAccessedDateTime.RDS")
+  
+  dataDownloadStarted <- format(now(), "%a %b %Y, %I:%M %p")
+
   
   downloaded_icbt_data <- data.frame()
   
@@ -472,6 +474,8 @@ setwd("C:/2024ICBT/")
   # icbt_data <- downloaded_icbt_data
   source(file.path("server/hqdata/03_errorchecks.R"),  local = TRUE)$value
   saveRDS(errorChecks,paste(final_data_dir,'error_data.RDS',sep=''))
+  
+  saveRDS(dataDownloadStarted, "Data_final/lastDataAccessedDateTime.RDS")
   
   # new_interviwer_users <- get_interviewers()
   # saveRDS(new_interviwer_users,paste(final_data_dir,'users.RDS',sep=''))
