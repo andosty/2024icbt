@@ -13,8 +13,8 @@ tabItem(
                   #                 choice=list(monthChoices) )
                   #                 ),
                   
-                  uiOutput(outputId = "monthDataCollection"),
                   uiOutput(outputId = "quarterDataCollection"),
+                  uiOutput(outputId = "monthDataCollection"),
                   uiOutput(outputId = "dateRangeDataCollection"),
                   
                   

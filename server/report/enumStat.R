@@ -1,40 +1,64 @@
-# enumErrsMeta <- icbt_dataset()[['icbt_error_dataset']] %>%
-#   select(regionCode, RegionName, districtCode, districtName, townCity, borderPostName,team_number,
-#             enumerator_name, enumerator_contact ,interview_key
-#          ) %>%
-#   distinct(regionCode, RegionName, districtCode, districtName, townCity, borderPostName,team_number,
-#            enumerator_name, enumerator_contact,interview_key
-#   )
-#   group_by(
-#    team_number,
-#     enumerator_name, enumerator_contact , # districtCode, borderPostName,
-#   )%>% 
-#   summarise(
-#     errorCasesCount = n_distinct(interview_key),
-#     ErrorsCount = n()
-#   )
-
-output$quarterDataCollection <- renderUI({
-  selectInput(inputId = "selectQuarter", 
-              label = "Data collection Quarter:",
-              choices = unique(icbt_dataset()[['icbt_dataset_final']]$quarter),
-              selected="1")
+output$quarterDataCollection <- tryCatch({
+  renderUI({
+    selectInput(inputId = "selectQuarter",
+                label = "Select Quarter:",
+                choices = array(unlist(unique(icbt_dataset()[['icbt_dataset_final']]$quarter))),
+                selected= first(array(unlist(unique(icbt_dataset()[['icbt_dataset_final']]$quarter))) )
+        )
+      })
+    },
+    error=function(cond) {
+      message(paste("colnames caused a warning:"))
+      # message(paste("colnames caused a warning:", temp_colnames))
+    },
+    warning=function(cond) {
+      message(paste("colnames caused a warning:"))
 })
 
-output$monthDataCollection <- renderUI({
-  selectInput(inputId = "selectMonth", 
-              label = "Month of data collection:",
-              choices = c("a","b"),
-              # choices = unique(icbt_dataset()[['icbt_dataset_final']]%>% filter(quarter==input$selectQuarter) %>% distinct(month)),
-              selected="October")
+observeEvent(input$selectQuarter, {
+  output$monthDataCollection <-  renderUI({
+    selectInput(inputId = "selectMonth",
+                label = "Month of data collection:",
+                choices = array(unlist(unique(icbt_dataset()[['icbt_dataset_final']]%>% filter(quarter==input$selectQuarter) %>% distinct(month)))),
+                selected= first(
+                                array(unlist(icbt_dataset()[['icbt_dataset_final']]%>% filter(quarter==input$selectQuarter) %>% distinct(month)))                  
+                                )
+                  )
+  })
 })
 
 
-filtered_ICBT_data <- icbt_dataset()[['icbt_dataset_final']]  %>%
-  filter(month=="November") # %>% 
+
+observeEvent(input$selectMonth, {
+  output$dateRangeDataCollection <-  renderUI({
+    dateRange <- icbt_dataset()[['icbt_dataset_final']]%>% 
+      filter(quarter==input$selectQuarter & month==input$selectMonth ) %>% 
+      distinct(dates) %>%
+      summarise(min = min(dates),
+                max = max(dates))
+      
+    dateRangeInput(inputId = "selectdateRange", 
+                   label = "Data Range:",
+                   start = as.Date(dateRange$min),
+                   end = as.Date(dateRange$max),
+                   min = as.Date(dateRange$min),
+                   max = as.Date(dateRange$max)
+                   )
+  })
+})
+
+
+filteredIcbtData <- reactive({
+  icbt_dataset()[['icbt_dataset_final']]   %>%
+    filter(quarter==input$selectQuarter)  %>%
+    filter(month==input$selectMonth)
+})
+
+# filtered_ICBT_data <- icbt_dataset()[['icbt_dataset_final']]   %>%
+#   filter(quarter==input$selectQuarter)  %>%
+#   filter(month==input$selectMonth) # %>%
   # arrange(regionCode, team_number,districtCode, borderPostName, enumerator_name) %>%
   # filter(RegionName=="Western North")
-  # filter(quarter==input$selectQuarter)  %>% 
   # filter(month== input$selectMonth)
 
 filtered_ICBT_Errors<-  icbt_dataset()[['icbt_error_dataset']] %>%
@@ -45,31 +69,31 @@ filtered_ICBT_Errors<-  icbt_dataset()[['icbt_error_dataset']] %>%
   # filter(quarter==input$selectQuarter)  %>% 
   # filter(month== input$selectMonth)
 
-output$dateRangeDataCollection <- renderUI({
-  dateRangeInput(inputId = "selectdateRange", 
-                 label = "Data Range:",
-                 # start = as.Date(min(ymd(dataRefresh()$CreatedDate))),
-                 # end = as.Date(max(dataRefresh()$CreatedDate)),
-                 # min = as.Date(min(dataRefresh()$CreatedDate)),
-                 # max = as.Date(max(dataRefresh()$CreatedDate))
-                 # start = as.Date(as.character(dataRefresh()%>% filter(month== input$selectMonth)  %>% filter(quarter==input$selectQuarter) %>% summarise(min(createdDate)))),
-                 # start=
-                 
-                 # start = date(min(filtered_ICBT_data$createdDate)),
-                 # start = as.Date("2024-10-01"),
-                 # end =  as.Date("2024-12-10"),
-                 # min =   as.Date("2024-10-01"),
-                 # max =  as.Date("2024-12-10"),
-  )
-})
+# output$dateRangeDataCollection <- renderUI({
+#   dateRangeInput(inputId = "selectdateRange", 
+#                  label = "Data Range:",
+#                  # start = as.Date(min(ymd(dataRefresh()$CreatedDate))),
+#                  # end = as.Date(max(dataRefresh()$CreatedDate)),
+#                  # min = as.Date(min(dataRefresh()$CreatedDate)),
+#                  # max = as.Date(max(dataRefresh()$CreatedDate))
+#                  # start = as.Date(as.character(dataRefresh()%>% filter(month== input$selectMonth)  %>% filter(quarter==input$selectQuarter) %>% summarise(min(createdDate)))),
+#                  # start=
+#                  
+#                  # start = date(min(filtered_ICBT_data$createdDate)),
+#                  # start = as.Date("2024-10-01"),
+#                  # end =  as.Date("2024-12-10"),
+#                  # min =   as.Date("2024-10-01"),
+#                  # max =  as.Date("2024-12-10"),
+#   )
+# })
 
-enumMeta <- filtered_ICBT_data %>%   select(regionCode, RegionName, districtCode, districtName, townCity, borderPostName,team_number,
+enumMeta <- filteredIcbtData() %>%   select(regionCode, RegionName, districtCode, districtName, townCity, borderPostName,team_number,
                                                                 enumerator_name, enumerator_contact ,) %>%
   distinct(regionCode, RegionName, districtCode, districtName, townCity, borderPostName,team_number,
            enumerator_name, enumerator_contact
   )
 
-enumStat_respondent_flow<- filtered_ICBT_data %>% 
+enumStat_respondent_flow<- filteredIcbtData() %>% 
   distinct(regionCode, RegionName, districtCode, districtName, townCity, borderPostName,team_number,
            enumerator_name, enumerator_contact ,interview_key,
            interview_id, interview_key, transpondent_id, observedRespondentDescription,.keep_all = T) %>%
@@ -122,7 +146,7 @@ enumStat_respondent_flow<- filtered_ICBT_data %>%
   
 
 
-enumStat_trade <- filtered_ICBT_data %>%
+enumStat_trade <- filteredIcbtData() %>%
   group_by(regionCode, RegionName, districtCode, districtName, townCity, borderPostName,team_number,
            enumerator_name, enumerator_contact) %>%
   summarise(
@@ -171,5 +195,5 @@ enumStatREPORT <- left_join(enumMeta,enumStat_respondent_flow,
     region=RegionName,
     team = team_number
   ) %>%
-  arrange(regionCode, team,districtCode, border, enumerator_name) %>%
-  filter(region=="Western North")
+  arrange(regionCode, team,districtCode, border, enumerator_name) #%>%
+  # filter(region=="Western North")
