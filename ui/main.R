@@ -12,16 +12,17 @@
 
 hidden(fluidRow(
   id = "main",
-  column(
-    12,
-    tags$button(
-      id = "submit_sign_out",
-      type = "button",
-      "Sign Out",
-      class = "btn-danger pull-right",
-      style = "color: white;"
-    )
-  ),
+  # column(
+  #   align = "right",
+  #   12,
+  #   tags$button(
+  #     id = "submit_sign_out",
+  #     type = "button",
+  #     "Sign Out",
+  #     class = "btn-danger pull-right",
+  #     style = "color: white;"
+  #   )
+  # ),
   column(
     12,
     div(

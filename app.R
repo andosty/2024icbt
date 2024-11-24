@@ -1393,3 +1393,33 @@ server <- function(input, output, session) {
 # Run the application 
 shinyApp(ui = ui, server = server)
 # run_with_themer(shinyApp(ui = ui, server = server))
+
+
+
+# div(style="display:inline-block;vertical-align:top;",
+#     fluidRow(
+#       column(4,
+#              br(),
+#              bsButton("q1", label = "click for more info", icon = icon("question"), style = "info", size = "extra-small")),
+#       column(8, 
+#              fileInput("file", "Upload File *", accept = ".txt"))
+#       
+#     )),
+# bsPopover(id = "q1", title = "data",
+#           content = "more info",
+#           placement = "right", 
+# )
+# 
+# 
+# ui <- fluidPage(
+#   fluidRow(
+#     div(plotOutput('plot'), style = 'width: 80%; display: inline-block; vertical-align: middle;'),
+#     div(HTML('Place me vertically centered'), style = 'display: inline-block; vertical-align: middle;')
+#   )
+# )
+# 
+# 
+# fluidRow(
+#   column(8, align = "right", plotOutput("plot")), 
+#   column(4, align = "left", "Place me vertically centered.")
+# )

@@ -13,14 +13,30 @@
             # style = "padding-top:5px; padding-bottom:5px;")
             
             # img(src = "gss.png")
-          ),
-          tags$button(
-            id = "submit_sign_out",
-            type = "button",
-            "Sign Out",
-            class = "btn-danger pull-right",
-            style = "color: white;"
+          ) ,
+          column(
+            align = "right",
+            10, #12
+            tags$button(
+              id = "submit_sign_out",
+              type = "button",
+              "Sign Out",
+              class = "btn-danger",
+              # class = "btn-danger pull-right",
+              style = "color: white;"
+            )
           )
+          
+          # tags$button(
+          #   align = "right",
+          #   id = "submit_sign_out",
+          #   type = "button",
+          #   "Sign Out",
+          #   class = "btn-danger pull-right",
+          #   style = "color: white;"
+          # )
+          
+          
           # ,
           # 
           # rightUi = 
