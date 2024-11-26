@@ -1,0 +1,1827 @@
+unique_product	commodity
+female fowl, hen (1yr to 3yrs ) - piece (s)	1
+empty gallon 25L - piece (s)	2
+soap - box	3
+yam (cocoyam,water yam) - sack	4
+yam (cocoyam,water yam) - small sack	5
+yam (cocoyam,water yam) - half sack	6
+rice - bag 5kg	7
+tomato paste - box	8
+cooking (vegetable) oil - bottle (5L)	9
+male fowl, cock (1yr to 3yrs) - piece (s)	10
+firewood - pan	11
+guinea fowl (1yr to 3yrs male) - piece (s)	12
+lipton (teabag) - box	13
+milk - box	14
+yam (cocoyam,water yam) - pan	15
+okro - pan	16
+yam (cocoyam,water yam) - tuber	17
+firewood - bundle	18
+female fowl, hen (below 1yr) - piece (s)	19
+goat (below 1yr male) - piece (s)	20
+motor tyre - piece (s)	21
+charcoal - sack	22
+meat - small sack	23
+cassava - tuber	24
+fresh pepper - fertilizer bag	25
+cassava - small sack	26
+fresh pepper - basket	27
+okro - small sack	28
+dried okro (dry okro) - small sack	29
+dried (dry) pepper - fertilizer bag	30
+dried (dry) pepper - small sack	31
+fresh tomatoes - rubber bag	32
+dried (dry) pepper - polythene bag	33
+second hand clothes - sack	34
+bags - piece (s)	35
+rice - bag 50kg	36
+powdered pepper - polythene bag	37
+maize (corn) flour - small sack	38
+local broom - piece (s)	39
+cooking pot (medium) - piece (s)	40
+cement - bag 50kg	41
+cooking (vegetable) oil - bottle (1.5L)	42
+maize (corn) flour - half sack	43
+soft drink (350ml) - pack (20)	44
+power bank - piece (s)	45
+pick axe - piece (s)	46
+pick axe handle - piece (s)	47
+mobile phone charger - piece (s)	48
+sandals - sack	49
+maize (corn) - small sack	50
+okro - half sack	51
+rice - bag 22.5kg	52
+soft drink (350ml) - pack (12)	53
+energy drink (350ml) - pack (12)	54
+petrol - gallon (25L)	55
+plantain - bunch	56
+bread - tray	57
+dried okro (dry okro) - polythene bag	58
+cassava - pan	59
+car tyres - piece (s)	60
+onion - polythene bag	61
+kokonte (cassava chips) - pan	62
+okro - polythene bag	63
+rice - rubber bag	64
+okro - basket	65
+petrol - gallon (5L)	66
+beans - rubber bag	67
+edible leaves (baobab leaves, kuuka, kipok, moringa leaves, waakye leaves, ademe, hibiscus leaves, sobolo leaves, bito) - rubber bag	68
+maize (corn) - pan	69
+maize (corn) - half sack	70
+fresh pepper - small sack	71
+charcoal - half sack	72
+dog (1yr to 3yrs male) - piece (s)	73
+dog (below 1yr female) - piece (s)	74
+second hand clothes - piece (s)	75
+cutlass - piece (s)	76
+beans - pan	77
+knapsack sprayer - piece (s)	78
+salt - polythene bag	79
+ginger - polythene bag	80
+cigarettes - box	81
+garden eggs (solanu, ntroba) - half fertilizer bag	82
+beans - fertilizer bag	83
+cassava - half fertilizer bag	84
+petrol - bottle (1L)	85
+maize (corn) flour - half fertilizer bag	86
+azumah blow soap - piece (s)	87
+rice - polythene bag	88
+flour (bread flour) - polythene bag	89
+saucepans (aluminium) - set	90
+mat - piece (s)	91
+second hand clothes - small sack	92
+kola nut/cola nut - polythene bag	93
+sheep (1yr to 3yrs male) - piece (s)	94
+mattress (12 inches s/s) - piece (s)	95
+standing fan - piece (s)	96
+frozen chicken - carton	97
+gari (kivo gari) - box	98
+beans - polythene bag	99
+spade - piece (s)	100
+axe - piece (s)	101
+energy drink (330ml) - pack (12)	102
+bottled water (500ml, 0.5L) - pack (12)	103
+gari - polythene bag	104
+spaghetti - box (20)	105
+second hand clothes - half sack	106
+student mattress (3 inches) - piece (s)	107
+kenkey - ball	108
+empty barrel (200L) - piece (s)	109
+maize (corn) - rubber bowl	110
+beans - sack	111
+canned soft drink (330ml) - pack (12)	112
+mortar - piece (s)	113
+weedicide - box	114
+corn dough - small sack	115
+cooking (vegetable) oil - gallon (5L)	116
+azumah blow soap - half sack	117
+coal pot (coalpot) - piece (s)	118
+cooking pot (small) - piece (s)	119
+sugar - bag 50kg	120
+beans - half sack	121
+goat (1yr to 3yrs female) - piece (s)	122
+cassava - fertilizer bag	123
+baby's cot - piece (s)	124
+dried okro (dry okro) - fertilizer bag	125
+dried okro (dry okro) - half sack	126
+locust bean (dawadawa) - fertilizer bag	127
+sandals - half sack	128
+beans - small sack	129
+dried (dry) fish (gblolovi, amani) - sack	130
+salt - half sack	131
+alcoholic drink (750ml) - box (12)	132
+weedicide - bottle (1L)	133
+dried groundnut (dry groundnut) - polythene bag	134
+goat (1yr to 3yrs male) - piece (s)	135
+meat - polythene bag	136
+maize (corn) flour - polythene bag	137
+bread - loaf	138
+soya beans - fertilizer bag	139
+sheep (1yr to 3yrs female) - piece (s)	140
+dried groundnut (dry groundnut) - rubber bag	141
+cooking pot (large) - piece (s)	142
+charcoal - small sack	143
+maize (corn) - fertilizer bag	144
+solar panel - piece (s)	145
+rice - bag 25kg	146
+maize (corn) - small  sack	147
+local herbs (mahogany bark ,mahogany herbs) - fertilizer bag	148
+flat screen television (32 inches) - piece (s)	149
+fresh tomatoes - rubber bowl	150
+tomato paste - tin (2200g)	151
+cooking (vegetable) oil - bottle (850ml)	152
+agushie (melon seeds) - half sack	153
+soft drink (330ml) - bottle (330ml)	154
+beans - half fertilizer bag	155
+soap - piece (s)	156
+sandals - pair	157
+metal scraps - small sack	158
+mosquito net - piece (s)	159
+alcoholic drink (750ml) - bottle (750ml)	160
+alcoholic drink (50ml) - box	161
+local herbs (mahogany bark ,mahogany herbs) - polythene bag	162
+sorghum - half sack	163
+garden eggs (solanu, ntroba) - small sack	164
+pegs - pack	165
+perfume spray - piece (s)	166
+meat - half sack	167
+soft drink (350ml) - bottle (350ml)	168
+pig (1yr to 3yrs female) - piece (s)	169
+fresh tomatoes - wooden box	170
+fresh tomatoes - box	171
+bottled water (500ml, 0.5L) - pack (36)	172
+fresh tomatoes - pan	173
+eggs - crate	174
+cooking (vegetable) oil - gallon (25L)	175
+cooking (vegetable) oil - box	176
+cabbage - sack	177
+rope - bundle	178
+onion - sack	179
+plantain - sack	180
+palm (red) oil - gallon (5L)	181
+carpet - roll	182
+lpg gas - cylinder (12kg)	183
+fresh tomatoes - half box	184
+barrel (plastic container) 250L - piece (s)	185
+maize (corn) - sack	186
+rice - half 50kg bag	187
+carrots - pan	188
+palm nut fruits - small sack	189
+fresh pepper - sack	190
+cassava - sack	191
+smoked herring (smoked fish) - basket	192
+machete - piece (s)	193
+pepper (kivo pepper) - box	194
+washing powder detergent - bucket (10L)	195
+diaper - pack	196
+slippers - sack	197
+oats - box	198
+sardine - tin	199
+garden eggs (solanu, ntroba) - rubber bowl	200
+milo - box	201
+paint - paint rubber (small)	202
+banana - bunch	203
+vegetable leaves (spinach, kontomire, cocoyam leaves, sweet potato leaves, amaranth leaves, alefu, fontete, amaratus) - bundle	204
+fertilizer (fertiliser) - box	205
+soft drink (300ml) - pack (16)	206
+slippers - small sack	207
+second hand clothes - pan	208
+cabbage - pan	209
+fertilizer (fertiliser) - bag 25kg	210
+drugs (medicine, syrup) - box	211
+sugar - half sack	212
+dried (dry) fish (gblolovi, amani) - box	213
+garden eggs (solanu, ntroba) - half sack	214
+lpg gas - cylinder (5kg)	215
+fertilizer (fertiliser) - bag 50kg	216
+fungicide - bag 12.5kg	217
+vegetable leaves (spinach, kontomire, cocoyam leaves, sweet potato leaves, amaranth leaves, alefu, fontete, amaratus) - pan	218
+soft drink (330ml) - pack (20)	219
+animal feed (maize chaff) - sack	220
+gari - sack	221
+kokonte (cassava chips) - sack	222
+potatoes (sweet potatoes) - sack	223
+BRC mesh wire - roll	224
+liquid soap - gallon (5L)	225
+snail (aborbor) - sack	226
+rice (local rice) - sack	227
+rubber bowl (plastic bowl) - piece (s)	228
+sugar - sack	229
+lpg gas - cylinder (6kg)	230
+fresh tomatoes - basket	231
+window frame - box	232
+cabbage - fertilizer bag	233
+biscuits - box	234
+canned soft drink (330ml) - carton (24)	235
+material cloth (fabric) - pan	236
+electrical bulb (led bulb) - box	237
+onion - small sack	238
+metal bar - piece (s)	239
+soap - sack	240
+plantain - fertilizer bag	241
+wawa board - piece (s)	242
+orange - sack	243
+paint - bucket (10L)	244
+fresh tomatoes - bucket (10L)	245
+roofing sheet (aluminium) - piece (s)	246
+sachet water (pure water) - bag	247
+sugar - fertilizer bag	248
+flat screen television (43 inches) - piece (s)	249
+fresh pepper - half sack	250
+plastic (rubber) basket - piece (s)	251
+cooking utensils (stainless steel) - set	252
+rubber bucket (5L) (plastic bucket) - piece (s)	253
+okro - rubber bag	254
+fresh pepper - rubber bag	255
+vegetable leaves (spinach, kontomire, cocoyam leaves, sweet potato leaves, amaranth leaves, alefu, fontete, amaratus) - sack	256
+garden eggs (solanu, ntroba) - sack	257
+1/2 plywood - piece (s)	258
+lemon - small sack	259
+sandals - pan	260
+dried (dry) fish (gblolovi, amani) - basket	261
+fresh fish - pan	262
+steel drums (300L), steel barrels (300L) - piece (s)	263
+student mattress (4 inches) - piece (s)	264
+salt - sack	265
+bottled water (500ml, 0.5L) - pack (24)	266
+plastic standing broom (sweeping brush) - piece (s)	267
+mop stick - piece (s)	268
+cassava - half sack	269
+bottled water (1.5L) - pack (6)	270
+bottled water (750ml) - pack (12)	271
+fertilizer (fertiliser) - small sack	272
+konkonte (cassava flour) - small  sack	273
+gari - small sack	274
+margarine - box	275
+vegetable leaves (spinach, kontomire, cocoyam leaves, sweet potato leaves, amaranth leaves, alefu, fontete, amaratus) - fertilizer bag	276
+cabbage - half sack	277
+vegetable leaves (spinach, kontomire, cocoyam leaves, sweet potato leaves, amaranth leaves, alefu, fontete, amaratus) - half sack	278
+male fowl, cock (below 1yr) - piece (s)	279
+rubber bucket (10L) (plastic bucket) - piece (s)	280
+saucepans (stainless steel) - set	281
+rubber wares (plastic wares) - basket	282
+material cloth (fabric) - sack	283
+toilet roll - pack	284
+animal feed (maize chaff) - half sack	285
+petrol - gallon (10L)	286
+bottled water (500ml, 0.5L) - pack (30)	287
+cabbage - polythene bag	288
+animal feed (maize chaff) - small sack	289
+electrical bulb (led bulb) - piece (s)	290
+blender - piece (s)	291
+orange - small sack	292
+alcoholic drink (625ml) - crate (12)	293
+alcoholic drink (330ml) - crate (24)	294
+washing powder detergent - sachet (10kg)	295
+fruit juice - carton (24)	296
+cooking (vegetable) oil - bottle (4L)	297
+motor bike spare parts - box	298
+lpg gas - cylinder (3kg)	299
+soap - small sack	300
+eskimo chest (ice chest, food flask) - piece (s)	301
+cooking (vegetable) oil - gallon (10L)	302
+corn dough - rubber bowl	303
+cassava dough - bucket (10L)	304
+lpg gas - cylinder (11kg)	305
+motor bike spare parts - piece (s)	306
+iron rods (8mm) - piece (s)	307
+cooking (vegetable) oil - bottle (3L)	308
+new gas cylinder (14kg) - piece (s)	309
+rubber container - piece (s)	310
+kokonte (cassava chips) - small sack	311
+bottled water (750ml) - pack (30)	312
+cow skin (wele) - small sack	313
+alcoholic drink (250ml) - box (24)	314
+metal door (medium) - piece (s)	315
+groundnut paste - bucket (20L)	316
+garden eggs (solanu, ntroba) - polythene bag	317
+pampers - pack	318
+bottled water (500ml, 0.5L) - pack (16)	319
+energy drink (300ml) - pack (12)	320
+floor tile (40x40) - box	321
+1/2 pvc pipe - piece (s)	322
+bluetooth speakers (portable bluetooth music box) - piece (s)	323
+plantain - half sack	324
+sugar - small sack	325
+bread - rubber bag	326
+takeaway pack (food pack) - pack	327
+cassava dough - small sack	328
+cocoa beans - half sack	329
+cocoa beans - small sack	330
+rubber bucket (15L)  (plastic bucket) - piece (s)	331
+plastic  dusbin container - piece (s)	332
+orange - half sack	333
+body lotion (body cream) - piece (s)	334
+hair conditioner (shampoo) - gallon (10L)	335
+second hand shoes - sack	336
+cabbage - small sack	337
+new gas cylinder (6kg) - piece (s)	338
+engine oil (car oil) - box (3)	339
+rice - box (5 x 4.5Kg)	340
+dried (dry) fish (gblolovi, amani) - pan	341
+azumah blow soap - sack	342
+fresh tomatoes - mini basket	343
+plantain - small sack	344
+cooking (vegetable) oil - gallon (20L)	345
+washing powder detergent - sachet (4kg)	346
+sardine - box	347
+alata soap - pack (6)	348
+cocoa - fertilizer bag	349
+cooking (vegetable) oil - gallon 25L	350
+sheep (below 1yr male) - piece (s)	351
+biscuits - pack	352
+toffees - pack	353
+carrots - half sack	354
+cucumber - half sack	355
+pure water (sachet water) packaging bag - sack	356
+fresh pepper - polythene bag	357
+fruit juice - box	358
+corn dough - half sack	359
+soft drink (350ml) - pack (16)	360
+frozen fish - carton	361
+poultry feed - bag 25kg	362
+poultry feed - sack	363
+smoked herring (smoked fish) - sack	364
+cow skin (wele) - sack	365
+empty egg crates - pack	366
+tissues - pack	367
+prekese - sack	368
+floor tile (60x60) - box	369
+take away rubber bag (polythene bag) - polythene bag	370
+bedset - set	371
+alata soap - pack (12)	372
+cocoa - sack	373
+bottled water (19L) - bottle (19L)	374
+salt - bag 25kg	375
+dried (dry) pepper - sack	376
+fresh fish - fertilizer bag	377
+floor tile (30x30) - box	378
+plastic chair - piece (s)	379
+watermelon (large) - piece (s)	380
+millet - sack	381
+bicycle parts - piece (s)	382
+coffee - sack	383
+wood (2x2) - piece (s)	384
+soft drink (500ml, 0.5L) - pack (16)	385
+solar panel - box	386
+empty sacks - sack	387
+onion - half sack	388
+rice - box	389
+fertilizer (fertiliser) - bottle (1L)	390
+school bag - piece (s)	391
+bottled water (750ml) - pack (16)	392
+ginger - sack	393
+shea butter (nkuto) - bucket (10L)	394
+salt - small sack	395
+indomie (instant noodles) - pack	396
+lettuce - polythene bag	397
+nail - box	398
+cube (maggie cube, onga) - box	399
+cocoa beans - sack	400
+akpeteshie - gallon (25L)	401
+iron rods (16mm) - piece (s)	402
+acheke - small sack	403
+soft drink (250ml) - pack (20)	404
+sandals - small sack	405
+clay pot (medium) - piece (s)	406
+bread - sack	407
+iron rods (14mm) - piece (s)	408
+cow (below 1yr male) - piece (s)	409
+engine oil (car oil) - gallon (5L)	410
+garden eggs (solanu, ntroba) - bucket (10L)	411
+smoked herring (smoked fish) - small sack	412
+matches - box	413
+roofing sheet (aluminium) - pack (20)	414
+milo - sachet	415
+toothpaste - piece (s)	416
+powdered milk - sachet (250g)	417
+flour (bread) - bag 25kg	418
+fertilizer (fertiliser) - sack	419
+coffee seed - sack	420
+comb, hair comb - piece (s)	421
+maize (corn) flour - sack	422
+plaster of paris cement - bag 40kg	423
+washing powder detergent - sachet (125g)	424
+alcoholic drink (200ml) - bottle (200ml)	425
+flour (bread flour) - sack	426
+fresh coconut - sack	427
+tyres (motor King tyres) - piece (s)	428
+wig (hairpiece, hair wool) - polythene bag	429
+material cloth (fabric) - yard	430
+banana - sack	431
+mobile phone case - piece (s)	432
+bedsheet - piece (s)	433
+herbal medicine (local medicine) - fertilizer bag	434
+toothbrush - pack (5)	435
+indomie (instant noodles) - box	436
+underwear - piece (s)	437
+palm nut fruits - sack	438
+toothbrush - pack (3)	439
+gari - box	440
+powdered milk - box	441
+empty fertilizer bag - bundle	442
+mattress (12 inches q/s) - piece (s)	443
+empty plastic bottles - sack	444
+dried (dry) fish (gblolovi, amani) - half sack	445
+azumah blow soap - small sack	446
+local standing broom - piece (s)	447
+washing powder detergent - sachet (240g)	448
+bicycle (small) - piece (s)	449
+gari - rubber bag	450
+empty plastic bottles - pack	451
+plantain - basket	452
+lpg gas - cylinder (10kg)	453
+smoked herring (smoked fish) - rubber bag	454
+cassava dough - rubber bag	455
+potatoes (sweet potatoes) - small sack	456
+bread - small sack	457
+acheke - rubber bag	458
+pear - piece (s)	459
+soft drink (U fresh) - box	460
+energy drink (500ml, 0.5L) - pack (12)	461
+alcoholic drink (375ml) - bottle (375ml)	462
+shovel - piece (s)	463
+metal scraps - sack	464
+dried (dry) fish (gblolovi, amani) - small sack	465
+dried groundnut (dry groundnut) - sack	466
+soft drink (300ml) - pack (12)	467
+alcoholic drink (330ml) - bottle (330ml)	468
+slippers - pair	469
+maize (corn) husk - sack	470
+empty gallon 30L - piece (s)	471
+mattress (8 inches l/s, double bed) - piece (s)	472
+pillow - piece (s)	473
+soft drink (500ml, 0.5L) - pack (12)	474
+motor bike spare parts (piston rings) - piece (s)	475
+charcoal - rubber bag	476
+empty sacks - bundle	477
+smoked herring (smoked fish) - polythene bag	478
+tissues - roll	479
+acheke - polythene bag	480
+lpg gas - cylinder (20kg)	481
+acheke - half sack	482
+kola nut/cola nut - small sack	483
+rice - box (20 x 0.9kg)	484
+smoking wire net (fish) - bundle	485
+frozen fish - polythene bag	486
+milo - tin (400g)	487
+poultry feed - small sack	488
+sugar - rubber bowl	489
+fresh groundnut - polythene bag	490
+kitchen stool - piece (s)	491
+cassava dough - half sack	492
+soft drink (1.25L) - pack (6)	493
+pan - piece (s)	494
+second hand clothes - polythene bag	495
+sand - tricycle	496
+acheke - pan	497
+poultry feed - half sack	498
+mattress (8 inches q/s) - piece (s)	499
+cooking (vegetable) oil - bottle (2L)	500
+cooking (vegetable) oil - box (4 x 5L)	501
+lipton (teabag) - box (100)	502
+kokonte (cassava chips) - half sack	503
+prekese - half sack	504
+groundnut paste - paint rubber (small)	505
+second hand shoes - half sack	506
+spaghetti - pack	507
+peanut snack - pack	508
+takeaway rubber bag (polynthene bag) - pack	509
+soft drink (350ml) - pack (15)	510
+salted fish (salted tilapia, koobi) - tray	511
+rubber container (plastic container) - piece (s)	512
+cabbage - piece (s)	513
+cucumber - rubber bowl	514
+dried groundnut (dry groundnut) - small sack	515
+knapsack sprayer - box	516
+knapsack spray spare parts - sack	517
+knapsack spray spare parts - half sack	518
+umbrella - piece (s)	519
+goat (below 1yr female) - piece (s)	520
+galvanized metal bar - piece (s)	521
+tomato paste - tin (400g)	522
+palm (red) oil - bottle (4L)	523
+pepper seeds - small sack	524
+rice (husked, not milled) - sack	525
+milk (tin) - tin	526
+lipton (teabag) - pack (10)	527
+standing fan - box	528
+lpg gas - cylinder (21kg)	529
+plantain - rubber bowl	530
+flour (bread) - bag 50kg	531
+cassava peels - half sack	532
+coffee seed - half sack	533
+rodent poison (rodenticide) - piece (s)	534
+radio set - piece (s)	535
+alata soap - rubber bowl	536
+plastic pipe - piece (s)	537
+engine oil (car oil) - bottle (1L)	538
+motor engine - box	539
+wood (2x6) - piece (s)	540
+tapoli - piece (s)	541
+motor bike seat - piece (s)	542
+home theatre system - box	543
+dried groundnut (dry groundnut) - half sack	544
+hair dye - pack (12)	545
+bread - wooden sieve	546
+rice (local rice) - half sack	547
+paint - bucket (20L)	548
+roofing sheet (coloured) - piece (s)	549
+mirror (medium) - piece (s)	550
+powdered milk - tin	551
+alcoholic drink (50ml) - sachet	552
+pesticide - box	553
+electrical cable - roll	554
+saucepans (aluminium) - polythene bag	555
+empty jute sack (ginger sacks) - sack	556
+home theatre system - piece (s)	557
+slippers - pan	558
+washing powder detergent - sachet (500g)	559
+slippers - polythene bag	560
+empty gallon 5L - piece (s)	561
+alata soap - polythene bag	562
+barrels (plastic container) 50L - piece (s)	563
+1/8 plywood - piece (s)	564
+wood (2x4) - piece (s)	565
+quran - piece (s)	566
+mini wire mesh coalpot (ataya) - piece (s)	567
+onion - fertilizer bag	568
+takeaway rubber bag (polynthene bag) - sack	569
+maize (corn) - rubber bag	570
+soft drink (350ml) - box	571
+fertilizer (fertiliser) - piece (s)	572
+garden eggs (solanu, ntroba) - rubber bag	573
+engine oil (car oil) - box (12)	574
+woven hat - piece (s)	575
+traveling bag medium (ecolac medium) - piece (s)	576
+tomato sauce (mackerel) tin (425g) - box (24)	577
+cassava peels - sack	578
+duck (1yr to 3yrs female) - piece (s)	579
+pig feed - polythene bag	580
+car sealant - bottle (1L)	581
+orange - polythene bag	582
+sieve - piece (s)	583
+laddle - piece (s)	584
+dried (dry) fish (gblolovi, amani) - polythene bag	585
+hand bag (lady's hand bag) - piece (s)	586
+plastic container - piece (s)	587
+washing powder detergent - sachet (5kg)	588
+wig (hairpiece, hair wool) - piece (s)	589
+socks - polythene bag	590
+mirror (small) - piece (s)	591
+power zone (detergent) - bottle (500ml)	592
+insecticide - box (12)	593
+drugs (medicine, syrup) - bottle (200ml)	594
+head pan - piece (s)	595
+car filter - box	596
+alcoholic drink (200ml) - box (24)	597
+phone screen - piece (s)	598
+1/4 pvc pipe - piece (s)	599
+watermelon (medium) - piece (s)	600
+liquid fertiliser (super glo) - gallon (5L)	601
+4 inch pvc pipe (10 feet) 3m - piece (s)	602
+earthenware (large) - piece (s)	603
+earthenware (medium) - piece (s)	604
+kenkey - pan	605
+corn dough - rubber bag	606
+washing powder detergent - sachet (8kg)	607
+satellite dish - piece (s)	608
+alata soap - rubber container (2kg)	609
+cassava dough - sack	610
+groundnut paste - bucket (10L)	611
+roofing sheet (coloured) - pack (20)	612
+1/4 plywood - piece (s)	613
+T and J (T&amp;J) - piece (s)	614
+biscuits - polythene bag	615
+cube (maggie cube, onga) - pack	616
+toothbrush - piece (s)	617
+wooden table - piece (s)	618
+woven basket - piece (s)	619
+cow skin (wele) - fertilizer bag	620
+window glass - box	621
+poultry medicine (coxend forte, tiadox, anti coccidial formula, triple action formula) - bottle (1L)	622
+led bulb (car) - piece (s)	623
+3/4 plywood - piece (s)	624
+pvc pipe - piece (s)	625
+akpeteshie - gallon (30L)	626
+material cloth (fabric) - half sack	627
+charcoal - polythene bag	628
+metal bucket (10L) - piece (s)	629
+powdered pepper - small sack	630
+cassava peels - small sack	631
+lpg gas - cylinder (16kg)	632
+sugar cane - piece (s)	633
+stones - tricycle	634
+soft drink (300ml) - bottle (300ml)	635
+lazy chair (relaxation chair) - piece (s)	636
+azumah blow soap - polythene bag	637
+tomato paste - rubber container (2kg)	638
+plantain - tray	639
+pure water (sachet water) packaging bag - small sack	640
+mattress (8 inches s/s) - piece (s)	641
+maize (corn) - half fertilizer bag	642
+ginger - half sack	643
+3/4 pvc pipe - piece (s)	644
+ginger - small sack	645
+banana - small sack	646
+onion - rubber bowl	647
+rubber bowl (plastic bowl) - set	648
+black rubber (tarpaulin,tapolin) - roll	649
+goat (above 3yrs male) - piece (s)	650
+metal window - piece (s)	651
+ceramic plates - piece (s)	652
+lpg gas - cylinder (15kg)	653
+alata soap - piece (s)	654
+bleach - bottle (1L)	655
+wood (2x3) - piece (s)	656
+soft drink (250ml) - box	657
+milk (tin) - box	658
+nescafe (coffee) - box	659
+wood (1x12) - piece (s)	660
+wooden door - piece (s)	661
+pineapple - piece (s)	662
+second hand shoes - small sack	663
+wellington boot - pair	664
+alata soap - box	665
+rubber bowl (plastic bowl) - rubber bowl	666
+empty plastic bottles - small sack	667
+frozen chicken - polythene bag	668
+candle - box	669
+aluminium pan - piece (s)	670
+wooden bench - piece (s)	671
+fan belt (motor) - piece (s)	672
+okro - sack	673
+palm nut fruits - polythene bag	674
+kitchenware - set	675
+maize (corn) husk - half sack	676
+flour (bread) - half sack	677
+mattress (8 inches m/s) - piece (s)	678
+plastic table - piece (s)	679
+ceiling fan - box	680
+chainsaw machine - piece (s)	681
+empty gallon 20L - piece (s)	682
+new gas cylinder (15kg) - piece (s)	683
+fresh maize (fresh corn) - half sack	684
+spices - sack	685
+fresh pepper - pan	686
+soft drink (330ml) - crate (24)	687
+fresh maize (fresh corn) - sack	688
+pig feed - sack	689
+herbal medicine (local medicine) - bottle (500ml)	690
+carpet - yard	691
+smoked herring (smoked fish) - half sack	692
+fresh maize (fresh corn) - small sack	693
+soft drink (1.25L) - bottle (1.5L)	694
+fresh groundnut - half sack	695
+soft drink (500ml, 0.5L) - bottle (500ml)	696
+pepper (kivo pepper) - sachet (6g)	697
+energy drink (350ml) - pack (16)	698
+metal bucket (15L) - piece (s)	699
+aluminium frame - piece (s)	700
+bread - pan	701
+tomato paste - bucket (10L)	702
+second hand shoes - pan	703
+acheke - fertilizer bag	704
+extension board - piece (s)	705
+metal scraps - half sack	706
+bamboo stick - piece (s)	707
+tomato sauce (mackerel) tin (155g) - box (50)	708
+acheke - rubber bowl	709
+acheke - sack	710
+female fowl, hen (above 3yrs) - piece (s)	711
+soap - box (24)	712
+male fowl, cock (above 3yrs) - piece (s)	713
+water pump machine - piece (s)	714
+liquid soap - gallon (20L)	715
+cabbage - rubber bowl	716
+petrol - gallon (20L)	717
+salt - half bag	718
+vegetable leaves (spinach, kontomire, cocoyam leaves, sweet potato leaves, amaranth leaves, alefu, fontete, amaratus) - polythene bag	719
+second hand clothes - rubber bowl	720
+iron rods (10mm) - piece (s)	721
+plantain - polythene bag	722
+cassava - piece (s)	723
+alcoholic drink (250ml) - bottle (250ml)	724
+shower gel (1000ml) - bottle (1000ml)	725
+fresh tomatoes - tray	726
+palm nut fruits - rubber bowl	727
+garden eggs (solanu, ntroba) - piece (s)	728
+onion - piece (s)	729
+fresh maize (fresh corn) - polythene bag	730
+alata soap - pan	731
+orange - fertilizer bag	732
+fante kenkey - pan	733
+portable wireless speaker, bluetooth speakers (portable bluetooth music box) - box	734
+bottled water (750ml) - bottle (750ml)	735
+powdered pepper - rubber bag	736
+slippers - half sack	737
+fresh coconut - piece (s)	738
+sugar - rubber bag	739
+tomato paste - sachet (small)	740
+sheep (above 3yrs female) - piece (s)	741
+gari - fertilizer bag	742
+cocoa - small sack	743
+gari - half sack	744
+milo - sachet (800g)	745
+toothpaste - rubber bowl	746
+toothbrush - rubber bowl	747
+palm nut fruits - half sack	748
+mobile phone  battery - box	749
+motorcycle battery - box	750
+alcoholic drink (350ml) - pack (12)	751
+epson printing ink - box	752
+dried (dry) fish (gblolovi, amani) - heaped basket	753
+pigeon, dove (above 3yrs female) - piece (s)	754
+onion - tray	755
+bathroom slippers (chalewote) - pair	756
+teabag (lipton, green tea, ataaya) - box (200)	757
+motorcycle lower swing arm - set	758
+pig (above 3yrs male) - piece (s)	759
+battery (solar) - box	760
+cocoa drying mat (apah) - piece (s)	761
+kenkey - rubber bowl	762
+chewing gum - box	763
+konkonte (cassava flour) - half sack	764
+salt - rubber bowl	765
+cow (above 3yrs female) - piece (s)	766
+take away rubber bag (polythene bag) - tray	767
+cow (above 3yrs male) - piece (s)	768
+salt - rubber bag	769
+material cloth (fabric) - 6 yards	770
+material cloth (fabric) - small sack	771
+local herbs (mahogany bark ,mahogany herbs) - bundle	772
+soft drink (250ml) - bottle (250ml)	773
+slippers - basket	774
+mattress (10 inches k/s) - piece (s)	775
+mattress (10 inches m/s) - piece (s)	776
+window mesh - piece (s)	777
+bluetooth speakers (portable bluetooth music box) - box	778
+computer system unit - piece (s)	779
+sachet water rubber (ice water rubber) - sack	780
+fante kenkey - piece (s)	781
+sheep (above 3yrs male) - piece (s)	782
+onion - rubber bag	783
+herbal medicine (local medicine) - gallon (5L)	784
+maize grinding mill machine (corn grinding machine) - piece (s)	785
+bread - basket	786
+curtains - rubber bag	787
+car sealant - piece (s)	788
+bicycle (big) - piece (s)	789
+diesel - gallon (25L)	790
+fishing nets - half sack	791
+freezer (fridge) - box	792
+flat screen television (50 inches) - piece (s)	793
+fante kenkey - rubber bowl	794
+alcoholic drink (375ml) - crate (24)	795
+battery (solar) - piece (s)	796
+palm (red) oil - gallon (25L)	797
+bottled water (750ml) - pack (15)	798
+tomato paste - bucket (20L)	799
+edible leaves (baobab leaves, kuuka, kipok, moringa leaves, waakye leaves, ademe, hibiscus leaves, sobolo leaves, bito) - sack	800
+tshirts (t shirt) - piece (s)	801
+straw mats - piece (s)	802
+corn dough - pan	803
+empty schnapp bottles - pan	804
+headset - piece (s)	805
+cooking utensils (aluminium) - set	806
+cashew - fertilizer bag	807
+diesel - gallon (20L)	808
+fresh groundnut - small sack	809
+cow (1yr to 3yrs female) - piece (s)	810
+akpeteshie - gallon (20L)	811
+matches - pack	812
+cocoa beans - fertilizer bag	813
+fried fish - polythene bag	814
+cassava dough - fertilizer bag	815
+soft drink (350ml) - pack (24)	816
+fresh groundnut - sack	817
+traveling bag large (ecolac large) - piece (s)	818
+fresh groundnut - rubber bag	819
+meat - sack	820
+cocoa - half sack	821
+car rim - piece (s)	822
+energy drink (330ml) - bottle (330ml)	823
+empty plastic containers - rubber bag	824
+powdered milk - bag 25kg	825
+energy drink (350ml) - bottle (350ml)	826
+energy drink (300ml) - bottle (300ml)	827
+goat (above 3yrs female) - piece (s)	828
+cat (1yr to 3yrs female) - piece (s)	829
+palm seedlings - fertilizer bag	830
+orange - rubber bowl	831
+mattress (10 inches l/s, double bed) - piece (s)	832
+mattress (10 inches q/s) - piece (s)	833
+pawpaw - half sack	834
+smock material - 6 yards	835
+material cloth (fabric) - 12 yards	836
+textbook - piece (s)	837
+garden eggs (solanu, ntroba) - fertilizer bag	838
+mango - piece (s)	839
+pure water (sachet water) packaging bag - half sack	840
+onion - basket	841
+konkonte (cassava flour) - sack	842
+mattress (12 inches k/s) - piece (s)	843
+fresh fish - rubber bowl	844
+corn dough - sack	845
+motor bike tube - piece (s)	846
+dried coconut (dry) - sack	847
+alcoholic drink (350ml) - bottle (350ml)	848
+mattress (10 inches s/s) - piece (s)	849
+energy drink (500ml, 0.5L) - bottle (500ml)	850
+pesticide - bottle (1L)	851
+lemon grass - bundle	852
+water - gallon (25L)	853
+grill net (stainless steel mesh) - piece (s)	854
+lpg gas - cylinder (32g)	855
+local drink - bottle (350ml)	856
+pvc soft hose - roll	857
+jute bags medium (Ghana must go) - piece (s)	858
+jute bags small (Ghana must go) - piece (s)	859
+traveling bag small (ecolac small) - piece (s)	860
+blender - box	861
+sharpening stone - piece (s)	862
+torch light - piece (s)	863
+rice (husked, not milled) - half sack	864
+banana - pan	865
+doormat - piece (s)	866
+liquid soap - pack (20)	867
+tomato sauce (mackerel) tin (155g) - tin (155g)	868
+student mattress ( 1 and half size) - piece (s)	869
+mobile phone, android (tecno, itel, infinix ) - piece (s)	870
+cooking (vegetable) oil - bottle (350ml)	871
+fowl cage - piece (s)	872
+guinea fowl (above 3yrs female) - piece (s)	873
+insecticide - bottle (1L)	874
+poultry feed - fertilizer bag	875
+empty jute sack (ginger sacks) - half sack	876
+paint - bucket (15L)	877
+vegetable leaves (spinach, kontomire, cocoyam leaves, sweet potato leaves, amaranth leaves, alefu, fontete, amaratus) - small sack	878
+empty jute sack (ginger sacks) - small sack	879
+iron rods (12mm) - piece (s)	880
+frozen cow meat - polythene bag	881
+palm nut chaff - half sack	882
+soya beans - pan	883
+okro - half pan	884
+banana - tray	885
+nutmeg - sachet	886
+gas burner valve - piece (s)	887
+soap - rubber bowl	888
+coffee - fertilizer bag	889
+lemon grass - sack	890
+rubber bowl (plastic bowl) - tray	891
+alcoholic drink (625ml) - bottle (625ml)	892
+milk (tin) - pack (24)	893
+belt - piece (s)	894
+satellite decoder - piece (s)	895
+herbal leaves (dried baobab leaves) - half sack	896
+binding wire - roll	897
+shoe - pair	898
+portable waredrobe - piece (s)	899
+ginger - fertilizer bag	900
+vegetable leaves (spinach, kontomire, cocoyam leaves, sweet potato leaves, amaranth leaves, alefu, fontete, amaratus) - rubber bowl	901
+spices - box	902
+pawpaw - fertilizer bag	903
+firewood - wheel barrow	904
+orange - pan	905
+cassava sticks - bundle	906
+orange - piece (s)	907
+fresh coconut - half sack	908
+sheep (below 1yr female) - piece (s)	909
+pig feed - half sack	910
+cocoa motoblow machine - piece (s)	911
+pineapple - pan	912
+rice (local rice) - half fertilizer bag	913
+cassava dough - pan	914
+vegetable leaves (spinach, kontomire, cocoyam leaves, sweet potato leaves, amaranth leaves, alefu, fontete, amaratus) - half fertilizer bag	915
+liquid soap - bottle (1L)	916
+maize (corn) flour - rubber bowl	917
+ginger - rubber bowl	918
+mango seedling - piece (s)	919
+wooden spatula (bankuta) - piece (s)	920
+metal door (small) - piece (s)	921
+palm nut fruits - basket	922
+sewing (tailoring) thread - piece (s)	923
+empty plastic bottles - rubber bag	924
+edible leaves (baobab leaves, kuuka, kipok, moringa leaves, waakye leaves, ademe, hibiscus leaves, sobolo leaves, bito) - polythene bag	925
+apple - box	926
+powdered fertiliser (soluble fertiliser) - bucket (10L)	927
+palm kernel - pan	928
+palm kernel - fertilizer bag	929
+fishing nets - piece (s)	930
+mayonnaise (remia) - pack (6)	931
+shoe rack - piece (s)	932
+ice water rubber - pack	933
+turkey berry (abeduru, kantosey, kwahu nsusua) - fertilizer bag	934
+frozen cow meat - carton	935
+banana - basket	936
+fresh groundnut - fertilizer bag	937
+cassava - rubber bowl	938
+radio set - box	939
+edible leaves (baobab leaves, kuuka, kipok, moringa leaves, waakye leaves, ademe, hibiscus leaves, sobolo leaves, bito) - bundle	940
+corn dough - half fertilizer bag	941
+herbal medicine (local medicine) - bottle (1.5L)	942
+slippers - box	943
+fertilizer (fertiliser) - half sack	944
+empty gallon 10L - piece (s)	945
+pestle - piece (s)	946
+dried coconut (dry) - piece (s)	947
+carrots - half fertilizer bag	948
+rice - bag 10kg	949
+beans - rubber bowl	950
+okro - bucket (15L)	951
+fresh maize (fresh corn) - pan	952
+edible leaves (baobab leaves, kuuka, kipok, moringa leaves, waakye leaves, ademe, hibiscus leaves, sobolo leaves, bito) - pan	953
+palm (red) oil - gallon (10L)	954
+grinding stone - piece (s)	955
+millet - small sack	956
+meat - pound	957
+flat screen television (55 inches) - piece (s)	958
+dried (dry) pepper - pan	959
+pawpaw - piece (s)	960
+liquid soap - gallon (10L)	961
+bicycle tube - piece (s)	962
+calabash - piece (s)	963
+sewing machine - piece (s)	964
+toothpaste - pan	965
+potatoes (sweet potatoes) - half sack	966
+pineapple - basket	967
+garden eggs (solanu, ntroba) - half basket	968
+book - piece (s)	969
+fresh fish - tray	970
+rubber cup (plastic cup) - piece (s)	971
+hoe - piece (s)	972
+sugar cane - bundle	973
+pomade - box	974
+dried groundnut (dry groundnut) - fertilizer bag	975
+biscuits - tray	976
+dried okro (dry okro) - pan	977
+dried (dry) pepper - basket	978
+washing powder detergent - tray	979
+millet - half sack	980
+guinea fowl (below 1yr female) - piece (s)	981
+beads - tray	982
+shea butter (nkuto) - bucket (20L)	983
+onion - pan	984
+motor tricycle spare parts (magic horn, digital horn) - box	985
+soya beans - half fertilizer bag	986
+dried (dry) pepper - half sack	987
+beans - bucket (15L)	988
+herbal medicine (local medicine) - pan	989
+plantain chips - tray	990
+lemon - sack	991
+kokonte (cassava chips) - rubber bowl	992
+groundnut paste - bucket (15L)	993
+padlock - box	994
+azumah blow soap - rubber bowl	995
+charcoal - pan	996
+toffee - rubber container (3kg)	997
+catapult - piece (s)	998
+insecticide - bottle (0.5L)	999
+chewing gum - sachet	1000
+insecticide - bottle (750ml)	1001
+palm nut fruits - pan	1002
+acheke - half fertilizer bag	1003
+herbal leaves (dried baobab leaves) - small sack	1004
+millet - fertilizer bag	1005
+cow milk (fresh milk) - bottle (1.5L)	1006
+vegetable leaves (spinach, kontomire, cocoyam leaves, sweet potato leaves, amaranth leaves, alefu, fontete, amaratus) - rubber bag	1007
+clay pot (small) - piece (s)	1008
+flour (bread) - small sack	1009
+carrots - polythene bag	1010
+mushroom - polythene bag	1011
+aluminium mini coalpot - sack	1012
+azumah blow soap - pan	1013
+pawpaw - small sack	1014
+clay pot (large) - piece (s)	1015
+fresh maize (fresh corn) - fertilizer bag	1016
+herbal medicine (local medicine) - rubber bowl	1017
+dog (above 3yrs male) - piece (s)	1018
+dog (1yr to 3yrs female) - piece (s)	1019
+cooking (vegetable) oil - pack (6)	1020
+bread - half sack	1021
+empty plastic containers - pack	1022
+grass cutter - piece (s)	1023
+fresh fish - half fertilizer bag	1024
+tomato paste - tin (210g)	1025
+fresh groundnut - pan	1026
+pawpaw - pan	1027
+rafia broom - piece (s)	1028
+silver shine - piece (s)	1029
+hair conditioner (shampoo) - gallon (5L)	1030
+spices - small sack	1031
+weedicide - paper sachet	1032
+plastic scraps - sack	1033
+dried coconut (dry) - small sack	1034
+watermelon (small) - piece (s)	1035
+corn dough - polythene bag	1036
+hair accessories - polythene bag	1037
+dried groundnut (dry groundnut) - rubber bowl	1038
+grinding  bowl (metallic) - piece (s)	1039
+sowing machine (Auto seeder) - piece (s)	1040
+mushroom - basket	1041
+soya beans - half sack	1042
+dried (dry) pepper - rubber bag	1043
+alata soap - rubber container (1kg)	1044
+wall tile (25x40) - box	1045
+lettuce - pan	1046
+boots - pair	1047
+louvre blades - box	1048
+towel - piece (s)	1049
+lettuce - half sack	1050
+suitcase - piece (s)	1051
+diesel engine - box	1052
+local gari seive (agbadze) - piece (s)	1053
+iron rods (6mm) - piece (s)	1054
+cucumber - sack	1055
+cucumber - pan	1056
+cobweb brush duster(ceiling brush) - piece (s)	1057
+mirror (large) - piece (s)	1058
+shaving (razor) blade - pack	1059
+herbal mixture - bottle (0.5L)	1060
+car wiper - pair	1061
+garlic - polythene bag	1062
+cow (1yr to 3yrs male) - piece (s)	1063
+cucumber - polythene bag	1064
+herbal medicine (local medicine) - bottle (1L)	1065
+soap - box (36)	1066
+paint - tin (500ml)	1067
+palm (red) oil - gallon (20L)	1068
+toilet brush - piece (s)	1069
+hisbiscus (sobolo seedlings) - polythene bag	1070
+lettuce - small sack	1071
+chamber pot - piece (s)	1072
+sugar - box	1073
+sugar - polythene bag	1074
+canned green peas(processed peas 400g) - pack (12)	1075
+pig (below 1yr male) - piece (s)	1076
+local herbs (mahogany bark ,mahogany herbs) - pan	1077
+pear - sack	1078
+toffee - basket	1079
+dried coconut (dry) - half sack	1080
+diesel - gallon (5L)	1081
+lettuce - rubber bowl	1082
+garlic - sack	1083
+dondo drum (talking drum) - piece (s)	1084
+lettuce - sack	1085
+dried groundnut (dry groundnut) - pan	1086
+fresh pepper - paint rubber (small)	1087
+glass cup (wine glass) - box	1088
+barrels (plastic container) 25L - piece (s)	1089
+hangers - pack	1090
+garlic - rubber bowl	1091
+lemon - rubber bowl	1092
+local herbs (mahogany bark ,mahogany herbs) - half sack	1093
+local herbs (mahogany bark ,mahogany herbs) - small sack	1094
+agushie (melon seeds) - sack	1095
+cooking (vegetable) oil - bottle (500ml)	1096
+wall sticker - yard	1097
+glass cup (wine glass) - piece (s)	1098
+pawpaw - basket	1099
+akpeteshie - gallon (10L)	1100
+air freshner - box	1101
+rice (local rice) - small sack	1102
+knapsack spray spare parts - small sack	1103
+turkey berry (abeduru, kantosey, kwahu nsusua) - pan	1104
+liquid soap - bottle (1.5L)	1105
+pineapple - sack	1106
+turkey berry (abeduru, kantosey, kwahu nsusua) - paint rubber (small)	1107
+head wrap (scarf) - pan	1108
+wooden spatula (bankuta) - sack	1109
+locust bean (dawadawa) - polythene bag	1110
+lime - pan	1111
+kola nut/cola nut - half sack	1112
+diaper - piece (s)	1113
+cow skin (wele) - polythene bag	1114
+groundnut paste - olonka tin	1115
+bedsheet - pan	1116
+fried fish - rubber bowl	1117
+maize seeds - sachet (1kg)	1118
+dried coconut (dry) - rubber bowl	1119
+second hand shoes - pair	1120
+ginger - pan	1121
+buta - piece (s)	1122
+kokonte (cassava chips) - polythene bag	1123
+ficial board - piece (s)	1124
+lime - sack	1125
+gari - pan	1126
+coffee seed - fertilizer bag	1127
+mattress (12 inches l/s, double bed) - piece (s)	1128
+earrings - pack	1129
+ginger - basket	1130
+noni fruit - sack	1131
+fried fish - basket	1132
+metal tables - piece (s)	1133
+iron rods (11.5mm) - piece (s)	1134
+sachet water rubber (ice water rubber) - pack	1135
+bags - pan	1136
+mosquito coil - pack (20)	1137
+lemon - fertilizer bag	1138
+pawpaw - rubber bowl	1139
+lemon - half sack	1140
+dry cell (sunwatt battery) - box	1141
+lemon - polythene bag	1142
+portable wireless speaker, bluetooth speakers (portable bluetooth music box) - piece (s)	1143
+flour (doughnut flour) - half sack	1144
+smoked herring (smoked fish) - tray	1145
+local herbs (mahogany bark ,mahogany herbs) - sack	1146
+maize (corn) husk - small sack	1147
+potatoes (sweet potatoes) - fertilizer bag	1148
+herbal leaves (dried baobab leaves) - fertilizer bag	1149
+banana - rubber bowl	1150
+pawpaw - sack	1151
+woven jewelry box - piece (s)	1152
+okro - tray	1153
+pineapple - half sack	1154
+luffa gourd (bonar,maro) - piece (s)	1155
+akpeteshie - gallon (5L)	1156
+macaroni - box	1157
+wheelbarrow - piece (s)	1158
+freezer (fridge) - piece (s)	1159
+smoking wire net (fish) - piece (s)	1160
+plantain chips - polythene bag	1161
+ceiling bottoms - bundle	1162
+smoked herring (smoked fish) - pan	1163
+aluminium mini coalpot - piece (s)	1164
+banana - half sack	1165
+millet - bowl	1166
+satellite decoder - box	1167
+massage mat - piece (s)	1168
+dog (above 3yrs female) - piece (s)	1169
+wooden spatula (bankuta, banku stick) - piece (s)	1170
+drying mat (aselene) - piece (s)	1171
+takeaway rubber bag (polynthene bag) - half sack	1172
+dog (below 1yr male) - piece (s)	1173
+lpg gas - cylinder (13.5kg)	1174
+rice (local rice) - pan	1175
+kola nut/cola nut - sack	1176
+herbal leaves (dried baobab leaves) - half fertilizer bag	1177
+cooking (vegetable) oil - bottle (450ml)	1178
+palm (red) oil - bottle (1.5L)	1179
+boxers - pack	1180
+kitchen knives - piece (s)	1181
+earthenware (small) - piece (s)	1182
+lime - half sack	1183
+bottle cleaning brush - piece (s)	1184
+dried (dry) fish (gblolovi, amani) - bucket (10L)	1185
+mushroom - pan	1186
+fried meat - small sack	1187
+mosquito net - pack	1188
+edible leaves (baobab leaves, kuuka, kipok, moringa leaves, waakye leaves, ademe, hibiscus leaves, sobolo leaves, bito) - small sack	1189
+edible leaves (baobab leaves, kuuka, kipok, moringa leaves, waakye leaves, ademe, hibiscus leaves, sobolo leaves, bito) - half sack	1190
+shea butter (nkuto) - rubber bowl	1191
+disinfectants (detergents) - piece (s)	1192
+cocoa beans - polythene bag	1193
+cocoa - polythene bag	1194
+cassava dough - bucket (15L)	1195
+motor tricycle spare parts (magic horn, digital horn) - piece (s)	1196
+plastic water bottles - basket	1197
+palm (red) oil - bottle (350ml)	1198
+herbal leaves (dried baobab leaves) - pan	1199
+ginger - tray	1200
+fresh coconut - pan	1201
+dried coconut (dry) - pan	1202
+smock - rubber bag	1203
+cow (below 1yr female) - piece (s)	1204
+palm nut chaff - pan	1205
+salt - pan	1206
+cashew - sack	1207
+lime - small sack	1208
+rubber bowl (plastic bowl) - pan	1209
+comb - piece (s)	1210
+hair bonnet - piece (s)	1211
+groundnut paste - ice chest	1212
+blood tonic (medicine) - piece (s)	1213
+cow milk (fresh milk) - bucket (10L)	1214
+soap - half sack	1215
+cassava peels - pan	1216
+cap (hat) - piece (s)	1217
+fresh groundnut - rubber bowl	1218
+shea nut - half sack	1219
+millet - half fertilizer bag	1220
+shea nut - small sack	1221
+soya beans - small sack	1222
+millet - polythene bag	1223
+soya beans - polythene bag	1224
+herbal leaves (dried baobab leaves) - polythene bag	1225
+azumah blow soap - fertilizer bag	1226
+shea nut - half fertilizer bag	1227
+agushie (melon seeds) - polythene bag	1228
+pigeon, dove (below 1yr male) - piece (s)	1229
+pigeon, dove (below 1yr female) - piece (s)	1230
+soap - pack (6)	1231
+pigeon, dove (1yr to 3yrs male) - piece (s)	1232
+agushie (melon seeds) - fertilizer bag	1233
+agushie (melon seeds) - rubber bowl	1234
+guinea fowl (below 1yr male) - piece (s)	1235
+dried (dry) pepper - rubber bowl	1236
+metal susu box - piece (s)	1237
+doughnut - rubber container	1238
+empty plastic containers - sack	1239
+shea nut - rubber bowl	1240
+shea nut - pan	1241
+guinea fowl (1yr to 3yrs female) - piece (s)	1242
+soya beans - sack	1243
+shea butter (nkuto) - rubber container (1kg)	1244
+cowpea - rubber bowl	1245
+locust bean (dawadawa) - rubber bag	1246
+rice (husked, not milled) - small sack	1247
+dried okro (dry okro) - sack	1248
+edible leaves (baobab leaves, kuuka, kipok, moringa leaves, waakye leaves, ademe, hibiscus leaves, sobolo leaves, bito) - half fertilizer bag	1249
+shea nut - sack	1250
+cat (above 3yrs male) - piece (s)	1251
+shea nut - fertilizer bag	1252
+woven fan (papa) - piece (s)	1253
+edible leaves (baobab leaves, kuuka, kipok, moringa leaves, waakye leaves, ademe, hibiscus leaves, sobolo leaves, bito) - rubber bowl	1254
+mango - rubber bowl	1255
+salt - box	1256
+soya beans khebab - rubber container	1257
+mango - basket	1258
+mango - fertilizer bag	1259
+shea nut - basket	1260
+herbal leaves (dried baobab leaves) - rubber bowl	1261
+palm (red) oil - bottle (1L)	1262
+guinea fowl (above 3yrs male) - piece (s)	1263
+toffee - tray	1264
+soya beans - rubber bowl	1265
+edible leaves (baobab leaves, kuuka, kipok, moringa leaves, waakye leaves, ademe, hibiscus leaves, sobolo leaves, bito) - fertilizer bag	1266
+empty plastic containers - small sack	1267
+dried tomatoes - rubber bowl	1268
+kola nut/cola nut - fertilizer bag	1269
+fruit juice (1.25L) - pack (6)	1270
+cassava peels - fertilizer bag	1271
+camping bed - piece (s)	1272
+mattress (12 inches m/s) - piece (s)	1273
+spices - polythene bag	1274
+locust bean  seeds (dawadawa seeds) - polythene bag	1275
+dried okro (dry okro) - rubber bowl	1276
+potatoes (sweet potatoes) - pan	1277
+duck (1yr to 3yrs male) - piece (s)	1278
+pigeon, dove (above 3yrs male) - piece (s)	1279
+turkey (below 1yr male) - piece (s)	1280
+onion seeds - piece (s)	1281
+shea nut paste - paint rubber (small)	1282
+tigernut - sack	1283
+artificial nails - box	1284
+pig (below 1yr female) - piece (s)	1285
+dried tomatoes - small sack	1286
+dried tomatoes - pan	1287
+maize (corn) flour - flask	1288
+mobile phone,  (non-smartphone) - piece (s)	1289
+mattress (8 inches k/s) - piece (s)	1290
+diesel - gallon (10L)	1291
+crushed peanut (kulikuli) - polythene bag	1292
+agushie (melon seeds) - half fertilizer bag	1293
+sewing (tailoring) thread - pack	1294
+padlock - piece (s)	1295
+smock - piece (s)	1296
+smoked herring (smoked fish) - fertilizer bag	1297
+okro seeds - rubber bag	1298
+shea butter (nkuto) - rubber bag	1299
+corn husking machine (maize dehasker/ dehusker machine) - piece (s)	1300
+duck (below 1yr male) - piece (s)	1301
+puppies (dog) - pan	1302
+soap - bar (s)	1303
+crushed peanut (kulikuli) - small sack	1304
+drugs (medicine, syrup) - rubber bowl	1305
+meat - half pan	1306
+cat (below 1yr female) - piece (s)	1307
+potatoes (sweet potatoes) - polythene bag	1308
+tobacco - half sack	1309
+potatoes (sweet potatoes) - rubber bowl	1310
+sorghum - sack	1311
+water - bucket (10L)	1312
+coffin - piece (s)	1313
+pigeon, dove (1yr to 3yrs female) - piece (s)	1314
+solar torch lights - piece (s)	1315
+cowpea - half fertilizer bag	1316
+eggs - rubber bag	1317
+coconut seedlings - piece (s)	1318
+sorghum - fertilizer bag	1319
+flour (doughnut flour) - small sack	1320
+pito yeast - sack	1321
+flour (doughnut) - sack	1322
+charcoal - rubber bowl	1323
+mahogany tree powder - polythene bag	1324
+sorghum - rubber bowl	1325
+cow milk (fresh milk) - paint rubber (small)	1326
+deodorant - piece (s)	1327
+black rubber (tarpaulin,tapolin) - yard	1328
+empty plastic bottles - half sack	1329
+shea nut paste - bucket (5L)	1330
+kerosene - gallon (5L)	1331
+sandals - rubber bowl	1332
+sponge - piece (s)	1333
+alcoholic drink (65cl) - crate (12)	1334
+yellow melon - half sack	1335
+yellow melon - small sack	1336
+nail cutters - pack	1337
+biscuits - basket	1338
+spectacles - piece (s)	1339
+kitchen knives - pan	1340
+dried coconut (dry) - bucket (20L)	1341
+electric iron - piece (s)	1342
+diesel - bottle (1L)	1343
+bitter salt - rubber bag	1344
+cow milk (fresh milk) - rubber bowl	1345
+sorghum - pan	1346
+cooler - box	1347
+maize grinding mill machine stand parts (corn grinding machine stand) - piece (s)	1348
+cat (below 1yr male) - piece (s)	1349
+pipeline drilling machine - piece (s)	1350
+metal bucket (4.5L) - piece (s)	1351
+woven summer hat - piece (s)	1352
+agushie (melon seeds) - pan	1353
+takeaway rubber bag (polynthene bag) - tray	1354
+solar torch lights - box	1355
+sorghum - small sack	1356
+soap - tray	1357
+duck (below 1yr female) - piece (s)	1358
+dusting tool (cleaning brush) - piece (s)	1359
+material cloth (fabric) - sachet(3×6yards)	1360
+lining (linen) - yard	1361
+spaghetti - tray	1362
+mosquito coil - box (60)	1363
+mobile phone, android (samsung, huawei, google pixel ) - piece (s)	1364
+air freshner - piece (s)	1365
+trousers - pair	1366
+shirt - piece (s)	1367
+louvre blades - pack	1368
+cassava peels - rubber bowl	1369
+hoe blades - piece (s)	1370
+cheese - bucket (20L)	1371
+dried (dry) fish (gblolovi, amani) - bucket (20L)	1372
+chewing stick - polythene bag	1373
+honey - gallon (5L)	1374
+chewing stick - fertilizer bag	1375
+kola nut/cola nut - rubber bag	1376
+banana - polythene bag	1377
+mosquito coil - pack	1378
+fishing nets - sack	1379
+sickle (cocoa plugging tools) - half box	1380
+fishing nets - small sack	1381
+balm (ointment) - piece (s)	1382
+engine oil (car oil) - bottle (500ml)	1383
+local drink - rubber bag	1384
+doughnut - polythene bag	1385
+spoons - basket	1386
+fresh maize (fresh corn) - rubber bowl	1387
+bitter kola - polythene bag	1388
+mobile phone (apple, iphone) - piece (s)	1389
+tigernut - half sack	1390
+cow skin (wele) - half sack	1391
+palm (red) oil - bottle (2L)	1392
+wrist watch - piece (s)	1393
+yellow melon - sack	1394
+gari stirring calabash - piece (s)	1395
+led bulb (solar) - piece (s)	1396
+leather - small sack	1397
+leather - half sack	1398
+dry dates (michy goro, dried dates) - polythene bag	1399
+carrots - sack	1400
+bitter kola - sack	1401
+kola nut/cola nut - rubber bowl	1402
+black rubber (tarpaulin,tapolin) - 3 yards	1403
+cinnamon - tray	1404
+dry yam chips (yam  konkonte) - pan	1405
+cow milk (fresh milk) - gallon (5L)	1406
+duck (above 3yrs male) - piece (s)	1407
+dry dates (michy goro, dried dates) - fertilizer bag	1408
+toothbrush - pack (6)	1409
+duck (above 3yrs female) - piece (s)	1410
+agushie (melon seeds) - bucket (10L)	1411
+woven kente - 1 yard	1412
+chewing stick - pan	1413
+rope - polythene bag	1414
+empty plastic containers - half sack	1415
+doughnut - piece (s)	1416
+cassava peels - polythene bag	1417
+tomato sauce (mackerel) tin (155g) - pack (5)	1418
+carrots - small sack	1419
+locust bean (dawadawa) - piece (s)	1420
+head wrap (scarf) - rubber bowl	1421
+massage mat - box	1422
+powdered pepper - sack	1423
+rattle - pan	1424
+cotton bud - sachet	1425
+mango - sack	1426
+mango - half sack	1427
+alligator - piece (s)	1428
+crushed peanut (kulikuli) - sack	1429
+crushed peanut (kulikuli) - pan	1430
+tomato sauce (mackerel) tin (425g) - tin (425g)	1431
+honey - gallon (10L)	1432
+beads - sack	1433
+kerosene - gallon (10L)	1434
+woven doormat - piece (s)	1435
+woven shopping bag - piece (s)	1436
+spices - half sack	1437
+earrings - piece (s)	1438
+insecticide - paper sachet	1439
+cucumber - piece (s)	1440
+lazy (relaxation) bed - piece (s)	1441
+socks - pair	1442
+oware - piece (s)	1443
+hand gloves - sack	1444
+lemon grass - half sack	1445
+dried tomatoes - sack	1446
+susu box - piece (s)	1447
+garlic - small sack	1448
+bitter kola - rubber bowl	1449
+bitter salt - polythene bag	1450
+skewer ( khebab sticks) - pan	1451
+bitter kola - small sack	1452
+tigernut - small sack	1453
+weaving thread - sack	1454
+cat (1yr to 3yrs male) - piece (s)	1455
+pig (1yr to 3yrs male) - piece (s)	1456
+fried meat - half sack	1457
+garlic - box	1458
+fried fish - pan	1459
+fried meat - rubber bowl	1460
+natural unrefined hemp rolling papers - box	1461
+shea butter (nkuto) - pan	1462
+kokonte (cassava chips) - fertilizer bag	1463
+apple - piece (s)	1464
+drugs (medicine, syrup) - pan	1465
+banku - pan	1466
+wardrobe - piece (s)	1467
+shallot - sack	1468
+shallot - small sack	1469
+shallot - half sack	1470
+cat (above 3yrs female) - piece (s)	1471
+second hand mobile phone - piece (s)	1472
+chewing stick - rubber bowl	1473
+singlet - pack	1474
+sorghum - polythene bag	1475
+beads - pan	1476
+sharpening stone - sack	1477
+wooden canoe - piece (s)	1478
+powdered milk - bag 250g	1479
+pig (above 3yrs female) - piece (s)	1480
+lemon - pan	1481
+ice block - rubber bag	1482
+mouse trap - piece (s)	1483
+ice block - sack	1484
+ice block - small sack	1485
+lining (linen) - 6 yards	1486
+nescafe (coffee) - tin	1487
+fried meat - pan	1488
+pepper seeds - half sack	1489
+groundnut paste - tray	1490
+woven kente - 6 yards	1491
+potatoes (sweet potatoes) - basket	1492
+metallic washboard (jean washer) - piece (s)	1493
+ludo - piece (s)	1494
+mouse trap - sack	1495
+locust bean (dawadawa) - half sack	1496
+balm (ointment) - pan	1497
+rice (husked, not milled) - bucket (10L)	1498
+mouse trap - small sack	1499
+turkey (1yr to 3yrs female) - piece (s)	1500
+ice block - half sack	1501
+comb, hair comb - rubber bowl	1502
+tricycle - piece (s)	1503
+kerosene - gallon (25L)	1504
+snail (aborbor) - small sack	1505
+snail (aborbor) - polythene bag	1506
+palm nut chaff - small sack	1507
+grains of selim (estso, hwentea) - half sack	1508
+BP monitor device (blood pressure monitor) - piece (s)	1509
+agushie (melon seeds) - bag 50kg	1510
+pear - half sack	1511
+bitter kola - fertilizer bag	1512
+pear - small sack	1513
+banana - fertilizer bag	1514
+pig feed - small sack	1515
+fridge compressor - piece (s)	1516
+pear - rubber bowl	1517
+pear - basket	1518
+palm kernel - sack	1519
+palm (red) oil - bottle (3L)	1520
+gear shaft - box	1521
+pepper seeds - sack	1522
+palm (red) oil - bottle (500ml)	1523
+snail (aborbor) - pan	1524
+palm nut chaff - sack	1525
+banku - ball	1526
+massage gun - box	1527
+canned green peas(processed peas 400g) - tin (400g)	1528
+lpg gas - cylinder (14.5kg)	1529
+garlic - pan	1530
+aidan fruit - pan	1531
+spices - pan	1532
+cotton - sack	1533
+beads - small sack	1534
+lime - polythene bag	1535
+pineapple - fertilizer bag	1536
+solar charger controller - box	1537
+soursop (local apple/aluguntugui) - piece (s)	1538
+coffee - half sack	1539
+soursop (local apple/aluguntugui) - pan	1540
+grains of selim (estso, hwentea) - small sack	1541
+pear - fertilizer bag	1542
+frozen sausage - sachet (1kg)	1543
+okro seeds - polythene bag	1544
+frozen chicken gizzard - sachet (1kg)	1545
+carrots - rubber bag	1546
+lpg gas - cylinder (45kg)	1547
+palm kernel - half sack	1548
+powdered pepper - half sack	1549
+snail (aborbor) - half sack	1550
+bamboo stick - bundle	1551
+spices - tray	1552
+body vibrator massage - piece (s)	1553
+food supplement (organic protein) - bottle (3L)	1554
+fried fish - tray	1555
+bentonite clay (ayilor) - sack	1556
+material cloth (fabric) - rubber bowl	1557
+lpg gas - cylinder (30kg)	1558
+lpg gas - cylinder (35kg)	1559
+deep frying spoon - piece (s)	1560
+ceramic plates - tray	1561
+apple - tray	1562
+snail (aborbor) - half fertilizer bag	1563
+spices - fertilizer bag	1564
+roasted groundnut (fried groundnut) - bottle (1.5L)	1565
+cow milk (fresh milk) - gallon (25L)	1566
+palm kernel - basket	1567
+motorbike mud guard - piece (s)	1568
+hangers - piece (s)	1569
+roasted maize and groundnut (azikpeli) - rubber container (3kg)	1570
+balm (ointment) - rubber bowl	1571
+garlic - fertilizer bag	1572
+sharpening stone - half sack	1573
+T and J (T&amp;J) - pack	1574
+leather - sack	1575
+palm nut chaff - tray	1576
+snail (aborbor) - basket	1577
+poultry feed - polythene bag	1578
+garlic - half sack	1579
+palm seedlings - polythene bag	1580
+quran - half sack	1581
+lemon grass - fertilizer bag	1582
+herbal leaves (dried baobab leaves) - rubber bag	1583
+kola nut/cola nut - pan	1584
+mushroom - rubber bowl	1585
+fresh coconut - small sack	1586
+tigernut - polythene bag	1587
+rattle - piece (s)	1588
+sugar - pan	1589
+locust bean (dawadawa) - small sack	1590
+camphor balls - sachet	1591
+turkey (1yr to 3yrs male) - piece (s)	1592
+tobacco - sack	1593
+turkey (above 3yrs female) - piece (s)	1594
+pawpaw - polythene bag	1595
+motorbike camshaft - box	1596
+cashew - half sack	1597
+caustic soda flakes - bag 25kg	1598
+popcorn - pan	1599
+spices - rubber bowl	1600
+shea nut paste - bucket (15L)	1601
+cassava dough press machine (onion press machine) - piece (s)	1602
+macaroni - sachet	1603
+nail cutters - piece (s)	1604
+led bulb (car) - box	1605
+grains of selim (estso, hwentea) - sack	1606
+popcorn - rubber bag	1607
+rubber water bottle ( plastic water flask ) - basket	1608
+shower gel (1L) - bottle (1000ml)	1609
+shower gel (2L) - bottle (2000ml)	1610
+lipstick - piece (s)	1611
+gas regulator - piece (s)	1612
+cowpea - half sack	1613
+jute bags large (Ghana must go) - piece (s)	1614
+lettuce - fertilizer bag	1615
+hand bangles (hand bands) - bundle	1616
+donkeys (above 3yrs female) - piece (s)	1617
+plastic scraps - push cart	1618
+macaroni - rubber bag	1619
+donkey ( above 3yrs male) - piece (s)	1620
+tomato seedlings - bundle	1621
+pineapple - small sack	1622
+kitchen knives - rubber bowl	1623
+cowpea - fertilizer bag	1624
+mango - pan	1625
+skewer ( khebab sticks) - fertilizer bag	1626
+glass cleaner - box	1627
+rubber patch - pack	1628
+cowpea - bucket (15L)	1629
+turkey (below 1yr female) - piece (s)	1630
+locust bean (dawadawa) - sack	1631
+car washing machine (jet shower hose) - piece (s)	1632
+dried tomatoes - polythene bag	1633
+crushed peanut (kulikuli) - half sack	1634
+fan belt (motor) - small sack	1635
+rubber water bottle ( plastic water flask ) - rubber bowl	1636
+concrete pump hose (dredging hose) - piece (s)	1637
+cucumber - fertilizer bag	1638
+takeaway rubber bag (polynthene bag) - small sack	1639
+sponge - polythene bag	1640
+kooko (piles) concoction - gallon (10L)	1641
+coffee - small sack	1642
+weaving machine (kente weaving device) - piece (s)	1643
+beads - rubber bowl	1644
+rubber solution - pack	1645
+industrial adhesive (Genkem glue) - box	1646
+gari - sachet (125g)	1647
+pvc insulation tape - box	1648
+tomato sauce (mackerel) tin (425g) - pack (5)	1649
+mango - small sack	1650
+dried tomatoes - fertilizer bag	1651
+coffee - box	1652
+donkey (1yr to 3yrs male) - piece (s)	1653
+sausage - pack (12)	1654
+donkeys ( 1yr to 3yrs female) - piece (s)	1655
+donkey ( below 1yr male) - piece (s)	1656
+sponge - pan	1657
+pig feed - fertilizer bag	1658
+donkeys (below 1yr female) - piece (s)	1659
+tomato sauce (mackerel) tin (425g) - pack (24)	1660
+led bulb (solar) - box	1661
+quran - small sack	1662
+corn chips - pack	1663
+woven clutches (woven bag) - piece (s)	1664
+shea nut paste - bucket (10L)	1665
+fan blade (bus) - piece (s)	1666
+cucumber - small sack	1667
+pvc insulation tape - piece (s)	1668
+cowpea - small sack	1669
+cowpea - pan	1670
+school bag - pan	1671
+coffee - polythene bag	1672
+carrots - fertilizer bag	1673
+fan belt (motor) - sack	1674
+rubber wares (plastic wares) - rubber bowl	1675
+palm kernel - polythene bag	1676
+canned corned beef - tin (200g)	1677
+lpg gas - cylinder (2kg)	1678
+dry dates (michy goro, dried dates) - rubber bag	1679
+motorbike oil pump cup - box	1680
+sausage - sachet (340g)	1681
+poultry disinfectant (omnicide) - gallon (5L)	1682
+fan belt (bus) - piece (s)	1683
+sponge - pack	1684
+rubber wares (plastic wares) - pan	1685
+flat screen television (60 inches) - piece (s)	1686
+cashew - rubber bag	1687
+chewing stick - tray	1688
+disinfectants (detergents) - pan	1689
+incense - half sack	1690
+biscuits - pan	1691
+fante kenkey - tray	1692
+popcorn - rubber bowl	1693
+biscuits - rubber bowl	1694
+grains of selim (estso, hwentea) - rubber bowl	1695
+antiseptic - basket	1696
+disinfectants (detergents) - rubber bowl	1697
+turkey (above 3yrs male) - piece (s)	1698
+second hand shoes - rubber bowl	1699
+grains of selim (estso, hwentea) - fertilizer bag	1700
+bentonite clay (ayilor) - small sack	1701
+bitter kola - half sack	1702
+epoxy adhesive - piece (s)	1703
+toothbrush - pack (4)	1704
+lemon grass - polythene bag	1705
+edible leaves (baobab leaves, kuuka, kipok, moringa leaves, waakye leaves, ademe, hibiscus leaves, sobolo leaves, bito) - bucket (10L)	1706
+fried meat - tray	1707
+toothbrush - pan	1708
+bumper - piece (s)	1709
+BP monitor device (blood pressure monitor) - box	1710
+motorbike intake and exhaust valve - box	1711
+kitchen napkins - tray	1712
+kooko (piles) concoction - gallon (5L)	1713
+honey - calabash pot	1714
+shea nut - polythene bag	1715
+disinfectants (detergents) - basket	1716
+dried groundnut (dry groundnut) - tray	1717
+grains of selim (estso, hwentea) - polythene bag	1718
+mortice lock - box	1719
+motor sealant - piece (s)	1720
+lime - fertilizer bag	1721
+sugar cane - sack	1722
+coffee - tin	1723
+rubber water bottle ( plastic water flask ) - pan	1724
+sugar cane - half sack	1725
+insecticide - bottle (0.2L)	1726
+palm kernel - small sack	1727
+mango - bucket (10L)	1728
+pineapple - polythene bag	1729
+mouse trap - half sack	1730
+nail polish - piece (s)	1731
+rake - piece (s)	1732
+torso mannequin (mannequin torso) - piece (s)	1733
+cashew - half fertilizer bag	1734
+cashew - pan	1735
+cashew - small sack	1736
+cashew - polythene bag	1737
+palm kernel - rubber bowl	1738
+palm (red) oil - bucket (20L)	1739
+gari stirring calabash - small sack	1740
+gari stirring calabash - half sack	1741
+dry dates (michy goro, dried dates) - tray	1742
+shrimps - fertilizer bag	1743
+crab - basket	1744
+lpg gas - cylinder (18kg)	1745
+cashew - rubber bowl	1746
+pear - polythene bag	1747
+wreath - piece (s)	1748
+guava seedling - piece (s)	1749
+sponge - rubber bowl	1750
+bentonite clay (ayilor) - basket	1751
+beads - half sack	1752
+bentonite clay (ayilor) - half sack	1753
+crab - rubber bowl	1754
+Jubaili mineral block - roll	1755
+towel - pan	1756
+comb, hair comb - pan	1757
+comb - pan	1758
+bedsheet - tray	1759
+woven grocery holders - piece (s)	1760
+kerosene - bottle (1.5L)	1761
+cowpea - polythene bag	1762
+fly whisk (horse tail accessory) - piece (s)	1763
+fresh groundnut - tray	1764
+towel - tray	1765
+vinegar - bottle (1L)	1766
+crab - pan	1767
+pineapple - rubber bowl	1768
+carrots - rubber bowl	1769
+palm (red) oil - bottle (450ml)	1770
+susu box - small sack	1771
+bitter kola - pan	1772
+towel - rubber bowl	1773
+cotton bud - pack	1774
+susu box - half sack	1775
+shrimps - polythene bag	1776
+shower gel (2000ml) - bottle (2000ml)	1777
+lime - basket	1778
+fan belt (motor) - half sack	1779
+lemon grass - small sack	1780
+garlic - tray	1781
+mayonnaise (remia) - piece (s)	1782
+incense - rubber bag	1783
+school bag - rubber bowl	1784
+gari stirring calabash - sack	1785
+wooden car - pan	1786
+fresh coconut - rubber bowl	1787
+susu box - sack	1788
+tigernut - tray	1789
+lpg gas - cylinder (19kg)	1790
+mortice lock - piece (s)	1791
+antiseptic - bottle (200ml)	1792
+fried meat - sack	1793
+popcorn - pack	1794
+seive - piece (s)	1795
+lettuce - basket	1796
+caiba board - piece (s)	1797
+sugar cane - small sack	1798
+massage gun - piece (s)	1799
+motorbike gasket - sachet	1800
+mahogany tree powder - sack	1801
+pyjamas - piece (s)	1802
+mushroom - fertilizer bag	1803
+palm (red) oil - bottle (850ml)	1804
+fabric softener - pack (12)	1805
+incense - pan	1806
+akpi seed - polythene bag	1807
+shrimps - rubber bowl	1808
+shock absorber - piece (s)	1809
+snail (aborbor) - rubber bowl	1810
+pale - piece (s)	1811
+paint stainer (universal sainer colorant) - bottle (200ml)	1812
+lpg gas - cylinder (17kg)	1813
+mayonnaise (remia) - sachet (25ml)	1814
+shrimps - basket	1815
+natural rubber (raw rubber) - sack	1816
+shrimps - pan	1817
+cowpea - sack	1818
+natural rubber (raw rubber) - fertilizer bag	1819
+natural rubber (raw rubber) - half sack	1820
+grains of selim (estso, hwentea) - rubber bag	1821
+kitchenware - pan	1822
+garlic - basket	1823
+sharpening stone - small sack	1824
+aluminium mini coalpot - half sack	1825
+portable waredrobe - box	1826

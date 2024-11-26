@@ -430,6 +430,7 @@ setwd("C:/2024ICBT/")
     filter(
       # !(str_squish(trim(str_to_lower(enumerator_name)))=="yachambe kuporkpa moses" & interview_key=="06-08-58-38") |  ## he said he wanted to sync and he was finding difficulty with it so he entered a any random information to be able to help him sync.
       # !(enumerator_name=="Yachambe kuporkpa moses" & interview_key=="06-08-58-38") |  # 
+      !(str_squish(enumerator_name)=="Lotsu Kwame Bless" & interview_key=="48-15-77-88") |  # 
       !(enumerator_name=="Juliana Sekyiraa" & interview_key=="14-40-62-43") |  # 
       !(enumerator_name=="Juliana Sekyiraa" & interview_key=="71-14-18-31") |  # 
       !(str_squish(trim(str_to_lower(enumerator_name)))=="patience gyabeng" & interview_key=="87-78-60-56") |  #
