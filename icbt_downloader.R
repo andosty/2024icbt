@@ -417,6 +417,9 @@ setwd("C:/2024ICBT/")
                                   interview_key=="59-82-19-59" & interview_id=="592423b19c864fd4a714eeb3b8c0c9fb" ~ qnr_createdDateTime,
                                   interview_key=="50-47-81-71" & interview_id=="6a2bc43595fd4df0b98b2088eca88dd3" ~ qnr_createdDateTime,
                                   interview_key=="19-97-73-94" & interview_id=="de6bb15e5e5e4e2ebb971a8270fa16be" ~ qnr_createdDateTime,
+                                  interview_key=="27-97-38-25" & interview_id=="ce7ff989c68b412cb7e89c20c2186cb3" ~ qnr_createdDateTime,
+                                  interview_key=="06-08-58-38" & interview_id=="69d39e8bd2ae404ebd244536a0d336e8" ~ qnr_createdDateTime,
+                                  interview_key=="19-97-73-94" & interview_id=="de6bb15e5e5e4e2ebb971a8270fa16be" ~ qnr_createdDateTime,
                                   TRUE ~ gps_Timestamp
                                 ),
       dates = as.Date(gps_Timestamp),
@@ -425,8 +428,8 @@ setwd("C:/2024ICBT/")
   #removal of invalid cases
   downloaded_icbt_data <- downloaded_icbt_data %>%
     filter(
-      !(str_squish(trim(str_to_lower(enumerator_name)))=="yachambe kuporkpa moses" & interview_key=="06-08-58-38") |  ## he said he wanted to sync and he was finding difficulty with it so he entered a any random information to be able to help him sync.
-      !(enumerator_name=="Yachambe kuporkpa moses" & interview_key=="06-08-58-38") |  # 
+      # !(str_squish(trim(str_to_lower(enumerator_name)))=="yachambe kuporkpa moses" & interview_key=="06-08-58-38") |  ## he said he wanted to sync and he was finding difficulty with it so he entered a any random information to be able to help him sync.
+      # !(enumerator_name=="Yachambe kuporkpa moses" & interview_key=="06-08-58-38") |  # 
       !(enumerator_name=="Juliana Sekyiraa" & interview_key=="14-40-62-43") |  # 
       !(enumerator_name=="Juliana Sekyiraa" & interview_key=="71-14-18-31") |  # 
       !(str_squish(trim(str_to_lower(enumerator_name)))=="patience gyabeng" & interview_key=="87-78-60-56") |  #
