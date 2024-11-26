@@ -174,7 +174,7 @@ server <- function(input, output, session) {
       group_by(RegionName, regionCode) %>% summarise(totalErrors = n()) %>% arrange(-totalErrors) %>% 
       mutate(stringsAsFactors = FALSE,
              RegionName = as.character(RegionName)
-      ) %>% left_join(
+      ) %>% right_join(
            icbt_dataset()[['icbt_dataset_final']] %>% 
             distinct(regionCode, RegionName,interview_key, interview_id) %>%
             group_by(RegionName, regionCode) %>% 
