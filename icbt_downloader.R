@@ -130,7 +130,7 @@ setwd("C:/2024ICBT/")
   
   #date and time of cuurent last data download run
   
-  dataDownloadStarted <- format(now(), "%a %b %Y, %I:%M %p")
+  dataDownloadStarted <- format(now(), "%a %d %b %Y, %I:%M %p")
 
   
   downloaded_icbt_data <- data.frame()
@@ -391,6 +391,7 @@ setwd("C:/2024ICBT/")
       commodityObervedDescription=  gsub("apketshie","akpeteshie", str_to_lower(commodityObervedDescription) ) ,
       commodityObervedDescription=  gsub("akakpeteshie","akpeteshie", str_to_lower(commodityObervedDescription) ) ,
       commodityObervedDescription=  gsub("soup","soap", str_to_lower(commodityObervedDescription) ) ,
+      commodityObervedDescription=  gsub("saop","soap", str_to_lower(commodityObervedDescription) ) ,
       commodityObervedDescription=  gsub("millo","milo", str_to_lower(commodityObervedDescription) ) ,
       commodityObervedDescription=  gsub("patrol","petrol", str_to_lower(commodityObervedDescription) ) ,
       commodityObervedDescription=  gsub("fire wood","firewood", str_to_lower(commodityObervedDescription) ) ,
@@ -415,11 +416,15 @@ setwd("C:/2024ICBT/")
       #fix gps date issue but case is valid and within time frame
       gps_Timestamp = case_when(
                                   interview_key=="59-82-19-59" & interview_id=="592423b19c864fd4a714eeb3b8c0c9fb" ~ qnr_createdDateTime,
-                                  interview_key=="50-47-81-71" & interview_id=="6a2bc43595fd4df0b98b2088eca88dd3" ~ qnr_createdDateTime,
+                                  interview_key=="50-47-81-71" & interview_id=="6a2bc43595fd4df0b98b2088eca88dd3" ~ as.character("2024-10-31T10:48:55"),
                                   interview_key=="19-97-73-94" & interview_id=="de6bb15e5e5e4e2ebb971a8270fa16be" ~ qnr_createdDateTime,
                                   interview_key=="27-97-38-25" & interview_id=="ce7ff989c68b412cb7e89c20c2186cb3" ~ qnr_createdDateTime,
                                   interview_key=="06-08-58-38" & interview_id=="69d39e8bd2ae404ebd244536a0d336e8" ~ qnr_createdDateTime,
                                   interview_key=="19-97-73-94" & interview_id=="de6bb15e5e5e4e2ebb971a8270fa16be" ~ qnr_createdDateTime,
+                                  interview_key=="48-15-77-88" & interview_id=="f279abd6013744ec83f1665dc3b272e4" ~ qnr_createdDateTime,
+                                  interview_key=="53-95-09-19" & interview_id=="290a572e712f40d98451f1835e8fbb54" ~ qnr_createdDateTime,
+                                  interview_key=="48-15-77-88" & interview_id=="f279abd6013744ec83f1665dc3b272e4" ~ qnr_createdDateTime,
+                                  interview_key=="11-26-03-51" & interview_id=="4f243553ab9045819bce277334e71b85" ~ as.character("2024-10-31T10:39:20"),
                                   TRUE ~ gps_Timestamp
                                 ),
       dates = as.Date(gps_Timestamp),
@@ -431,6 +436,12 @@ setwd("C:/2024ICBT/")
       # !(str_squish(trim(str_to_lower(enumerator_name)))=="yachambe kuporkpa moses" & interview_key=="06-08-58-38") |  ## he said he wanted to sync and he was finding difficulty with it so he entered a any random information to be able to help him sync.
       # !(enumerator_name=="Yachambe kuporkpa moses" & interview_key=="06-08-58-38") |  # 
       !(str_squish(enumerator_name)=="Lotsu Kwame Bless" & interview_key=="48-15-77-88") |  # 
+      !(str_to_title(enumerator_name)=="Sylvia Agyemang" & interview_key=="50-47-81-71") |  # 
+        
+      !(str_to_title(enumerator_name)=="Agyeiwaa Adusah Mary" & interview_key=="17-68-34-17") |  # 
+      !(str_to_title(enumerator_name)=="Oppong Simon" & interview_key=="48-21-24-13") |  # 
+      !(str_to_title(enumerator_name)=="Oppong Simon" & interview_key=="52-21-39-28") |  # 
+        
       !(enumerator_name=="Juliana Sekyiraa" & interview_key=="14-40-62-43") |  # 
       !(enumerator_name=="Juliana Sekyiraa" & interview_key=="71-14-18-31") |  # 
       !(str_squish(trim(str_to_lower(enumerator_name)))=="patience gyabeng" & interview_key=="87-78-60-56") |  #
