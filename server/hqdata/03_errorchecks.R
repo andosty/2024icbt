@@ -37,12 +37,14 @@ library(tm)
 
 # Check unit of measure, quantity and selected product
 # #####################################################
+# downloaded_icbt_data <-  downloaded_icbt_data %>%
+#   filter(createdDate > '2024-12-08') 
 
 icbt_meta <- downloaded_icbt_data %>%
   select(.,
          regionCode, RegionName,districtCode,districtName,
          townCity,borderPostName,team_number,interview_key,interview_id,enumerator_name,enumerator_contact, 
-         gps_Timestamp,responsibleId,createdDate # , , 
+         gps_Timestamp,responsibleId,createdDate # , 
   ) %>%
   distinct(interview_key,interview_id,responsibleId, .keep_all = T) %>%  
   arrange(districtCode,borderPostName,team_number,enumerator_name) 
@@ -246,13 +248,13 @@ summaryPivotedDF <-summaryPivotedDF %>%
 
 commodityQtyMismatchError <- downloaded_icbt_data %>%
   select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id,commodityObervedDescription, productObserved,commodityQuantity) %>%
-  filter(
-    (interview_key=='74-36-02-42' )
-    # |
-    #   (interview_key=="23-01-64-19" & transpondent_id==3) |
-    #   (interview_key=="24-15-76-11" & transpondent_id==2) |
-    #   (interview_key=="82-69-48-34" & transpondent_id==2 )
-  ) %>%
+  # filter(
+  #   (interview_key=='74-36-02-42' )
+  #   # |
+  #   #   (interview_key=="23-01-64-19" & transpondent_id==3) |
+  #   #   (interview_key=="24-15-76-11" & transpondent_id==2) |
+  #   #   (interview_key=="82-69-48-34" & transpondent_id==2 )
+  # ) %>%
   # filter(transpondent_id==20) %>%
   #remove brackets from commodity discriptions
   mutate(
@@ -692,7 +694,7 @@ otherSPecifiedError2 <-otherCommdtyDescriptionKK %>%
                ) |  #excluded wood
      str_to_lower(productObserved_otherSpecify)=="water"
   ) %>%
-  filter(!(str_detect(str_to_lower(productObserved_otherSpecify),"alcoholic crate|alcohol crate|alcoholic drink crate"))) %>% #remove "empty alcoholic crate" as an error
+  filter(!(str_detect(str_to_lower(productObserved_otherSpecify),"alcoholic crate|alcohol crate|alcoholic drink crate|liquid fertiliser"))) %>% #remove "empty alcoholic crate" as an error
 mutate(
   errorCheck = 'other Specified Error',
   errorMessage = paste("other specified commodity ='",productObserved_otherSpecify,"', already exists as a select option", sep = '')

@@ -1,6 +1,10 @@
 rm(list=ls())  
 setwd("C:/2024ICBT/")
   
+  #ADDED packages
+if(!require(SurveySolutionsAPI)) devtools::install_github("michael-cw/SurveySolutionsAPI", build_vignettes = T)
+library(SurveySolutionsAPI)
+
   #load packages
   library(dplyr)
   
@@ -53,97 +57,226 @@ setwd("C:/2024ICBT/")
   newDataMeta <- select(read_rds("server/users.RDS"),UserId, UserName) %>%  
     rename(responsibleId = UserId) %>% distinct(responsibleId,UserName, .keep_all = T)
   
-  # get the serve various case versions
-  server_qnr <- susoapi::get_questionnaires() %>% 
-    filter(title == "ICBT FIELD WORK") %>%
-    distinct(title, .keep_all = T)
-  
-  # cases <- susoapi:::get_interviews_for_questionnaire(
-  #   chunk_size=100,
-  #   qnr_id=server_qnr$questionnaireId,
-  #   qnr_version= server_qnr$version,  # This should be an integer, not a string
-  #   # 
-  #   server = Sys.getenv("SUSO_SERVER"),
-  #   workspace = Sys.getenv("SUSO_WORKSPACE"),
-  #   user = Sys.getenv("SUSO_USER"),
-  #   password = Sys.getenv("SUSO_PASSWORD")
+  # # get the serve various case versions
+  # server_qnr <- susoapi::get_questionnaires() %>% 
+  #   filter(title == "ICBT FIELD WORK") %>%
+  #   distinct(title, .keep_all = T)
+  # 
+  # # cases <- susoapi:::get_interviews_for_questionnaire(
+  # #   chunk_size=100,
+  # #   qnr_id=server_qnr$questionnaireId,
+  # #   qnr_version= server_qnr$version,  # This should be an integer, not a string
+  # #   # 
+  # #   server = Sys.getenv("SUSO_SERVER"),
+  # #   workspace = Sys.getenv("SUSO_WORKSPACE"),
+  # #   user = Sys.getenv("SUSO_USER"),
+  # #   password = Sys.getenv("SUSO_PASSWORD")
+  # # )
+  # # 
+  # # count <- get_interviews_count()
+  # # count <- interviews_request()
+  # # myQ <- get_questionnaires()
+  # # gitdata<-get_interviews_for_questionnaire(
+  # #   
+  # #                                           # qnr_id="49957160-c7e4-4af9-a658-b99111b9104d",
+  # #                                           qnr_id="49957160-c7e4-4af9-a658-b99111b9104d",
+  # #                                           chunk_size = 100,
+  # #                                           qnr_version=3,
+  # #                                           server = Sys.getenv("SUSO_SERVER"),
+  # #                                           workspace = Sys.getenv("SUSO_WORKSPACE"),
+  # #                                           user = Sys.getenv("SUSO_USER"),
+  # #                                           password = Sys.getenv("SUSO_PASSWORD")
+  # #                                           )
+  # # 
+  # # show_credentials()
+  # # int_stat<- get_possible_interview_statuses()
+  # # 
+  # # intv <- get_interviews(
+  # #   nodes = c("id", "key", "assignmentId", "identifyingData", "questionnaireId",
+  # #             "questionnaireVersion", "questionnaireVariable", "responsibleName", "responsibleId",
+  # #             "responsibleRole", "supervisorName", "status", "actionFlags", "wasCompleted",
+  # #             "notAnsweredCount", "errorsCount", "createdDate", "updateDateUtc",
+  # #             "receivedByInterviewerAtUtc", "interviewMode"),
+  # #   chunk_size = 100,
+  # #   server = Sys.getenv("SUSO_SERVER"),
+  # #   workspace = Sys.getenv("SUSO_WORKSPACE"),
+  # #   user = Sys.getenv("SUSO_USER"),
+  # #   password = Sys.getenv("SUSO_PASSWORD")
+  # # )
+  # # data0 <- get_interviews(
+  # #   nodes = c("id", "key", "assignmentId", "identifyingData", "questionnaireId",
+  # #             "questionnaireVersion", "questionnaireVariable", "responsibleName", "responsibleId",
+  # #             "responsibleRole", "supervisorName", "status", "actionFlags", "wasCompleted",
+  # #             "notAnsweredCount", "errorsCount", "createdDate", "updateDateUtc",
+  # #             "receivedByInterviewerAtUtc", "interviewMode"),
+  # #   chunk_size = 100,
+  # #   server = Sys.getenv("SUSO_SERVER"),
+  # #   workspace = Sys.getenv("SUSO_WORKSPACE"),
+  # #   user = Sys.getenv("SUSO_USER"),
+  # #   password = Sys.getenv("SUSO_PASSWORD")
+  # # )
+  # 
+  # # data1 <- get_interviewers()
+  # # data2 <- get_interviews_for_questionnaire(
+  # #   chunk_size = 100,
+  # #   qnr_id="49957160-c7e4-4af9-a658-b99111b9104d",
+  # #   qnr_version=1,
+  # #   server = Sys.getenv("SUSO_SERVER"),
+  # #   workspace = Sys.getenv("SUSO_WORKSPACE"),
+  # #   user = Sys.getenv("SUSO_USER"),
+  # #   password = Sys.getenv("SUSO_PASSWORD")
+  # # )
+  # # reGetUser <- get_user_details(user_id="")
+  # 
+  # 
+  # # FreshUsersAssignments<- get_assignments()# %>% filter(QuestionnaireId=="49957160-c7e4-4af9-a658-b99111b9104d")
+  # # FreshUsersAssignments<- new_usersAssignments %>% filter(QuestionnaireId=="49957160c7e44af9a658b99111b9104d$1")
+  # 
+  # #date and time of cuurent last data download run
+  # 
+  # 
+  # #set download started time
+  # dataDownloadStarted <- format(now(), "%a %d %b %Y, %I:%M %p")
+  # 
+  # 
+  # downloaded_icbt_data <- data.frame()
+  # 
+  # download_matching(
+  #   matches = server_qnr$title, 
+  #   export_type = "STATA",
+  #   path = hqDownload_dir,
+  #   # qnr_id= server_qnr_id
   # )
   # 
-  # count <- get_interviews_count()
-  # count <- interviews_request()
-  # myQ <- get_questionnaires()
-  # gitdata<-get_interviews_for_questionnaire(
+  # 
+  # # manual version 4 files
+  # ################################
+  # # get Version 4 Export Qeue Job
+  # # version_4_ExportJobs <-  get_export_jobs(
+  # #   export_type = c("STATA"),
+  # #   interview_status = "All",
+  # #   qnr_id = "49957160c7e44af9a658b99111b9104d$4",
+  # #   export_status = "Completed",
+  # #   has_file = NA,
+  # #   limit = 100,
+  # #   offset = 0,
+  # #   server = Sys.getenv("SUSO_SERVER"),
+  # #   workspace = Sys.getenv("SUSO_WORKSPACE"),
+  # #   user = Sys.getenv("SUSO_USER"),
+  # #   password = Sys.getenv("SUSO_PASSWORD")
+  # # )
   #   
-  #                                           # qnr_id="49957160-c7e4-4af9-a658-b99111b9104d",
-  #                                           qnr_id="49957160-c7e4-4af9-a658-b99111b9104d",
-  #                                           chunk_size = 100,
-  #                                           qnr_version=3,
-  #                                           server = Sys.getenv("SUSO_SERVER"),
-  #                                           workspace = Sys.getenv("SUSO_WORKSPACE"),
-  #                                           user = Sys.getenv("SUSO_USER"),
-  #                                           password = Sys.getenv("SUSO_PASSWORD")
-  #                                           )
+  # job_id_v4 = 2641
+  # version4Qeue<- get_export_job_details(
+  #   job_id = job_id_v4,
+  # )
+  # #Get and download the version 4 dataset
+  # get_export_file(
+  #   job_id=job_id_v4,
+  #   path = hqDownload_dir
+  # )
   # 
-  # show_credentials()
-  # int_stat<- get_possible_interview_statuses()
-  # 
-  # intv <- get_interviews(
-  #   nodes = c("id", "key", "assignmentId", "identifyingData", "questionnaireId",
-  #             "questionnaireVersion", "questionnaireVariable", "responsibleName", "responsibleId",
-  #             "responsibleRole", "supervisorName", "status", "actionFlags", "wasCompleted",
-  #             "notAnsweredCount", "errorsCount", "createdDate", "updateDateUtc",
-  #             "receivedByInterviewerAtUtc", "interviewMode"),
-  #   chunk_size = 100,
-  #   server = Sys.getenv("SUSO_SERVER"),
-  #   workspace = Sys.getenv("SUSO_WORKSPACE"),
-  #   user = Sys.getenv("SUSO_USER"),
-  #   password = Sys.getenv("SUSO_PASSWORD")
-  # )
-  # data0 <- get_interviews(
-  #   nodes = c("id", "key", "assignmentId", "identifyingData", "questionnaireId",
-  #             "questionnaireVersion", "questionnaireVariable", "responsibleName", "responsibleId",
-  #             "responsibleRole", "supervisorName", "status", "actionFlags", "wasCompleted",
-  #             "notAnsweredCount", "errorsCount", "createdDate", "updateDateUtc",
-  #             "receivedByInterviewerAtUtc", "interviewMode"),
-  #   chunk_size = 100,
-  #   server = Sys.getenv("SUSO_SERVER"),
-  #   workspace = Sys.getenv("SUSO_WORKSPACE"),
-  #   user = Sys.getenv("SUSO_USER"),
-  #   password = Sys.getenv("SUSO_PASSWORD")
-  # )
   
-  # data1 <- get_interviewers()
-  # data2 <- get_interviews_for_questionnaire(
-  #   chunk_size = 100,
-  #   qnr_id="49957160-c7e4-4af9-a658-b99111b9104d",
-  #   qnr_version=1,
-  #   server = Sys.getenv("SUSO_SERVER"),
-  #   workspace = Sys.getenv("SUSO_WORKSPACE"),
-  #   user = Sys.getenv("SUSO_USER"),
-  #   password = Sys.getenv("SUSO_PASSWORD")
-  # )
-  # reGetUser <- get_user_details(user_id="")
+  ##### NEW DOWNLOAD SCRIPT START #####
   
+  suso_set_key(sqlSvr$server,sqlSvr$usr, sqlSvr$pswd)
   
-  # FreshUsersAssignments<- get_assignments()# %>% filter(QuestionnaireId=="49957160-c7e4-4af9-a658-b99111b9104d")
-  # FreshUsersAssignments<- new_usersAssignments %>% filter(QuestionnaireId=="49957160c7e44af9a658b99111b9104d$1")
-  
-  #date and time of cuurent last data download run
+  questlist <- suso_getQuestDetails(workspace = sqlSvr$workspace) %>%
+    filter(Title == "ICBT FIELD WORK") %>% mutate(
+      Queue_job_id = NA_integer_
+    )
   
   dataDownloadStarted <- format(now(), "%a %d %b %Y, %I:%M %p")
-
   
-  downloaded_icbt_data <- data.frame()
+  #STEP 1: create export queues first  and add Queue NO# to dataFrame,
+  #STEP 2: then wait for some mins for Export Generation to be Completed
+  #STEP 3: then start the download process
   
-  download_matching(
-    matches = server_qnr$title, 
-    export_type = "STATA",
-    path = hqDownload_dir,
-    # qnr_id= server_qnr_id
-  )
+  #STEP 1: 
+  for (i in 1:nrow(questlist)){
+    icbtQues <- questlist [i,]
+    # # start export process; get job ID
+    if( started_job_id <-susoapi::start_export(
+      qnr_id= icbtQues$QuestionnaireIdentity,
+      export_type = "STATA",
+      include_meta = TRUE,
+      interview_status = "All" ) 
+    ){
+      questlist <-questlist %>% mutate(
+        Queue_job_id = case_when(
+          questlist$QuestionnaireIdentity == icbtQues$QuestionnaireIdentity ~ started_job_id,
+          TRUE ~ Queue_job_id)
+      )
+    }
+  }
+  
+  #STEP 2: 
+  # function to download the dataset
+  dataDownload_function <- function(que_id){
+    tryCatch(
+      {
+        get_export_file(
+          job_id = que_id,
+          path = hqDownload_dir,
+        )
+      },
+      #if an error occurs, tell me the error
+      error=function(e) {
+        message('A Download Error Occurred')
+        print(e)
+      },
+      #if a warning occurs, tell me the warning
+      warning=function(w) {
+        message('Warning, Download Error Occurred')
+        print(w)
+        # return(NA)
+      }
+    )
+  }
+  
+  #wait for 1.5 minutes
+  Sys.sleep(90)  # Pause for number is a second in each iteration
+  
+  #check if Queue Process is COmpleted,
+  for (i in 1:nrow(questlist)){
+    icbtQues <- questlist [i,]
+    # # CHECK EXPORT JOB PROGESS, UNTIL COMPLETE, specifying ID of job started in prior step
+    exportFeedback <- get_export_job_details(job_id = started_job_id) 
+    
+    if(exportFeedback$ExportStatus =='Completed' & exportFeedback$HasExportFile == TRUE ){
+      que_id = icbtQues$Queue_job_id
+      dataDownload_function(que_id)
+      rm(que_id, exportFeedback)
+    } else{
+      #wait for 1 minute and try again
+      Sys.sleep(60) # wait for 1 minute, to try again 
+      exportFeedback <- get_export_job_details(job_id = started_job_id) 
+      que_id = icbtQues$Queue_job_id
+      dataDownload_function(que_id)
+      rm(que_id, exportFeedback)
+    }
+  }
+  ##### NEW DOWNLOAD SCRIPT END #####
+  
   
   #unzip each version of the files
   zipppedFiles <- list.files(path = hqDownload_dir, pattern = "*.zip", full.names = T)
+  
+  # https://arthur-shaw.github.io/susoflows/
+  # https://www.appsilon.com/post/forget-about-excel-use-r-shiny-packages-instead
+  # https://stackoverflow.com/questions/35834322/how-to-save-edits-made-using-rhandsontable-r-package
+  # take the database from firebase or fidesworcx
+  #corrections dataframe would need “created_at”, “created_by”, “modified_at”
+  #add download corrections dataframe files as r,stata and csv
+  
+  #future scripting task
+  # split each work by month 
+  # and save each monthly data set with its errors
+  # then, merge them as final file
+  
+  downloaded_icbt_data <- data.frame()
+  
+  
   # zipfile<-zipppedFiles[2]
   for (zipfile in zipppedFiles) {
     #take each zip file and extract
@@ -185,7 +318,7 @@ setwd("C:/2024ICBT/")
     )
     
     #take the stata   files for processing
-    icbt_data_version <- read_dta(paste(hq_extracted_dir,server_qnr$variable,".dta", sep = ''))
+    icbt_data_version <- read_dta(paste(hq_extracted_dir,questlist$Variable[1],".dta", sep = ''))
     
     if (nrow(icbt_data_version)>0){
       icbt_data_version <- icbt_data_version %>%
@@ -311,11 +444,15 @@ setwd("C:/2024ICBT/")
       observedRespondentDescription = case_when(
         str_detect(str_to_lower(observedRespondentDescription),'coming on') ~  gsub('coming on', 'coming in on', observedRespondentDescription, ignore.case = TRUE),
         str_detect(str_to_lower(observedRespondentDescription),'coning in') ~  gsub('coning in', 'coming in', observedRespondentDescription, ignore.case = TRUE),
+        str_detect(str_to_lower(observedRespondentDescription),'entering in') ~  gsub('entering in', 'coming in', observedRespondentDescription, ignore.case = TRUE),
         str_detect(str_to_lower(observedRespondentDescription),'cominng in') ~  gsub('cominng in', 'coming in', observedRespondentDescription, ignore.case = TRUE),
         str_detect(str_to_lower(observedRespondentDescription),'coming with') ~  gsub('coming with', 'coming in on', observedRespondentDescription, ignore.case = TRUE),
         str_detect(str_to_lower(observedRespondentDescription),'going on') ~ gsub('going on', 'going out on', observedRespondentDescription, ignore.case = TRUE),
         str_detect(str_to_lower(observedRespondentDescription),'gong out') ~ gsub('gong out', 'going out', observedRespondentDescription, ignore.case = TRUE),
         str_detect(str_to_lower(observedRespondentDescription),'going with') ~ gsub('going with', 'going out with', observedRespondentDescription, ignore.case = TRUE),
+        
+        str_detect(str_to_lower(observedRespondentDescription),'motobike') ~ gsub('motobike', 'Motorbike', observedRespondentDescription, ignore.case = TRUE),
+        
         TRUE ~ observedRespondentDescription
       ),
       #fixing tranport-mode spelling mistakes
@@ -359,6 +496,8 @@ setwd("C:/2024ICBT/")
       # commodityObervedDescription=  gsub("pomade","body lotion", str_to_lower(commodityObervedDescription) ) ,
       # commodityObervedDescription=  gsub("body cream","body lotion", str_to_lower(commodityObervedDescription) ) ,
       # # commodityObervedDescription=  gsub("body lotion","pomade", str_to_lower(commodityObervedDescription) ) ,
+      commodityObervedDescription=  gsub("busket","basket ", str_to_lower(commodityObervedDescription) ) ,
+      commodityObervedDescription=  gsub("creates ","crates ", str_to_lower(commodityObervedDescription) ) ,
       commodityObervedDescription=  gsub("frying pan","saucepan", str_to_lower(commodityObervedDescription) ) ,
       commodityObervedDescription=  gsub("sacepan","saucepan", str_to_lower(commodityObervedDescription) ) ,
       commodityObervedDescription=  gsub("sauce pans","saucepan", str_to_lower(commodityObervedDescription) ) ,
@@ -415,6 +554,7 @@ setwd("C:/2024ICBT/")
       
       #fix gps date issue but case is valid and within time frame
       gps_Timestamp = case_when(
+                                  interview_key=="38-99-06-28" & interview_id=="9f106e6358c24d2aad54510a813dc4ce" ~ qnr_createdDateTime,
                                   interview_key=="59-82-19-59" & interview_id=="592423b19c864fd4a714eeb3b8c0c9fb" ~ qnr_createdDateTime,
                                   interview_key=="50-47-81-71" & interview_id=="6a2bc43595fd4df0b98b2088eca88dd3" ~ as.character("2024-10-31T10:48:55"),
                                   interview_key=="19-97-73-94" & interview_id=="de6bb15e5e5e4e2ebb971a8270fa16be" ~ qnr_createdDateTime,
@@ -425,7 +565,44 @@ setwd("C:/2024ICBT/")
                                   interview_key=="53-95-09-19" & interview_id=="290a572e712f40d98451f1835e8fbb54" ~ qnr_createdDateTime,
                                   interview_key=="48-15-77-88" & interview_id=="f279abd6013744ec83f1665dc3b272e4" ~ qnr_createdDateTime,
                                   interview_key=="11-26-03-51" & interview_id=="4f243553ab9045819bce277334e71b85" ~ as.character("2024-10-31T10:39:20"),
+                                  interview_key=="97-03-54-45" & interview_id=="3d34684ea9d0411eb1cddaca3ac0f6b5" ~ as.character("2024-11-24T08:36:51"),
+                                  interview_key=="97-03-54-45" & interview_id=="3d34684ea9d0411eb1cddaca3ac0f6b5" ~ as.character("2024-11-24T08:36:51"),
+                                  interview_key=="94-61-35-06" & interview_id=="603103e8689b4cc3ad023ce05b0726ad" ~ as.character("2024-11-24T08:36:51"),
                                   TRUE ~ gps_Timestamp
+                                ),
+      qnr_createdDateTime = case_when(
+                                  interview_key=="38-99-06-28" & interview_id=="9f106e6358c24d2aad54510a813dc4ce" ~ gps_Timestamp,
+                                  interview_key=="59-82-19-59" & interview_id=="592423b19c864fd4a714eeb3b8c0c9fb" ~ gps_Timestamp,
+                                  interview_key=="50-47-81-71" & interview_id=="6a2bc43595fd4df0b98b2088eca88dd3" ~ gps_Timestamp,
+                                  interview_key=="19-97-73-94" & interview_id=="de6bb15e5e5e4e2ebb971a8270fa16be" ~ gps_Timestamp,
+                                  interview_key=="27-97-38-25" & interview_id=="ce7ff989c68b412cb7e89c20c2186cb3" ~ gps_Timestamp,
+                                  interview_key=="06-08-58-38" & interview_id=="69d39e8bd2ae404ebd244536a0d336e8" ~ gps_Timestamp,
+                                  interview_key=="19-97-73-94" & interview_id=="de6bb15e5e5e4e2ebb971a8270fa16be" ~ gps_Timestamp,
+                                  interview_key=="48-15-77-88" & interview_id=="f279abd6013744ec83f1665dc3b272e4" ~ gps_Timestamp,
+                                  interview_key=="53-95-09-19" & interview_id=="290a572e712f40d98451f1835e8fbb54" ~ gps_Timestamp,
+                                  interview_key=="48-15-77-88" & interview_id=="f279abd6013744ec83f1665dc3b272e4" ~ gps_Timestamp,
+                                  interview_key=="11-26-03-51" & interview_id=="4f243553ab9045819bce277334e71b85" ~ gps_Timestamp,
+                                  interview_key=="97-03-54-45" & interview_id=="3d34684ea9d0411eb1cddaca3ac0f6b5" ~ gps_Timestamp,
+                                  interview_key=="97-03-54-45" & interview_id=="3d34684ea9d0411eb1cddaca3ac0f6b5" ~ gps_Timestamp,
+                                  interview_key=="94-61-35-06" & interview_id=="603103e8689b4cc3ad023ce05b0726ad" ~ gps_Timestamp,
+                                  TRUE ~ createdDate
+                                ),
+      createdDate = case_when(
+                                  interview_key=="38-99-06-28" & interview_id=="9f106e6358c24d2aad54510a813dc4ce" ~ gps_Timestamp,
+                                  interview_key=="59-82-19-59" & interview_id=="592423b19c864fd4a714eeb3b8c0c9fb" ~ gps_Timestamp,
+                                  interview_key=="50-47-81-71" & interview_id=="6a2bc43595fd4df0b98b2088eca88dd3" ~ gps_Timestamp,
+                                  interview_key=="19-97-73-94" & interview_id=="de6bb15e5e5e4e2ebb971a8270fa16be" ~ gps_Timestamp,
+                                  interview_key=="27-97-38-25" & interview_id=="ce7ff989c68b412cb7e89c20c2186cb3" ~ gps_Timestamp,
+                                  interview_key=="06-08-58-38" & interview_id=="69d39e8bd2ae404ebd244536a0d336e8" ~ gps_Timestamp,
+                                  interview_key=="19-97-73-94" & interview_id=="de6bb15e5e5e4e2ebb971a8270fa16be" ~ gps_Timestamp,
+                                  interview_key=="48-15-77-88" & interview_id=="f279abd6013744ec83f1665dc3b272e4" ~ gps_Timestamp,
+                                  interview_key=="53-95-09-19" & interview_id=="290a572e712f40d98451f1835e8fbb54" ~ gps_Timestamp,
+                                  interview_key=="48-15-77-88" & interview_id=="f279abd6013744ec83f1665dc3b272e4" ~ gps_Timestamp,
+                                  interview_key=="11-26-03-51" & interview_id=="4f243553ab9045819bce277334e71b85" ~ gps_Timestamp,
+                                  interview_key=="97-03-54-45" & interview_id=="3d34684ea9d0411eb1cddaca3ac0f6b5" ~ gps_Timestamp,
+                                  interview_key=="97-03-54-45" & interview_id=="3d34684ea9d0411eb1cddaca3ac0f6b5" ~ gps_Timestamp,
+                                  interview_key=="94-61-35-06" & interview_id=="603103e8689b4cc3ad023ce05b0726ad" ~ gps_Timestamp,
+                                  TRUE ~ createdDate
                                 ),
       dates = as.Date(gps_Timestamp),
     )
@@ -433,20 +610,94 @@ setwd("C:/2024ICBT/")
   #removal of invalid cases
   downloaded_icbt_data <- downloaded_icbt_data %>%
     filter(
-      # !(str_squish(trim(str_to_lower(enumerator_name)))=="yachambe kuporkpa moses" & interview_key=="06-08-58-38") |  ## he said he wanted to sync and he was finding difficulty with it so he entered a any random information to be able to help him sync.
-      # !(enumerator_name=="Yachambe kuporkpa moses" & interview_key=="06-08-58-38") |  # 
-      !(str_squish(enumerator_name)=="Lotsu Kwame Bless" & interview_key=="48-15-77-88") |  # 
-      !(str_to_title(enumerator_name)=="Sylvia Agyemang" & interview_key=="50-47-81-71") |  # 
+    #TO LOOK INTO ! (str_to_upper(str_squish(trim(enumerator_name)))=="SYLVIA AGYEMANG" & interview_key=="94-61-35-06" & interview_id== "603103e8689b4cc3ad023ce05b0726ad" ) 
+    
+    #not yet ! (str_to_upper(str_squish(trim(enumerator_name)))=="YACHAMBE KUPORKPA MOSES" & interview_key=="06-08-58-38" & interview_id== "69d39e8bd2ae404ebd244536a0d336e8" ) 
+    #not yet ! (str_to_upper(str_squish(trim(enumerator_name)))=="SYLVIA AGYEMANG" & interview_key=="50-47-81-71" & interview_id== "6a2bc43595fd4df0b98b2088eca88dd3" ) 
+    #not yet ! (str_to_upper(str_squish(trim(enumerator_name)))=="LOTSU KWAME BLESS" & interview_key=="48-15-77-88" & interview_id== "f279abd6013744ec83f1665dc3b272e4" ) 
+    #not yet ! (str_to_upper(str_squish(trim(enumerator_name)))=="ABABAGRE NOAH ASSIBI" & interview_key=="38-50-57-79" & interview_id== "51dca45bf867441e8d17f5e5ea9bbb03" ) 
+    #not yet ! (str_to_upper(str_squish(trim(enumerator_name)))=="PATIENCE GYABENG" & interview_key=="87-78-60-56" & interview_id== "f8da6d33caa64700883d96fa47cf26e4" ) 
+      
+   # yes delete below
+    ! (
+        (str_to_upper(str_squish(trim(enumerator_name)))=="OPPONG SIMON" & interview_key=="48-21-24-13" & interview_id== "5eae3f4bf3c64527b311375d0e857182" )  | 
+        (str_to_upper(str_squish(trim(enumerator_name)))=="OPPONG SIMON" & interview_key=="52-21-39-28" & interview_id== "3dd71d59fd2c43169701b5550b4e6bba" )  | 
+        (str_to_upper(str_squish(trim(enumerator_name)))=="AGYEIWAA ADUSAH MARY" & interview_key=="17-68-34-17" & interview_id== "b8f22ddaa5614cdc9d3cbc7fa0f3e39e" ) |
+        (str_to_upper(str_squish(trim(enumerator_name)))=="ANYAMASA MARTINA" & interview_key=="06-29-78-16" & interview_id== "ed2c994f742648d7af73a8f98b05a741" ) 
+      )    
         
-      !(str_to_title(enumerator_name)=="Agyeiwaa Adusah Mary" & interview_key=="17-68-34-17") |  # 
-      !(str_to_title(enumerator_name)=="Oppong Simon" & interview_key=="48-21-24-13") |  # 
-      !(str_to_title(enumerator_name)=="Oppong Simon" & interview_key=="52-21-39-28") |  # 
-        
-      !(enumerator_name=="Juliana Sekyiraa" & interview_key=="14-40-62-43") |  # 
-      !(enumerator_name=="Juliana Sekyiraa" & interview_key=="71-14-18-31") |  # 
-      !(str_squish(trim(str_to_lower(enumerator_name)))=="patience gyabeng" & interview_key=="87-78-60-56") |  #
-      !(str_squish(trim(str_to_lower(enumerator_name)))=="ababagre noah assibi" & interview_key=="38-50-57-79")   #
+      
+
+      # !(enumerator_name=="Juliana Sekyiraa" & interview_key=="14-40-62-43") |  # 
+      # !(enumerator_name=="Juliana Sekyiraa" & interview_key=="71-14-18-31") |  # 
     )
+  
+  #Stuck Manual Error Corrections
+  ###############################
+  downloaded_icbt_data <- downloaded_icbt_data %>%
+    mutate(
+      commodityObervedDescription= case_when(
+                str_to_upper(str_squish(trim(enumerator_name)))=="ALHASSAN ABDUL-MUMIN" & 
+                   interview_key    =="59-96-29-29" & 
+                   interview_id     == "43ded5c278de4f22b8b8728b639d359e" &
+                    transpondent_id == 6 &
+                    Commodity_id    == 1  ~ "36 packs of alcoholic drink" ,
+                  
+                str_to_upper(str_squish(trim(enumerator_name)))=="TAHIRU SAMSUDEEN" & 
+                   interview_key    =="64-87-10-11" & 
+                   interview_id     == "c48ae95255694e9fafd358aa5bc6e593" &
+                    transpondent_id == 4 &
+                    Commodity_id    == 1  ~ "1 pan of corn dough" ,
+                  
+                  str_to_upper(str_squish(trim(enumerator_name)))=="TAHIRU SAMSUDEEN" & 
+                   interview_key    =="64-87-10-11" & 
+                   interview_id     == "c48ae95255694e9fafd358aa5bc6e593" &
+                    transpondent_id == 6 &
+                    Commodity_id    == 2  ~ "1 barrel of diesel" ,
+                  
+                str_to_upper(str_squish(trim(enumerator_name)))=="ASAMOAH FLORENCE" & 
+                   interview_key    =="00-57-21-41" & 
+                   interview_id     == "adfce20eaff940f483cebd579c957977" &
+                    transpondent_id == 17 &
+                    Commodity_id    == 1  ~ "4 330ml pack of alcoholic drink" ,
+                  
+                str_to_upper(str_squish(trim(enumerator_name)))=="PATRICK MENSAH DZIDZORNU" & 
+                   interview_key    =="53-71-68-82" & 
+                   interview_id     == "f5b72c525ff747dab058f8399b5037f5" &
+                    transpondent_id == 5 &
+                    Commodity_id    == 1  ~ "3 (5ltr) gallons of cooking oil " ,
+                  
+                  TRUE ~ commodityObervedDescription
+              ),
+      
+
+      
+      observedRespondentDescription= case_when(
+                str_to_upper(str_squish(trim(enumerator_name)))=="DANIEL GELI" & 
+                  interview_key    =="71-02-42-24" & 
+                  interview_id     == "f5b06bd5a18e4c8297df8fed9b2850de" &
+                  transpondent_id == 16  ~ "a man going out on foot" ,
+                
+                str_to_upper(str_squish(trim(enumerator_name)))=="DANIEL GELI" & 
+                  interview_key    =="71-02-42-24" & 
+                  interview_id     == "f5b06bd5a18e4c8297df8fed9b2850de" &
+                  transpondent_id ==  30  ~ "a man coming in with Push Truck" ,
+        
+                TRUE ~ observedRespondentDescription
+              ),
+      
+      transportMeans= case_when(
+               str_to_upper(str_squish(trim(enumerator_name)))=="MUMEN HAMDDAN" & 
+                 interview_key    =="97-71-23-78" & 
+                 interview_id     == "9bc564e68aaa4e449ad2830b10ad214c" &
+                 transpondent_id == 9  ~ "Motorbike" ,
+                  
+               TRUE ~ transportMeans
+              )
+    )
+  
+  
+  #--- change created to GPS timestamp
   
   # #fix blank month and qtr
   # downloaded_icbt_data <- downloaded_icbt_data %>%

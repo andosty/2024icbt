@@ -2,20 +2,25 @@
 # ANDY NEW DO
 
 library(readxl) 
+library(openxlsx) 
 library(tidyverse) 
 
+setwd("C:/2024ICBT/")
 # specifying the path for file 
-path <- "C:/2024ICBT/pricing/"
+# path <- "C:/2024ICBT/"
 # "icbts sup_team.xlsx"
 # set the working directory  
-setwd(path) 
+# setwd(path) 
 
 # accessing all the sheets  
-sheet = excel_sheets("icbts sup_team.xlsx") 
+sheet = excel_sheets("pricing/icbts sup_team.xlsx") 
+
+# path <- "pricing/icbts sup_team.xlsx"
 
 # applying sheet names to dataframe names 
 RegionTeams = lapply(setNames(sheet, sheet),  
-                    function(x) read_excel("icbts sup_team.xlsx", sheet=x)) 
+                    function(x) read_excel("pricing/icbts sup_team.xlsx", sheet=x)
+                    ) 
 
 # attaching all dataframes together 
 RegionTeams = bind_rows(RegionTeams, .id="Sheet") %>% 
@@ -38,7 +43,7 @@ arrange(, SupName,region, team_number,teamString) %>%
 
 #Take the dataset and group Product, UOM, by all teams
 # check with processed data
-icbt_data <- readRDS("C:/2024ICBT/Data_final/icbt_data.RDS") %>%
+icbt_data <- readRDS("Data_final/icbt_data.RDS") %>%
   mutate(
     ### Change those two Enumerators for Nov to OTI
     # PRECIOUS ELORM ADZO AGIDI
@@ -148,7 +153,13 @@ UniqueCommodities <- UniqueNationalCommodityList
 
 ## save to file
 # filename <- c("")
-filename <-paste("unique Product ICBT.xlsx", sep="")
+##########################################
+pricingDir <- paste("pricing/pricingDataSet/")
+ifelse(!dir.exists(file.path(pricingDir)),
+       dir.create(file.path(pricingDir)),
+       "Directory Exists")
+################################
+filename <-paste(pricingDir,"/unique Product ICBT.xlsx", sep="")
 
 #save enum stats
 DataSave <- UniqueCommodities 
@@ -167,7 +178,7 @@ if(length(DataSave)>0){
   saveWorkbook(wb,filename,overwrite = TRUE)
 }
 
-filename <-paste("unique Teams ICBT.xlsx", sep="")
+filename <-paste(pricingDir,"/unique Teams ICBT.xlsx", sep="")
 
 DataSave <- UniqueTeams 
 if(length(DataSave)>0){
@@ -186,7 +197,7 @@ if(length(DataSave)>0){
 }
 
 #Pricing COmmodites for Various Teams In region
-filename <-paste("Team Pricing Commodities.xlsx", sep="")
+filename <-paste(pricingDir,"/Team Pricing Commodities.xlsx", sep="")
 
 
 SelectionCommodity <- ALL_TeamsCommodityList  %>% arrange(RegionName,team_number,Team_ID,Commodity_ID)
@@ -259,8 +270,8 @@ for (i in 1:nrow(regionMetaName)){
 
 
 
-## save to supervisorTeams
-filename <-paste("Supervisor Teams ICBT.xlsx", sep="")
+## save Pricing supervisorTeams
+filename <-paste(pricingDir,"/Supervisor Teams ICBT.xlsx", sep="")
 
 #save all supervisory teams
 DataSave <- RegionTeams 
@@ -294,3 +305,95 @@ if(length(DataSave)>0){
   writeData(wb, sheet = sheetName_word, DataSave)
   saveWorkbook(wb,filename,overwrite = TRUE)
 }
+
+
+
+#Save Team Pricing for DQMs
+######################################
+
+filename <-paste(pricingDir,"RegionTeam_PricingCommodityList.xlsx", sep="")
+
+# SelectionCommodity <- ALL_TeamsCommodityList  %>% arrange(RegionName,team_number,Commodity_ID) %>% select(-Team_ID)
+# regionMetaName <- ALL_TeamsCommodityList %>% ungroup() %>% distinct(RegionName)
+
+for (i in 1:nrow(regionMetaName)){
+  regionPricing <- regionMetaName[i,]
+  
+  DataSave <- ALL_TeamsCommodityList %>% filter(RegionName==regionPricing$RegionName) %>%
+  select(-regionCode, -districtCode,-Team_ID )
+   
+    if(length(DataSave)>0){
+      sheetName_word <- regionPricing$RegionName
+      if (file.exists(filename)) {
+        wb <- loadWorkbook(filename) #load the workbook
+        #check sheet existence name(wb) gives name of sheet in wb
+        for (sheetnames in names(wb)){
+          if (sheetnames == sheetName_word) {
+            removeWorksheet(wb, sheetName_word) } }
+      }else{
+        wb <- createWorkbook(filename) } #create the workbook if file does not exist
+      addWorksheet(wb,sheetName_word)
+      writeData(wb, sheet = sheetName_word, DataSave)
+      saveWorkbook(wb,filename,overwrite = TRUE)
+    }
+  }
+
+
+## save for each team, a pricing file in thier respective region folder
+##################################
+teamTegionPricing_dir <- paste(pricingDir, "regionalTeams/",sep='')
+#delete Data directory if it already exist
+ifelse(dir.exists(file.path(teamTegionPricing_dir)),
+       unlink(teamTegionPricing_dir, recursive = TRUE),
+       "Directory Deleted")
+
+#create Data directory if it does not already exist
+ifelse(!dir.exists(file.path(teamTegionPricing_dir)),
+       dir.create(file.path(teamTegionPricing_dir)),
+       "Directory Created")
+
+for (i in 1:nrow(regionMetaName)){
+  # regionPricing <- regionMetaName[1,]
+  regionPricing <- regionMetaName[i,]
+  
+  #create region dir
+  region_dir <- paste(teamTegionPricing_dir, regionPricing$RegionName,"/",sep='')
+  #delete Data directory if it already exist
+  ifelse(dir.exists(file.path(region_dir)),
+         unlink(region_dir, recursive = TRUE),
+         "Directory Deleted")
+  
+  #create Data directory if it does not already exist
+  ifelse(!dir.exists(file.path(region_dir)),
+         dir.create(file.path(region_dir)),
+         "Directory Created")
+  
+  RegionDataSave <- ALL_TeamsCommodityList %>% filter(RegionName==regionPricing$RegionName) %>% ungroup()
+  teamData <- RegionDataSave %>% ungroup() %>% distinct(team_number, .keep_all = T)
+  
+  for(i in 1:nrow(teamData)){
+  # teamRow <- teamData[1,]
+  teamRow <- teamData[i,]
+  filename <-paste(region_dir,teamRow$teamString," - commodity_pricing.xlsx", sep="")
+  
+  DataSave <- RegionDataSave %>% filter(team_number==teamRow$team_number) %>% ungroup() %>%
+    select(-regionCode, -districtCode,-Team_ID,-teamString )
+ 
+      if(length(DataSave)>0){
+      sheetName_word <- 'teamPricing'
+        if (file.exists(filename)) {
+          wb <- loadWorkbook(filename) #load the workbook
+          #check sheet existence name(wb) gives name of sheet in wb
+          for (sheetnames in names(wb)){
+            if (sheetnames == sheetName_word) {
+              removeWorksheet(wb, sheetName_word) } }
+        }else{
+          wb <- createWorkbook(filename) } #create the workbook if file does not exist
+        addWorksheet(wb,sheetName_word)
+        writeData(wb, sheet = sheetName_word, DataSave)
+        saveWorkbook(wb,filename,overwrite = TRUE)
+      }
+      
+    }
+}
+
