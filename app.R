@@ -1389,89 +1389,89 @@ server <- function(input, output, session) {
         
       }
       
-      if(nrow(failedRejections)>0){
-        # library(dplyr)
-        
-        needManualRejections =  data.frame()
-        
-        for (i in 1:nrow(failedRejections)  ) {
-            errorRetryRow <- failedRejections[i,]
-            # extract the user ID for the target user
-            print("to Retry Error Re-Rejection Again")
-            target_user_id <- newInterviewers() %>%
-                              filter( 
-                                # str_to_upper(FullName) == str_to_upper(errorRetryRow$enumerator_name) & 
-                                       UserId == errorRetryRow$responsibleId
-                                    ) %>%
-                              pull(UserId)
-            
-            # collect a log of activity on the tablet within specified dates
-            tablet_activity <- get_user_action_log(
-              user_id = target_user_id,
-              start = "2020-02-15",
-              end = "2025-12-30"
-            )
-            
-            
-            assignment_id <- get_assignments(
-              # search_by = "",
-              # qnr_id = "",
-              # qnr_version = "",
-              responsible = target_user_id,
-              # supervisor_id = "",
-              # show_archive = FALSE,
-              # order = "",
-              server = Sys.getenv("SUSO_SERVER"),
-              workspace = Sys.getenv("SUSO_WORKSPACE"),
-              user = Sys.getenv("SUSO_USER"),
-              password = Sys.getenv("SUSO_PASSWORD")
-            ) %>% 
-             arrange(
-                CreatedAtUtc
-              ) %>% 
-              last() %>%
-              # filter(ResponsibleId==target_user_id) %>%
-              pull(Id)
-            
-            print(assignment_id)
-            
-            # Get details for a single assignment
-            ass_Details<- get_assignment_details(
-              id=assignment_id
-              # server = Sys.getenv("SUSO_SERVER"),
-              # workspace = Sys.getenv("SUSO_WORKSPACE"),
-              # user = Sys.getenv("SUSO_USER"),
-              # password = Sys.getenv("SUSO_PASSWORD")
-            ) %>% arrange(
-              CreatedAtUtc
-            ) %>% last()
-           
-            
-            #retry rejection
-            if(
-            reject_interview_as_hq(
-              interview_id= errorRetryRow$interview_id ,
-              comment = "check and fix errors",
-              responsible_id = ass_Details$ResponsibleId,
-              verbose = TRUE,
-              server = Sys.getenv("SUSO_SERVER"),
-              workspace = Sys.getenv("SUSO_WORKSPACE"),
-              user = Sys.getenv("SUSO_USER"),
-              password = Sys.getenv("SUSO_PASSWORD")
-            )==TRUE){
-              print("retry Rejection of case successfully")
-            } else {
-              #add case to failedRejections Dataframe be retried for re-rejections
-              print("retry to Reject still failed")
-              needManualRejections <- rbind(needManualRejections,errorRetryRow)
-            }
-            
-          } #end
-        
-        if(nrow(needManualRejections)>0 ){
-          saveRDS(needManualRejections,paste0("Data_final/","finalFailedRejections.RDS"))
-        }
-      }
+      # if(nrow(failedRejections)>0){
+      #   # library(dplyr)
+      #   
+      #   needManualRejections =  data.frame()
+      #   
+      #   for (i in 1:nrow(failedRejections)  ) {
+      #       errorRetryRow <- failedRejections[i,]
+      #       # extract the user ID for the target user
+      #       print("to Retry Error Re-Rejection Again")
+      #       target_user_id <- newInterviewers() %>%
+      #                         filter( 
+      #                           # str_to_upper(FullName) == str_to_upper(errorRetryRow$enumerator_name) & 
+      #                                  UserId == errorRetryRow$responsibleId
+      #                               ) %>%
+      #                         pull(UserId)
+      #       
+      #       # collect a log of activity on the tablet within specified dates
+      #       tablet_activity <- get_user_action_log(
+      #         user_id = target_user_id,
+      #         start = "2020-02-15",
+      #         end = "2025-12-30"
+      #       )
+      #       
+      #       
+      #       assignment_id <- get_assignments(
+      #         # search_by = "",
+      #         # qnr_id = "",
+      #         # qnr_version = "",
+      #         responsible = target_user_id,
+      #         # supervisor_id = "",
+      #         # show_archive = FALSE,
+      #         # order = "",
+      #         server = Sys.getenv("SUSO_SERVER"),
+      #         workspace = Sys.getenv("SUSO_WORKSPACE"),
+      #         user = Sys.getenv("SUSO_USER"),
+      #         password = Sys.getenv("SUSO_PASSWORD")
+      #       ) %>% 
+      #        arrange(
+      #           CreatedAtUtc
+      #         ) %>% 
+      #         last() %>%
+      #         # filter(ResponsibleId==target_user_id) %>%
+      #         pull(Id)
+      #       
+      #       print(assignment_id)
+      #       
+      #       # Get details for a single assignment
+      #       ass_Details<- get_assignment_details(
+      #         id=assignment_id
+      #         # server = Sys.getenv("SUSO_SERVER"),
+      #         # workspace = Sys.getenv("SUSO_WORKSPACE"),
+      #         # user = Sys.getenv("SUSO_USER"),
+      #         # password = Sys.getenv("SUSO_PASSWORD")
+      #       ) %>% arrange(
+      #         CreatedAtUtc
+      #       ) %>% last()
+      #      
+      #       
+      #       #retry rejection
+      #       if(
+      #       reject_interview_as_hq(
+      #         interview_id= errorRetryRow$interview_id ,
+      #         comment = "check and fix errors",
+      #         responsible_id = ass_Details$ResponsibleId,
+      #         verbose = TRUE,
+      #         server = Sys.getenv("SUSO_SERVER"),
+      #         workspace = Sys.getenv("SUSO_WORKSPACE"),
+      #         user = Sys.getenv("SUSO_USER"),
+      #         password = Sys.getenv("SUSO_PASSWORD")
+      #       )==TRUE){
+      #         print("retry Rejection of case successfully")
+      #       } else {
+      #         #add case to failedRejections Dataframe be retried for re-rejections
+      #         print("retry to Reject still failed")
+      #         needManualRejections <- rbind(needManualRejections,errorRetryRow)
+      #       }
+      #       
+      #     } #end
+      #   
+      #   if(nrow(needManualRejections)>0 ){
+      #     saveRDS(needManualRejections,paste0("Data_final/","finalFailedRejections.RDS"))
+      #   }
+      # }
     
       
     shinyalert(title = "Error Cases Rejected Succesfullly!", type = "success")
