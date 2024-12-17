@@ -695,7 +695,8 @@ library(SurveySolutionsAPI)
                TRUE ~ transportMeans
               )
     )
-  
+    
+ saveFinalData <-  downloaded_icbt_data
   
   #--- change created to GPS timestamp
   
@@ -730,16 +731,15 @@ library(SurveySolutionsAPI)
   
   # remove_val_labels(hq_icbt_data)
   
-  #save final dataset
-  saveRDS(downloaded_icbt_data,paste(final_data_dir,'icbt_data.RDS',sep=''))
-  saveRDS(downloaded_icbt_data %>% distinct(month,quarter),paste(final_data_dir,'dataCollectionPeriod.RDS',sep=''))
-  print("hq download and merge okay")
-  
-  
   #check errors
   # icbt_data <- downloaded_icbt_data
   source(file.path("server/hqdata/03_errorchecks.R"),  local = TRUE)$value
   saveRDS(errorChecks,paste(final_data_dir,'error_data.RDS',sep=''))
+  
+  #save final dataset
+  saveRDS(saveFinalData,paste(final_data_dir,'icbt_data.RDS',sep=''))
+  saveRDS(downloaded_icbt_data %>% distinct(month,quarter),paste(final_data_dir,'dataCollectionPeriod.RDS',sep=''))
+  print("hq download and merge okay")
   
   saveRDS(dataDownloadStarted, "Data_final/lastDataAccessedDateTime.RDS")
   

@@ -1,6 +1,12 @@
 # setwd("C:/2024ICBT/")
 source("server/datapackages.R",  local = TRUE)
 # library("assertthat")
+# install.packages("shiny.worker")
+# library(shiny.worker)
+# https://www.appsilon.com/post/shiny-worker-package
+# https://rstudio.github.io/promises/articles/promises_06_shiny.html
+
+
 library("bslib")
 
 theme=bs_theme(
