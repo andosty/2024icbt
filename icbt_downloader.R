@@ -2,9 +2,10 @@ rm(list=ls())
 setwd("C:/2024ICBT/")
   
   #ADDED packages
+if(!require(tm)) install.packages("tm")
 if(!require(SurveySolutionsAPI)) devtools::install_github("michael-cw/SurveySolutionsAPI", build_vignettes = T)
 library(SurveySolutionsAPI)
-
+library(tm)
   #load packages
   library(dplyr)
   
@@ -54,8 +55,8 @@ library(SurveySolutionsAPI)
   
   
   
-  newDataMeta <- select(read_rds("server/users.RDS"),UserId, UserName) %>%  
-    rename(responsibleId = UserId) %>% distinct(responsibleId,UserName, .keep_all = T)
+  # newDataMeta <- select(read_rds("server/users.RDS"),UserId, UserName) %>%  
+  #   rename(responsibleId = UserId) %>% distinct(responsibleId,UserName, .keep_all = T)
   
   # # get the serve various case versions
   # server_qnr <- susoapi::get_questionnaires() %>% 
@@ -234,11 +235,62 @@ library(SurveySolutionsAPI)
     )
   }
   
-  #wait for 1.5 minutes
-  Sys.sleep(90)  # Pause for number is a second in each iteration
+  
+  
+  #get Responsible IDS from server whiles waiting for export queue to complete
+  #########################################
+  icbt_metaData <- data.frame()
+  
+  for (i in 1:nrow(questlist)){
+    # icbtQues <- questlist [3,]
+    icbtQues <- questlist [i,]
+    
+    metaData_fetch <-  suso_getQuestDetails(
+      workspace = sqlSvr$workspace,
+      token = NULL,
+      quid  =   icbtQues$QuestionnaireId,
+      version = icbtQues$Version,
+      operation.type = "interviews"
+    ) %>% 
+      mutate(
+        interview__id = removePunctuation(InterviewId)
+      ) %>%
+      unnest(FeaturedQuestions) %>%
+      select(-Id)%>%
+      pivot_wider(
+        names_from = Question, 
+        values_from = Answer 
+      ) %>%
+      select(
+        c("InterviewId","QuestionnaireId","QuestionnaireVersion",    
+          "AssignmentId","ResponsibleId","ResponsibleName",         
+          "interview__id", "Enumerator Name","Enumerator Contact","Month of Data Collection")
+      ) %>%
+      rename(
+        enumerator_name = "Enumerator Name",
+        enumerator_contact="Enumerator Contact",
+        assignment_id = AssignmentId  ,
+        responsibleId = ResponsibleId,
+        qnr_createdDateTime = "Month of Data Collection"
+      ) %>% 
+      mutate(
+        enumerator_contact=as.character(paste0(enumerator_contact)),
+        enumerator_name=as.character(paste0(enumerator_name)),
+        qnr_createdDateTime=as.character(paste0(enumerator_name))
+      )
+    
+    icbt_metaData <- dplyr::bind_rows(icbt_metaData, metaData_fetch)
+    rm(metaData_fetch)
+  }
+  
+  icbt_metaData <- icbt_metaData %>%
+    mutate(
+      enumerator_name = str_squish(trim(str_to_title(enumerator_name)))
+    )
   
   #check if Queue Process is COmpleted,
   for (i in 1:nrow(questlist)){
+    # icbtQues <- questlist [3,]
     icbtQues <- questlist [i,]
     # # CHECK EXPORT JOB PROGESS, UNTIL COMPLETE, specifying ID of job started in prior step
     exportFeedback <- get_export_job_details(job_id = started_job_id) 
@@ -249,7 +301,7 @@ library(SurveySolutionsAPI)
       rm(que_id, exportFeedback)
     } else{
       #wait for 1 minute and try again
-      Sys.sleep(60) # wait for 1 minute, to try again 
+      Sys.sleep(120) # wait for 2 minute, to try again 
       exportFeedback <- get_export_job_details(job_id = started_job_id) 
       que_id = icbtQues$Queue_job_id
       dataDownload_function(que_id)
@@ -257,7 +309,6 @@ library(SurveySolutionsAPI)
     }
   }
   ##### NEW DOWNLOAD SCRIPT END #####
-  
   
   #unzip each version of the files
   zipppedFiles <- list.files(path = hqDownload_dir, pattern = "*.zip", full.names = T)
@@ -277,29 +328,29 @@ library(SurveySolutionsAPI)
   downloaded_icbt_data <- data.frame()
   
   
-  # zipfile<-zipppedFiles[2]
+  # zipfile<-zipppedFiles[3]
   for (zipfile in zipppedFiles) {
     #take each zip file and extract
     if (file.exists(zipfile)) {
       unzip( zipfile, exdir=hq_extracted_dir) 
     }
     #take the dataset and process it
-    #get user ids and merge with responsible id
-    userID_in_Data <-  read_dta(paste(hq_extracted_dir,"interview__actions.dta",sep = '')) %>% select(
-      interview__key, interview__id, action, originator, date, time
-    ) %>%filter(action==12) %>% #filter case with created action, for the one who created the case
-      rename(UserName =  originator,
-             qnr_createdDate =date,
-             qnr_createdTime =time
-      )  %>%
-      mutate(
-        qnr_createdDateTime= paste(qnr_createdDate, 'T' , qnr_createdTime, sep = ''),
-      ) %>%
-      select(-c('action','qnr_createdDate','qnr_createdTime')) %>%
-      distinct( UserName,interview__key,interview__id , .keep_all = T) %>% 
-      arrange(UserName, interview__key,interview__id )
-    
-    MajorMeta <- left_join(userID_in_Data,newDataMeta, by=c("UserName"))
+    # #get user ids and merge with responsible id
+    # userID_in_Data <-  read_dta(paste(hq_extracted_dir,"interview__actions.dta",sep = '')) %>% select(
+    #   interview__key, interview__id, action, originator, date, time
+    # ) %>%filter(action==12) %>% #filter case with created action, for the one who created the case
+    #   rename(UserName =  originator,
+    #          qnr_createdDate =date,
+    #          qnr_createdTime =time
+    #   )  %>%
+    #   mutate(
+    #     qnr_createdDateTime= paste(qnr_createdDate, 'T' , qnr_createdTime, sep = ''),
+    #   ) %>%
+    #   select(-c('action','qnr_createdDate','qnr_createdTime')) %>%
+    #   distinct( UserName,interview__key,interview__id , .keep_all = T) %>% 
+    #   arrange(UserName, interview__key,interview__id )
+    # 
+    # MajorMeta <- left_join(userID_in_Data,newDataMeta, by=c("UserName"))
     
     
     # take cases meta data
@@ -359,7 +410,12 @@ library(SurveySolutionsAPI)
           )
         ) %>% rename(
           assignment_id = assignment__id
-        ) %>% left_join(MajorMeta) 
+        ) %>%
+        mutate(
+          enumerator_name = str_squish(trim(trimws(str_to_title(enumerator_name)))),
+          enumerator_contact=as.character(paste0(enumerator_contact))
+        ) %>% 
+        left_join(icbt_metaData) 
       
       downloaded_icbt_data <- dplyr::bind_rows(downloaded_icbt_data, icbt_data_version)
       rm(icbt_data_version)
@@ -433,9 +489,7 @@ library(SurveySolutionsAPI)
         is.na(quarter) & str_to_lower(month)=="october" ~ as.character(1),
         TRUE ~ quarter
       ),
-      
 
-      
       team_number= parse_number(team_number),
       productObserved=  gsub("colanut", "cola nut", productObserved, ignore.case = TRUE) ,
       # fix for 'coming on' and 'going on', phrases to 'comin in on' and 'going out on' 
@@ -554,20 +608,19 @@ library(SurveySolutionsAPI)
       
       #fix gps date issue but case is valid and within time frame
       gps_Timestamp = case_when(
-                                  interview_key=="38-99-06-28" & interview_id=="9f106e6358c24d2aad54510a813dc4ce" ~ qnr_createdDateTime,
-                                  interview_key=="59-82-19-59" & interview_id=="592423b19c864fd4a714eeb3b8c0c9fb" ~ qnr_createdDateTime,
-                                  interview_key=="50-47-81-71" & interview_id=="6a2bc43595fd4df0b98b2088eca88dd3" ~ as.character("2024-10-31T10:48:55"),
-                                  interview_key=="19-97-73-94" & interview_id=="de6bb15e5e5e4e2ebb971a8270fa16be" ~ qnr_createdDateTime,
-                                  interview_key=="27-97-38-25" & interview_id=="ce7ff989c68b412cb7e89c20c2186cb3" ~ qnr_createdDateTime,
-                                  interview_key=="06-08-58-38" & interview_id=="69d39e8bd2ae404ebd244536a0d336e8" ~ qnr_createdDateTime,
-                                  interview_key=="19-97-73-94" & interview_id=="de6bb15e5e5e4e2ebb971a8270fa16be" ~ qnr_createdDateTime,
-                                  interview_key=="48-15-77-88" & interview_id=="f279abd6013744ec83f1665dc3b272e4" ~ qnr_createdDateTime,
-                                  interview_key=="53-95-09-19" & interview_id=="290a572e712f40d98451f1835e8fbb54" ~ qnr_createdDateTime,
-                                  interview_key=="48-15-77-88" & interview_id=="f279abd6013744ec83f1665dc3b272e4" ~ qnr_createdDateTime,
+                                  interview_key=="38-99-06-28" & interview_id=="9f106e6358c24d2aad54510a813dc4ce" ~ '2024-11-11T23:30:08.923919Z',
+                                  interview_key=="59-82-19-59" & interview_id=="592423b19c864fd4a714eeb3b8c0c9fb" ~ "2024-11-11T23:58:02.661015Z",
+                                  interview_key=="50-47-81-71" & interview_id=="6a2bc43595fd4df0b98b2088eca88dd3" ~ '2024-10-23T11:35:14.905758Z',
+                                  interview_key=="19-97-73-94" & interview_id=="de6bb15e5e5e4e2ebb971a8270fa16be" ~ '2024-10-23T09:33:30.21676Z',
+                                  interview_key=="27-97-38-25" & interview_id=="ce7ff989c68b412cb7e89c20c2186cb3" ~ '2024-11-11T00:13:37.768065Z',
+                                  interview_key=="06-08-58-38" & interview_id=="69d39e8bd2ae404ebd244536a0d336e8" ~ '2024-10-22T12:26:38.595491Z',
+                                  interview_key=="19-97-73-94" & interview_id=="de6bb15e5e5e4e2ebb971a8270fa16be" ~ '2024-10-23T09:33:30.21676Z',
+                                  interview_key=="53-95-09-19" & interview_id=="290a572e712f40d98451f1835e8fbb54" ~ '2024-10-22T12:26:14.226129Z',
+                                  interview_key=="48-15-77-88" & interview_id=="f279abd6013744ec83f1665dc3b272e4" ~ '2024-11-11T08:25:27.46638Z',
                                   interview_key=="11-26-03-51" & interview_id=="4f243553ab9045819bce277334e71b85" ~ as.character("2024-10-31T10:39:20"),
                                   interview_key=="97-03-54-45" & interview_id=="3d34684ea9d0411eb1cddaca3ac0f6b5" ~ as.character("2024-11-24T08:36:51"),
-                                  interview_key=="97-03-54-45" & interview_id=="3d34684ea9d0411eb1cddaca3ac0f6b5" ~ as.character("2024-11-24T08:36:51"),
                                   interview_key=="94-61-35-06" & interview_id=="603103e8689b4cc3ad023ce05b0726ad" ~ as.character("2024-11-24T08:36:51"),
+                                  interview_key=="39-71-25-23" & interview_id=="bf5f063f886747e0bea95284eaf20dc2" ~ '2024-12-09T07:51:54.830042Z',
                                   TRUE ~ gps_Timestamp
                                 ),
       qnr_createdDateTime = case_when(
@@ -580,11 +633,10 @@ library(SurveySolutionsAPI)
                                   interview_key=="19-97-73-94" & interview_id=="de6bb15e5e5e4e2ebb971a8270fa16be" ~ gps_Timestamp,
                                   interview_key=="48-15-77-88" & interview_id=="f279abd6013744ec83f1665dc3b272e4" ~ gps_Timestamp,
                                   interview_key=="53-95-09-19" & interview_id=="290a572e712f40d98451f1835e8fbb54" ~ gps_Timestamp,
-                                  interview_key=="48-15-77-88" & interview_id=="f279abd6013744ec83f1665dc3b272e4" ~ gps_Timestamp,
                                   interview_key=="11-26-03-51" & interview_id=="4f243553ab9045819bce277334e71b85" ~ gps_Timestamp,
                                   interview_key=="97-03-54-45" & interview_id=="3d34684ea9d0411eb1cddaca3ac0f6b5" ~ gps_Timestamp,
-                                  interview_key=="97-03-54-45" & interview_id=="3d34684ea9d0411eb1cddaca3ac0f6b5" ~ gps_Timestamp,
                                   interview_key=="94-61-35-06" & interview_id=="603103e8689b4cc3ad023ce05b0726ad" ~ gps_Timestamp,
+                                  interview_key=="39-71-25-23" & interview_id=="bf5f063f886747e0bea95284eaf20dc2" ~ gps_Timestamp,
                                   TRUE ~ createdDate
                                 ),
       createdDate = case_when(
@@ -594,14 +646,13 @@ library(SurveySolutionsAPI)
                                   interview_key=="19-97-73-94" & interview_id=="de6bb15e5e5e4e2ebb971a8270fa16be" ~ gps_Timestamp,
                                   interview_key=="27-97-38-25" & interview_id=="ce7ff989c68b412cb7e89c20c2186cb3" ~ gps_Timestamp,
                                   interview_key=="06-08-58-38" & interview_id=="69d39e8bd2ae404ebd244536a0d336e8" ~ gps_Timestamp,
-                                  interview_key=="19-97-73-94" & interview_id=="de6bb15e5e5e4e2ebb971a8270fa16be" ~ gps_Timestamp,
-                                  interview_key=="48-15-77-88" & interview_id=="f279abd6013744ec83f1665dc3b272e4" ~ gps_Timestamp,
                                   interview_key=="53-95-09-19" & interview_id=="290a572e712f40d98451f1835e8fbb54" ~ gps_Timestamp,
                                   interview_key=="48-15-77-88" & interview_id=="f279abd6013744ec83f1665dc3b272e4" ~ gps_Timestamp,
+                                  interview_key=="19-97-73-94" & interview_id=="de6bb15e5e5e4e2ebb971a8270fa16be" ~ gps_Timestamp,
                                   interview_key=="11-26-03-51" & interview_id=="4f243553ab9045819bce277334e71b85" ~ gps_Timestamp,
                                   interview_key=="97-03-54-45" & interview_id=="3d34684ea9d0411eb1cddaca3ac0f6b5" ~ gps_Timestamp,
-                                  interview_key=="97-03-54-45" & interview_id=="3d34684ea9d0411eb1cddaca3ac0f6b5" ~ gps_Timestamp,
                                   interview_key=="94-61-35-06" & interview_id=="603103e8689b4cc3ad023ce05b0726ad" ~ gps_Timestamp,
+                                  interview_key=="39-71-25-23" & interview_id=="bf5f063f886747e0bea95284eaf20dc2" ~ gps_Timestamp,
                                   TRUE ~ createdDate
                                 ),
       dates = as.Date(gps_Timestamp),
@@ -693,8 +744,14 @@ library(SurveySolutionsAPI)
                  transpondent_id == 9  ~ "Motorbike" ,
                   
                TRUE ~ transportMeans
-              )
-    )
+              ),
+      
+     
+    ) %>% 
+    select(-interview_id, -QuestionnaireId) %>%
+    rename(
+      interview_id = InterviewId ,
+      UserName = ResponsibleName)
     
  saveFinalData <-  downloaded_icbt_data
   

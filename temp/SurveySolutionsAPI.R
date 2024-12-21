@@ -131,6 +131,11 @@ interviewsQuestionnaires <- suso_getQuestDetails(
 
 interviews <- interviewsQuestionnaires[, .(InterviewId, AssignmentId, ResponsibleId, ErrorsCount, Status)]
 
+library(tm)
+newIntvwrID <- interviewsQuestionnaires %>% 
+  mutate(
+    newID = removePunctuation(InterviewId)
+  )
 
 IntData <- suso_getAllAnswerInterview(
   workspace = sqlSvr$workspace, 
@@ -138,17 +143,24 @@ IntData <- suso_getAllAnswerInterview(
 )
 
 
+# server = sqlSvr$server, workspace = sqlSvr$workspace,
+# user =sqlSvr$usr, password =  sqlSvr$pswd
+
+
 fullData<-  suso_export(
-                        # server = suso_get_api_key("susoServer"),
-                        # apiUser = suso_get_api_key("susoUser"),
-                        # apiPass = suso_get_api_key("susoPass"),
+                        server = suso_get_api_key(sqlSvr$server),
+                        apiUser = suso_get_api_key(sqlSvr$usr),
+                        apiPass = suso_get_api_key( sqlSvr$pswd),
                         workspace = sqlSvr$workspace,  
                         token = NULL,
-                        questID = questlist[1, QuestionnaireId],
-                        version = questlist[1, Version], ,
-                        workStatus = NULL,
-                        # reloadTimeDiff = 1,
-                        # inShinyApp = F,
+                        # questID = questlist[1, QuestionnaireId],
+                        questID = "49957160-c7e4-4af9-a658-b99111b9104d",
+                        version = 1,
+                        workStatus = "Completed",
+                        # version = questlist[1, Version],
+                        # workStatus = NULL,
+                        reloadTimeDiff = 1,
+                        inShinyApp = F,
                         n_id_vars = 11
                       )
 
@@ -187,4 +199,168 @@ fullData<-  suso_export(
                         onlyActiveEvents = F, allResponses = T)
               )
 
+
+stat <- suso_get_stats_interview(
+  workspace = sqlSvr$workspace,
+  intID = "f77e0681-4fcb-4b09-b638-5da17b827329"
+)
+
+stat1 <- suso_get_stats_interview(
+  workspace = sqlSvr$workspace,
+  intID = "592423b19c864fd4a714eeb3b8c0c9fb"
+)
+
+
+stat33 <-suso_get_assignments(
+  questID = "49957160c7e44af9a658b99111b9104d$1",,
+  # server = suso_get_api_key("susoServer"),
+  # apiUser = suso_get_api_key("susoUser"),
+  # apiPass = suso_get_api_key("susoPass"),
+  # token = NULL,
+  workspace = sqlSvr$workspace,
+  # AssId = NULL,
+  # version = NULL,
+  # responsibleID = NULL,
+  # order.by = "",
+  # operations.type = c("assignmentQuantitySettings", "history", "recordAudio")
+) 
+
+stat44 <- suso_getAllInterviewQuestionnaire(
+  # server = suso_get_api_key("susoServer"),
+  # apiUser = suso_get_api_key("susoUser"),
+  # apiPass = suso_get_api_key("susoPass"),
+  workspace = sqlSvr$workspace,
+  # token = NULL,
+  questID =  "49957160c7e44af9a658b99111b9104d$1",
+  version = 1,
+  workStatus = "Completed"
+)
+  
+newIntvwrID44 <- stat44 %>% 
+  mutate(
+    newID = removePunctuation(InterviewId)
+  )
+
+
+getInvterviw <- get_interview_stats(
+  interview_id= "f279abd6013744ec83f1665dc3b272e4"
+)
+
+getAssignmentInfo <- get_assignment_details(
+  id = getInvterviw$AssignmentId
+)
+
+paraData <- suso_export_paradata(
+              # server = suso_get_api_key("susoServer"),
+              # apiUser = suso_get_api_key("susoUser"),
+              # apiPass = suso_get_api_key("susoPass"),
+              workspace = sqlSvr$workspace,
+              token = NULL,
+              questID =  "49957160c7e44af9a658b99111b9104d",
+              version = 1,
+              workStatus = "Completed",
+              reloadTimeDiff = 1,
+              inShinyApp = FALSE,
+              multiCore = NULL,
+              onlyActiveEvents = FALSE,
+              allResponses = TRUE,
+              gpsVarName = NA,
+              verbose = T,
+              showProgress = F
+            )
+
+
+getDD <- suso_getQuestionsQuestionnaire(
+  # server = suso_get_api_key("susoServer"),
+  # apiUser = suso_get_api_key("susoUser"),
+  # apiPass = suso_get_api_key("susoPass"),
+  workspace = sqlSvr$workspace,
+  token = NULL,
+  questID =  "49957160c7e44af9a658b99111b9104d",
+  version = 1,
+)
+
+getDDA <- suso_getQuestDetails(
+  # server = suso_get_api_key("susoServer"),
+  # usr = suso_get_api_key("susoUser"),
+  # pass = suso_get_api_key("susoPass"),
+  workspace = sqlSvr$workspace,
+  token = NULL,
+  quid  =  "49957160c7e44af9a658b99111b9104d",
+  version = 1,
+  operation.type = c("list", "statuses", "structure", "interviews")
+)
+
+library(tm)
+getDDB <- suso_getQuestDetails(
+  # server = suso_get_api_key("susoServer"),
+  # usr = suso_get_api_key("susoUser"),
+  # pass = suso_get_api_key("susoPass"),
+  workspace = sqlSvr$workspace,
+  token = NULL,
+  quid  =  "49957160c7e44af9a658b99111b9104d",
+  version = 1,
+  operation.type = "interviews"
+) %>% 
+  mutate(
+    newID = removePunctuation(InterviewId)
+  )
+
+library(nplyr)
+
+
+slashed <- getDDB %>%
+  unnest(FeaturedQuestions) %>%
+  select(-Id)%>%
+  group_by(
+    InterviewId,newID, QuestionnaireId,QuestionnaireVersion,  
+    AssignmentId,ResponsibleId, ResponsibleName,
+    LastEntryDate  
+    ) %>%
+  summarise(
+    
+  )
+
+library(dplyr)
+library(dbplyr)
+longDAta<- unpivot(slashed,
+                   InterviewId,newID, QuestionnaireId,QuestionnaireVersion,  
+                   AssignmentId,ResponsibleId, ResponsibleName,
+                   LastEntryDate )
+
+
+
+
+widerData <- 
+  suso_getQuestDetails(
+    # server = suso_get_api_key("susoServer"),
+    # usr = suso_get_api_key("susoUser"),
+    # pass = suso_get_api_key("susoPass"),
+    workspace = sqlSvr$workspace,
+    token = NULL,
+    quid  =  "49957160c7e44af9a658b99111b9104d",
+    version = 1,
+    operation.type = "interviews"
+  ) %>% 
+  mutate(
+    newID = removePunctuation(InterviewId)
+  ) %>%
+  unnest(FeaturedQuestions) %>%
+  select(-Id)%>%
+  pivot_wider(
+    names_from = Question, 
+    values_from = Answer 
+  ) %>%
+  select(
+    c("InterviewId","QuestionnaireId","QuestionnaireVersion",    
+      "AssignmentId","ResponsibleId","ResponsibleName",         
+      "newID", "Enumerator Name","Enumerator Contact")
+  ) %>%
+  rename(
+    enumerator_name = "Enumerator Name",
+    enumerator_contact="Enumerator Contact"
+  ) %>% 
+  mutate(
+    enumerator_name = str_squish(trim(trimws(str_to_title(enumerator_name))))
+  )
 

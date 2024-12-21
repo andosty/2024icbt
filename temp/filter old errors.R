@@ -10,6 +10,11 @@ er <- readRDS("C:/2024ICBT/Data_final/error_data.RDS") %>%
 saveRDS(er,"C:/2024ICBT/Data_final/error_data.RDS" )
 
 
-region <- readRDS("C:/2024ICBT/Data_final/icbt_data.RDS") %>%
-  filter(createdDate > '2024-12-08') %>%
-distinct(RegionName)
+kk <- readRDS("C:/2024ICBT/Data_final/icbt_data.RDS") %>%
+  select(-interview_id) %>%
+  rename(
+    interview_id = InterviewId ,
+         UserName = ResponsibleName)
+
+saveRDS(kk, "C:/2024ICBT/Data_final/icbt_data.RDS")
+
