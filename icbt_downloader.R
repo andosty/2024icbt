@@ -1,14 +1,21 @@
-rm(list=ls())  
+rm(list=ls())
 setwd("C:/2024ICBT/")
-  
+
   #ADDED packages
 if(!require(tm)) install.packages("tm")
 if(!require(SurveySolutionsAPI)) devtools::install_github("michael-cw/SurveySolutionsAPI", build_vignettes = T)
 library(SurveySolutionsAPI)
 library(tm)
+
+# install.packages("devtools")
+# devtools::install_github("arthur-shaw/susoapi")
+# devtools::install_github("arthur-shaw/susoflows")
+# remotes::install_gitlab("hrbrmstr/pluralize")
+
+
   #load packages
   library(dplyr)
-  
+
   library(lubridate)
   library(stringi)
   library(stringr)
@@ -21,64 +28,64 @@ library(tm)
   library(readxl)
   library(gdata)
   sqlSvr <- readRDS("server/credentials/icbt_svr.rds")
-  
+
   #create directory for saving data download if not exist
   data_dir <- "Data_Download/"
   hqDownload_dir <- paste(data_dir,'HQ_download/',sep='')
   hq_extracted_dir <- paste(data_dir,'HQ_extracted/',sep='')
-  
+
   #delete Data directory if it already exist
   ifelse(dir.exists(file.path(data_dir)),
          unlink(data_dir, recursive = TRUE),
          "Data Directory Exists")
-  
+
   #create Data directory if it does not already exist
   ifelse(!dir.exists(file.path(data_dir)),
          dir.create(file.path(data_dir)),
          "Data Directory Exists")
-  
+
   #create HQ_download Director in Data folder if it does not already exist
   ifelse(!dir.exists(file.path(hqDownload_dir)),
          dir.create(file.path(hqDownload_dir)),
          "HQ_download Directory Exists")
-  
+
   #create HQ_extracted Director in Data folder if it does not already exist
   ifelse(!dir.exists(file.path(hq_extracted_dir)),
          dir.create(file.path(hq_extracted_dir)),
          "HQ_extracted Directory Exists")
-  
+
   # server authentication:
   set_credentials(
-    server = sqlSvr$server, workspace = sqlSvr$workspace, 
+    server = sqlSvr$server, workspace = sqlSvr$workspace,
     user =sqlSvr$usr, password = sqlSvr$pswd
   )
-  
-  
-  
-  # newDataMeta <- select(read_rds("server/users.RDS"),UserId, UserName) %>%  
+
+
+
+  # newDataMeta <- select(read_rds("server/users.RDS"),UserId, UserName) %>%
   #   rename(responsibleId = UserId) %>% distinct(responsibleId,UserName, .keep_all = T)
-  
+
   # # get the serve various case versions
-  # server_qnr <- susoapi::get_questionnaires() %>% 
+  # server_qnr <- susoapi::get_questionnaires() %>%
   #   filter(title == "ICBT FIELD WORK") %>%
   #   distinct(title, .keep_all = T)
-  # 
+  #
   # # cases <- susoapi:::get_interviews_for_questionnaire(
   # #   chunk_size=100,
   # #   qnr_id=server_qnr$questionnaireId,
   # #   qnr_version= server_qnr$version,  # This should be an integer, not a string
-  # #   # 
+  # #   #
   # #   server = Sys.getenv("SUSO_SERVER"),
   # #   workspace = Sys.getenv("SUSO_WORKSPACE"),
   # #   user = Sys.getenv("SUSO_USER"),
   # #   password = Sys.getenv("SUSO_PASSWORD")
   # # )
-  # # 
+  # #
   # # count <- get_interviews_count()
   # # count <- interviews_request()
   # # myQ <- get_questionnaires()
   # # gitdata<-get_interviews_for_questionnaire(
-  # #   
+  # #
   # #                                           # qnr_id="49957160-c7e4-4af9-a658-b99111b9104d",
   # #                                           qnr_id="49957160-c7e4-4af9-a658-b99111b9104d",
   # #                                           chunk_size = 100,
@@ -88,10 +95,10 @@ library(tm)
   # #                                           user = Sys.getenv("SUSO_USER"),
   # #                                           password = Sys.getenv("SUSO_PASSWORD")
   # #                                           )
-  # # 
+  # #
   # # show_credentials()
   # # int_stat<- get_possible_interview_statuses()
-  # # 
+  # #
   # # intv <- get_interviews(
   # #   nodes = c("id", "key", "assignmentId", "identifyingData", "questionnaireId",
   # #             "questionnaireVersion", "questionnaireVariable", "responsibleName", "responsibleId",
@@ -116,7 +123,7 @@ library(tm)
   # #   user = Sys.getenv("SUSO_USER"),
   # #   password = Sys.getenv("SUSO_PASSWORD")
   # # )
-  # 
+  #
   # # data1 <- get_interviewers()
   # # data2 <- get_interviews_for_questionnaire(
   # #   chunk_size = 100,
@@ -128,28 +135,28 @@ library(tm)
   # #   password = Sys.getenv("SUSO_PASSWORD")
   # # )
   # # reGetUser <- get_user_details(user_id="")
-  # 
-  # 
+  #
+  #
   # # FreshUsersAssignments<- get_assignments()# %>% filter(QuestionnaireId=="49957160-c7e4-4af9-a658-b99111b9104d")
   # # FreshUsersAssignments<- new_usersAssignments %>% filter(QuestionnaireId=="49957160c7e44af9a658b99111b9104d$1")
-  # 
+  #
   # #date and time of cuurent last data download run
-  # 
-  # 
+  #
+  #
   # #set download started time
   # dataDownloadStarted <- format(now(), "%a %d %b %Y, %I:%M %p")
-  # 
-  # 
+  #
+  #
   # downloaded_icbt_data <- data.frame()
-  # 
+  #
   # download_matching(
-  #   matches = server_qnr$title, 
+  #   matches = server_qnr$title,
   #   export_type = "STATA",
   #   path = hqDownload_dir,
   #   # qnr_id= server_qnr_id
   # )
-  # 
-  # 
+  #
+  #
   # # manual version 4 files
   # ################################
   # # get Version 4 Export Qeue Job
@@ -166,7 +173,7 @@ library(tm)
   # #   user = Sys.getenv("SUSO_USER"),
   # #   password = Sys.getenv("SUSO_PASSWORD")
   # # )
-  #   
+  #
   # job_id_v4 = 2641
   # version4Qeue<- get_export_job_details(
   #   job_id = job_id_v4,
@@ -176,24 +183,24 @@ library(tm)
   #   job_id=job_id_v4,
   #   path = hqDownload_dir
   # )
-  # 
-  
+  #
+
   ##### NEW DOWNLOAD SCRIPT START #####
-  
+
   suso_set_key(sqlSvr$server,sqlSvr$usr, sqlSvr$pswd)
-  
+
   questlist <- suso_getQuestDetails(workspace = sqlSvr$workspace) %>%
     filter(Title == "ICBT FIELD WORK") %>% mutate(
       Queue_job_id = NA_integer_
     )
-  
+
   dataDownloadStarted <- format(now(), "%a %d %b %Y, %I:%M %p")
-  
+
   #STEP 1: create export queues first  and add Queue NO# to dataFrame,
   #STEP 2: then wait for some mins for Export Generation to be Completed
   #STEP 3: then start the download process
-  
-  #STEP 1: 
+
+  #STEP 1:
   for (i in 1:nrow(questlist)){
     icbtQues <- questlist [i,]
     # # start export process; get job ID
@@ -201,7 +208,7 @@ library(tm)
       qnr_id= icbtQues$QuestionnaireIdentity,
       export_type = "STATA",
       include_meta = TRUE,
-      interview_status = "All" ) 
+      interview_status = "All" )
     ){
       questlist <-questlist %>% mutate(
         Queue_job_id = case_when(
@@ -210,8 +217,8 @@ library(tm)
       )
     }
   }
-  
-  #STEP 2: 
+
+  #STEP 2:
   # function to download the dataset
   dataDownload_function <- function(que_id){
     tryCatch(
@@ -234,36 +241,36 @@ library(tm)
       }
     )
   }
-  
-  
-  
+
+
+
   #get Responsible IDS from server whiles waiting for export queue to complete
   #########################################
   icbt_metaData <- data.frame()
-  
+
   for (i in 1:nrow(questlist)){
     # icbtQues <- questlist [3,]
     icbtQues <- questlist [i,]
-    
+
     metaData_fetch <-  suso_getQuestDetails(
       workspace = sqlSvr$workspace,
       token = NULL,
       quid  =   icbtQues$QuestionnaireId,
       version = icbtQues$Version,
       operation.type = "interviews"
-    ) %>% 
+    ) %>%
       mutate(
         interview__id = removePunctuation(InterviewId)
       ) %>%
       unnest(FeaturedQuestions) %>%
       select(-Id)%>%
       pivot_wider(
-        names_from = Question, 
-        values_from = Answer 
+        names_from = Question,
+        values_from = Answer
       ) %>%
       select(
-        c("InterviewId","QuestionnaireId","QuestionnaireVersion",    
-          "AssignmentId","ResponsibleId","ResponsibleName",         
+        c("InterviewId","QuestionnaireId","QuestionnaireVersion",
+          "AssignmentId","ResponsibleId","ResponsibleName",
           "interview__id", "Enumerator Name","Enumerator Contact","Month of Data Collection")
       ) %>%
       rename(
@@ -272,67 +279,67 @@ library(tm)
         assignment_id = AssignmentId  ,
         responsibleId = ResponsibleId,
         qnr_createdDateTime = "Month of Data Collection"
-      ) %>% 
+      ) %>%
       mutate(
         enumerator_contact=as.character(paste0(enumerator_contact)),
         enumerator_name=as.character(paste0(enumerator_name)),
         qnr_createdDateTime=as.character(paste0(enumerator_name))
       )
-    
+
     icbt_metaData <- dplyr::bind_rows(icbt_metaData, metaData_fetch)
     rm(metaData_fetch)
   }
-  
+
   icbt_metaData <- icbt_metaData %>%
     mutate(
       enumerator_name = str_squish(trim(str_to_title(enumerator_name)))
     )
-  
+
   #check if Queue Process is COmpleted,
   for (i in 1:nrow(questlist)){
     # icbtQues <- questlist [3,]
     icbtQues <- questlist [i,]
     # # CHECK EXPORT JOB PROGESS, UNTIL COMPLETE, specifying ID of job started in prior step
-    exportFeedback <- get_export_job_details(job_id = started_job_id) 
-    
+    exportFeedback <- get_export_job_details(job_id = started_job_id)
+
     if(exportFeedback$ExportStatus =='Completed' & exportFeedback$HasExportFile == TRUE ){
       que_id = icbtQues$Queue_job_id
       dataDownload_function(que_id)
       rm(que_id, exportFeedback)
     } else{
       #wait for 1 minute and try again
-      Sys.sleep(120) # wait for 2 minute, to try again 
-      exportFeedback <- get_export_job_details(job_id = started_job_id) 
+      Sys.sleep(120) # wait for 2 minute, to try again
+      exportFeedback <- get_export_job_details(job_id = started_job_id)
       que_id = icbtQues$Queue_job_id
       dataDownload_function(que_id)
       rm(que_id, exportFeedback)
     }
   }
   ##### NEW DOWNLOAD SCRIPT END #####
-  
+
   #unzip each version of the files
   zipppedFiles <- list.files(path = hqDownload_dir, pattern = "*.zip", full.names = T)
-  
+
   # https://arthur-shaw.github.io/susoflows/
   # https://www.appsilon.com/post/forget-about-excel-use-r-shiny-packages-instead
   # https://stackoverflow.com/questions/35834322/how-to-save-edits-made-using-rhandsontable-r-package
   # take the database from firebase or fidesworcx
   #corrections dataframe would need “created_at”, “created_by”, “modified_at”
   #add download corrections dataframe files as r,stata and csv
-  
+
   #future scripting task
-  # split each work by month 
+  # split each work by month
   # and save each monthly data set with its errors
   # then, merge them as final file
-  
+
   downloaded_icbt_data <- data.frame()
-  
-  
+
+
   # zipfile<-zipppedFiles[3]
   for (zipfile in zipppedFiles) {
     #take each zip file and extract
     if (file.exists(zipfile)) {
-      unzip( zipfile, exdir=hq_extracted_dir) 
+      unzip( zipfile, exdir=hq_extracted_dir)
     }
     #take the dataset and process it
     # #get user ids and merge with responsible id
@@ -347,30 +354,30 @@ library(tm)
     #     qnr_createdDateTime= paste(qnr_createdDate, 'T' , qnr_createdTime, sep = ''),
     #   ) %>%
     #   select(-c('action','qnr_createdDate','qnr_createdTime')) %>%
-    #   distinct( UserName,interview__key,interview__id , .keep_all = T) %>% 
+    #   distinct( UserName,interview__key,interview__id , .keep_all = T) %>%
     #   arrange(UserName, interview__key,interview__id )
-    # 
+    #
     # MajorMeta <- left_join(userID_in_Data,newDataMeta, by=c("UserName"))
-    
-    
+
+
     # take cases meta data
     library(haven)
-    
-    metaColNames <- c("interview__key", "interview__id","enumerator_name" ,"enumerator_contact", "team_number" ,      
+
+    metaColNames <- c("interview__key", "interview__id","enumerator_name" ,"enumerator_contact", "team_number" ,
                       "id02","id02a","id03","id03b","id04",
                       "id06","gps__Latitude","gps__Longitude","gps__Accuracy","gps__Altitude",
                       "gps__Timestamp","assignment__id", "quarter" , 'date_and_time_collection',"quarter"
     )
-    
-    
+
+
     transpondentNames <- c("interview__key","interview__id","transportercharacteristics__id",
                            "s2q1","s2q2","s2q3",
                            "s2q3ll","s2q3llo","s2q10a","s2q10b"
     )
-    
+
     #take the stata   files for processing
     icbt_data_version <- read_dta(paste(hq_extracted_dir,questlist$Variable[1],".dta", sep = ''))
-    
+
     if (nrow(icbt_data_version)>0){
       icbt_data_version <- icbt_data_version %>%
         select(all_of(metaColNames),any_of(c("quarter","month","date_and_time_collection"))) %>%
@@ -379,9 +386,9 @@ library(tm)
           id03 = haven::as_factor(id03),
           id04 = haven::as_factor(id04),
           id06 = haven::as_factor(id06)
-        ) %>% 
+        ) %>%
         left_join(
-          read_dta(paste(hq_extracted_dir,"transportercharacteristics.dta",sep = '')) %>% 
+          read_dta(paste(hq_extracted_dir,"transportercharacteristics.dta",sep = '')) %>%
             select(all_of(transpondentNames)) %>%
             dplyr::mutate(  #bring in stata factor labels
               s2q2 = haven::as_factor(s2q2),
@@ -401,7 +408,7 @@ library(tm)
               s2l1 = haven::as_factor(s2l1),
               s2l2 = haven::as_factor(s2l2),
               s2q6oo = haven::as_factor(s2q6oo),
-              
+
               # s2q10a = haven::as_factor(s2q10a)
             ),
           by=c("interview__key"="interview__key",
@@ -414,38 +421,38 @@ library(tm)
         mutate(
           enumerator_name = str_squish(trim(trimws(str_to_title(enumerator_name)))),
           enumerator_contact=as.character(paste0(enumerator_contact))
-        ) %>% 
-        left_join(icbt_metaData) 
-      
+        ) %>%
+        left_join(icbt_metaData)
+
       downloaded_icbt_data <- dplyr::bind_rows(downloaded_icbt_data, icbt_data_version)
       rm(icbt_data_version)
       ## end zip loop
     }
   }
-  
+
   if("s2q6ao" %in% names(downloaded_icbt_data) ){
     downloaded_icbt_data <- downloaded_icbt_data %>% mutate(
-      
+
       s2q6ao = haven::as_factor(s2q6ao)
     )
   }
-  
+
   #Pull HH level var renames file
   renameData <- read_excel("server/dictionary/varNames.xlsx",sheet = "icbtVarRenames")
-  
+
   for (i in 1:nrow(renameData)  ) {
     row <- renameData[i,]  #filter that row
     if(row$oldVarName %in% names(downloaded_icbt_data)){ #if name var exists, then rename the var
       downloaded_icbt_data <- rename.vars(downloaded_icbt_data, from =row$oldVarName, to = row$newVarName)
     }
   }
-  
-  
+
+
   # rm(renameData, metaColNames, transpondentNames, row, server_qnr,sqlSvr)
   colnames(downloaded_icbt_data) = gsub("__", "_", colnames(downloaded_icbt_data))
-  
-  
-  downloaded_icbt_data <- downloaded_icbt_data %>% 
+
+
+  downloaded_icbt_data <- downloaded_icbt_data %>%
     filter(!is.na(transpondent_id)) %>%
     mutate(
       borderPostName=  str_remove_all(borderPostName, '"'),
@@ -454,7 +461,7 @@ library(tm)
       qnr_createdDateTime = format(ymd_hms(qnr_createdDateTime,tz=Sys.timezone()), "%Y-%m-%d %I:%M %p"),
       # gpsCapture_QnrCreated_dayGap= difftime(gps_Timestamp,qnr_createdDateTime, units = "days"), # gps_timestamp - createdDateTimeStamp
       # gpsCapture_QnrCreated_HourGap= difftime(gps_Timestamp,qnr_createdDateTime, units = "hours") # gps_timestamp - createdDateTimeStamp
-    ) %>% 
+    ) %>%
     mutate(  #fix wrong regionCode & regionName & team numbering assignments
       regionCode = case_when(
         regionCode==16 & str_to_lower(RegionName)=='savanna'~ 13, #fix savanna with wrong region codes
@@ -471,15 +478,15 @@ library(tm)
                              TRUE ~ RegionName),
       RegionName= str_to_title(RegionName),
       districtName= str_to_title(districtName),
-      borderPostName= str_replace_all(borderPostName,'"',''), 
+      borderPostName= str_replace_all(borderPostName,'"',''),
       borderPostName= str_to_title(gsub("/", "-", borderPostName) ),
       borderPostName =  gsub("Boader","Border", (borderPostName) ) ,
       borderPostName =  gsub("boader","Border", (borderPostName) ) ,
-      borderPostName =  gsub("BOADER","Border", (borderPostName) ) 
+      borderPostName =  gsub("BOADER","Border", (borderPostName) )
     ) %>%
     arrange(RegionName, districtName, townCity, borderPostName, team_number, enumerator_name ) %>%
     mutate( #fix dataset issues
-      
+
       #fix blank month and qtr
       month = case_when(
         is.na(month) ~ as.character(month(gps_Timestamp, label = TRUE, abbr = FALSE)),
@@ -492,7 +499,7 @@ library(tm)
 
       team_number= parse_number(team_number),
       productObserved=  gsub("colanut", "cola nut", productObserved, ignore.case = TRUE) ,
-      # fix for 'coming on' and 'going on', phrases to 'comin in on' and 'going out on' 
+      # fix for 'coming on' and 'going on', phrases to 'comin in on' and 'going out on'
       #afterwards, remove it from error check
       observedRespondentDescription = str_squish(trim(trimws(observedRespondentDescription))),
       observedRespondentDescription = case_when(
@@ -504,19 +511,19 @@ library(tm)
         str_detect(str_to_lower(observedRespondentDescription),'going on') ~ gsub('going on', 'going out on', observedRespondentDescription, ignore.case = TRUE),
         str_detect(str_to_lower(observedRespondentDescription),'gong out') ~ gsub('gong out', 'going out', observedRespondentDescription, ignore.case = TRUE),
         str_detect(str_to_lower(observedRespondentDescription),'going with') ~ gsub('going with', 'going out with', observedRespondentDescription, ignore.case = TRUE),
-        
+
         str_detect(str_to_lower(observedRespondentDescription),'motobike') ~ gsub('motobike', 'Motorbike', observedRespondentDescription, ignore.case = TRUE),
-        
+
         TRUE ~ observedRespondentDescription
       ),
       #fixing tranport-mode spelling mistakes
       transportMeans= case_when(
         str_detect(str_to_lower(transportMeans),'motobike') ~ gsub('motobike', 'Motorbike', transportMeans, ignore.case = TRUE),
         TRUE ~ transportMeans
-        
+
       ),
-        
-      
+
+
       #spelling fixes
       commodityObervedDescription=  gsub("under wear","underwear", str_to_lower(commodityObervedDescription) ) ,
       commodityObervedDescription=  gsub("under wears","underwear", str_to_lower(commodityObervedDescription) ) ,
@@ -534,19 +541,19 @@ library(tm)
       commodityObervedDescription=  gsub("ayilo","ayilor", str_to_lower(commodityObervedDescription) ) ,
       commodityObervedDescription=  gsub("ladels","ladles", str_to_lower(commodityObervedDescription) ) ,
       commodityObervedDescription=  gsub("ladel","ladle", str_to_lower(commodityObervedDescription) ) ,
-      
+
       commodityObervedDescription = ifelse(
         str_to_lower(as.character(month(gps_Timestamp, label = TRUE, abbr = FALSE)))=="october" ,
         gsub("pomade","body lotion", str_to_lower(commodityObervedDescription) ),
         commodityObervedDescription
       ),
-      
+
       commodityObervedDescription= case_when(
         str_to_lower(month)=="october" ~  gsub("pomade","body lotion", str_to_lower(commodityObervedDescription) ),
                                               TRUE ~ commodityObervedDescription # correction for Month1 OCTOBER only, here month was blank
       ) ,
 
-      
+
       # commodityObervedDescription=  gsub("pomade","body lotion", str_to_lower(commodityObervedDescription) ) ,
       # commodityObervedDescription=  gsub("body cream","body lotion", str_to_lower(commodityObervedDescription) ) ,
       # # commodityObervedDescription=  gsub("body lotion","pomade", str_to_lower(commodityObervedDescription) ) ,
@@ -605,7 +612,7 @@ library(tm)
       commodityObervedDescription=  gsub("egg8","egg", str_to_lower(commodityObervedDescription) ) ,
       commodityObervedDescription=  gsub("ofonion","of onion", str_to_lower(commodityObervedDescription) ) ,
       # commodityObervedDescription=  gsub("toothpast","toothpaste", str_to_lower(commodityObervedDescription) ) ,
-      
+
       #fix gps date issue but case is valid and within time frame
       gps_Timestamp = case_when(
                                   interview_key=="38-99-06-28" & interview_id=="9f106e6358c24d2aad54510a813dc4ce" ~ '2024-11-11T23:30:08.923919Z',
@@ -657,106 +664,199 @@ library(tm)
                                 ),
       dates = as.Date(gps_Timestamp),
     )
-  
+
   #removal of invalid cases
   downloaded_icbt_data <- downloaded_icbt_data %>%
     filter(
-    #TO LOOK INTO ! (str_to_upper(str_squish(trim(enumerator_name)))=="SYLVIA AGYEMANG" & interview_key=="94-61-35-06" & interview_id== "603103e8689b4cc3ad023ce05b0726ad" ) 
-    
-    #not yet ! (str_to_upper(str_squish(trim(enumerator_name)))=="YACHAMBE KUPORKPA MOSES" & interview_key=="06-08-58-38" & interview_id== "69d39e8bd2ae404ebd244536a0d336e8" ) 
-    #not yet ! (str_to_upper(str_squish(trim(enumerator_name)))=="SYLVIA AGYEMANG" & interview_key=="50-47-81-71" & interview_id== "6a2bc43595fd4df0b98b2088eca88dd3" ) 
-    #not yet ! (str_to_upper(str_squish(trim(enumerator_name)))=="LOTSU KWAME BLESS" & interview_key=="48-15-77-88" & interview_id== "f279abd6013744ec83f1665dc3b272e4" ) 
-    #not yet ! (str_to_upper(str_squish(trim(enumerator_name)))=="ABABAGRE NOAH ASSIBI" & interview_key=="38-50-57-79" & interview_id== "51dca45bf867441e8d17f5e5ea9bbb03" ) 
-    #not yet ! (str_to_upper(str_squish(trim(enumerator_name)))=="PATIENCE GYABENG" & interview_key=="87-78-60-56" & interview_id== "f8da6d33caa64700883d96fa47cf26e4" ) 
-      
+    #TO LOOK INTO ! (str_to_upper(str_squish(trim(enumerator_name)))=="SYLVIA AGYEMANG" & interview_key=="94-61-35-06" & interview_id== "603103e8689b4cc3ad023ce05b0726ad" )
+
+    #not yet ! (str_to_upper(str_squish(trim(enumerator_name)))=="YACHAMBE KUPORKPA MOSES" & interview_key=="06-08-58-38" & interview_id== "69d39e8bd2ae404ebd244536a0d336e8" )
+    #not yet ! (str_to_upper(str_squish(trim(enumerator_name)))=="SYLVIA AGYEMANG" & interview_key=="50-47-81-71" & interview_id== "6a2bc43595fd4df0b98b2088eca88dd3" )
+    #not yet ! (str_to_upper(str_squish(trim(enumerator_name)))=="LOTSU KWAME BLESS" & interview_key=="48-15-77-88" & interview_id== "f279abd6013744ec83f1665dc3b272e4" )
+    #not yet ! (str_to_upper(str_squish(trim(enumerator_name)))=="ABABAGRE NOAH ASSIBI" & interview_key=="38-50-57-79" & interview_id== "51dca45bf867441e8d17f5e5ea9bbb03" )
+    #not yet ! (str_to_upper(str_squish(trim(enumerator_name)))=="PATIENCE GYABENG" & interview_key=="87-78-60-56" & interview_id== "f8da6d33caa64700883d96fa47cf26e4" )
+
    # yes delete below
     ! (
-        (str_to_upper(str_squish(trim(enumerator_name)))=="OPPONG SIMON" & interview_key=="48-21-24-13" & interview_id== "5eae3f4bf3c64527b311375d0e857182" )  | 
-        (str_to_upper(str_squish(trim(enumerator_name)))=="OPPONG SIMON" & interview_key=="52-21-39-28" & interview_id== "3dd71d59fd2c43169701b5550b4e6bba" )  | 
+        (str_to_upper(str_squish(trim(enumerator_name)))=="OPPONG SIMON" & interview_key=="48-21-24-13" & interview_id== "5eae3f4bf3c64527b311375d0e857182" )  |
+        (str_to_upper(str_squish(trim(enumerator_name)))=="OPPONG SIMON" & interview_key=="52-21-39-28" & interview_id== "3dd71d59fd2c43169701b5550b4e6bba" )  |
         (str_to_upper(str_squish(trim(enumerator_name)))=="AGYEIWAA ADUSAH MARY" & interview_key=="17-68-34-17" & interview_id== "b8f22ddaa5614cdc9d3cbc7fa0f3e39e" ) |
-        (str_to_upper(str_squish(trim(enumerator_name)))=="ANYAMASA MARTINA" & interview_key=="06-29-78-16" & interview_id== "ed2c994f742648d7af73a8f98b05a741" ) 
-      )    
-        
-      
+        (str_to_upper(str_squish(trim(enumerator_name)))=="ANYAMASA MARTINA" & interview_key=="06-29-78-16" & interview_id== "ed2c994f742648d7af73a8f98b05a741" )
+      )
 
-      # !(enumerator_name=="Juliana Sekyiraa" & interview_key=="14-40-62-43") |  # 
-      # !(enumerator_name=="Juliana Sekyiraa" & interview_key=="71-14-18-31") |  # 
+
+
+      # !(enumerator_name=="Juliana Sekyiraa" & interview_key=="14-40-62-43") |  #
+      # !(enumerator_name=="Juliana Sekyiraa" & interview_key=="71-14-18-31") |  #
     )
-  
+
+  library(tm)
+
   #Stuck Manual Error Corrections
   ###############################
   downloaded_icbt_data <- downloaded_icbt_data %>%
     mutate(
       commodityObervedDescription= case_when(
-                str_to_upper(str_squish(trim(enumerator_name)))=="ALHASSAN ABDUL-MUMIN" & 
-                   interview_key    =="59-96-29-29" & 
+                str_to_upper(str_squish(trim(enumerator_name)))=="ALHASSAN ABDUL-MUMIN" &
+                   interview_key    =="59-96-29-29" &
+                  month == 'October' &
                    interview_id     == "43ded5c278de4f22b8b8728b639d359e" &
                     transpondent_id == 6 &
                     Commodity_id    == 1  ~ "36 packs of alcoholic drink" ,
-                  
-                str_to_upper(str_squish(trim(enumerator_name)))=="TAHIRU SAMSUDEEN" & 
-                   interview_key    =="64-87-10-11" & 
+
+                str_to_upper(str_squish(trim(enumerator_name)))=="TAHIRU SAMSUDEEN" &
+                   interview_key    =="64-87-10-11" &
+                  month == 'October' &
                    interview_id     == "c48ae95255694e9fafd358aa5bc6e593" &
                     transpondent_id == 4 &
                     Commodity_id    == 1  ~ "1 pan of corn dough" ,
-                  
-                  str_to_upper(str_squish(trim(enumerator_name)))=="TAHIRU SAMSUDEEN" & 
-                   interview_key    =="64-87-10-11" & 
+
+                  str_to_upper(str_squish(trim(enumerator_name)))=="TAHIRU SAMSUDEEN" &
+                   interview_key    =="64-87-10-11" &
+                  month == 'October' &
                    interview_id     == "c48ae95255694e9fafd358aa5bc6e593" &
                     transpondent_id == 6 &
                     Commodity_id    == 2  ~ "1 barrel of diesel" ,
-                  
-                str_to_upper(str_squish(trim(enumerator_name)))=="ASAMOAH FLORENCE" & 
-                   interview_key    =="00-57-21-41" & 
+
+                str_to_upper(str_squish(trim(enumerator_name)))=="ASAMOAH FLORENCE" &
+                   interview_key    =="00-57-21-41" &
+                  month == 'October' &
                    interview_id     == "adfce20eaff940f483cebd579c957977" &
                     transpondent_id == 17 &
                     Commodity_id    == 1  ~ "4 330ml pack of alcoholic drink" ,
-                  
-                str_to_upper(str_squish(trim(enumerator_name)))=="PATRICK MENSAH DZIDZORNU" & 
-                   interview_key    =="53-71-68-82" & 
+
+                str_to_upper(str_squish(trim(enumerator_name)))=="PATRICK MENSAH DZIDZORNU" &
+                   interview_key    =="53-71-68-82" &
+                  month == 'November' &
                    interview_id     == "f5b72c525ff747dab058f8399b5037f5" &
                     transpondent_id == 5 &
                     Commodity_id    == 1  ~ "3 (5ltr) gallons of cooking oil " ,
-                  
+
+                #20241223
+                str_to_upper(str_squish(trim(enumerator_name)))=="ABBEY EUNICE CORNEA" &
+                   interview_key    =="09-43-99-80" &
+                  month == 'November' &
+                   interview_id     == "461fe00ff4fb4136af207e674eee8a8f"  &
+                    transpondent_id == 22 &
+                    Commodity_id    == 1  ~ "20 pair of bathroom slippers" ,
+
+                str_to_upper(str_squish(trim(enumerator_name)))=="JOHNSON KOFI MENSAH KUVEDU" &
+                   interview_key    =="57-25-68-97" &
+                  month == 'November' &
+                   interview_id     == "da7d36e4f4ea443d89fba6e9ae53f33b"  &
+                    transpondent_id == 7 &
+                    Commodity_id    == 1  ~ "15 pieces of sticks" ,
+
+                str_to_upper(str_squish(trim(enumerator_name)))=="JOHNSON KOFI MENSAH KUVEDU" &
+                   interview_key    =="59-39-48-58" &
+                  month == 'November' &
+                   interview_id     == "a9bfb4f8665a4ebf9ce5e85b3d38cb09"  &
+                    transpondent_id == 4 &
+                    Commodity_id    == 1  ~ "180 pieces of body creams" ,
+
+                str_to_upper(str_squish(trim(enumerator_name)))=="JOHNSON KOFI MENSAH KUVEDU" &
+                   interview_key    =="64-85-55-00" &
+                    month == 'November' &
+                   interview_id     == "7d384713a08c4efebe43f2ee948565e8"  &
+                    transpondent_id == 21 &
+                    Commodity_id    == 1  ~ "35 pieces of fowls" ,
+
                   TRUE ~ commodityObervedDescription
               ),
-      
 
-      
+      commodityQuantity = case_when(
+              str_to_upper(str_squish(trim(enumerator_name)))=="ALICE OFOSU" &
+                interview_key    =="60-88-53-60" &
+                month == 'November' &
+                interview_id     == removePunctuation('d7e8a0f5-2225-4b5e-9d14-e64d3a2a59b4') &
+                transpondent_id == 3 &
+                Commodity_id    == 1  ~ 6,
+
+              str_to_upper(str_squish(trim(enumerator_name)))=="ALICE OFOSU" &
+                interview_key    =="75-62-66-48" &
+                month == 'November' &
+                interview_id     == removePunctuation('d1589eab-14d7-47c2-8527-a08d19a4298e') &
+                transpondent_id == 18 &
+                Commodity_id    == 1  ~ 30,
+
+              str_to_upper(str_squish(trim(enumerator_name)))=="JOHNSON KOFI MENSAH KUVEDU" &
+                interview_key    =="10-51-63-73" &
+                month == 'November' &
+                interview_id     == removePunctuation('021fb534-2e6b-4dff-b084-d77a95aeaeb3') &
+                transpondent_id == 22 &
+                Commodity_id    == 1  ~ 4,
+
+              str_to_upper(str_squish(trim(enumerator_name)))=="JOHNSON KOFI MENSAH KUVEDU" &
+                interview_key    =="16-64-57-83" &
+                interview_id     == removePunctuation('22f58115-bd8c-458e-b9cc-92abb8bcffa2') &
+                transpondent_id == 16 &
+                Commodity_id    == 1  ~ 2,
+
+              str_to_upper(str_squish(trim(enumerator_name)))=="JOHNSON KOFI MENSAH KUVEDU" &
+                interview_key    =="44-92-79-20" &
+                month == 'November' &
+                interview_id     == removePunctuation('f57bc57e-7d1a-4b44-9b7a-d767a643394d') &
+                transpondent_id == 13 &
+                Commodity_id    == 1  ~ 10,
+
+              str_to_upper(str_squish(trim(enumerator_name)))=="JOHNSON KOFI MENSAH KUVEDU" &
+                interview_key    =="44-92-79-20" &
+                month == 'November' &
+                interview_id     == removePunctuation('6b0366bc-718b-4b26-a9c8-4eb6da4b55d4') &
+                transpondent_id == 30 &
+                Commodity_id    == 1  ~ 2,
+
+              str_to_upper(str_squish(trim(enumerator_name)))=="ASAMOAH FLORENCE" &
+                interview_key    =="00-57-21-41" &
+                month == 'October' &
+                interview_id     == removePunctuation('adfce20e-aff9-40f4-83ce-bd579c957977') &
+                transpondent_id == 17 &
+                Commodity_id    == 1  ~ 4,
+
+        TRUE ~ commodityQuantity
+      ),
+
+
+
       observedRespondentDescription= case_when(
-                str_to_upper(str_squish(trim(enumerator_name)))=="DANIEL GELI" & 
-                  interview_key    =="71-02-42-24" & 
+                str_to_upper(str_squish(trim(enumerator_name)))=="DANIEL GELI" &
+                  interview_key    =="71-02-42-24" &
+                  month == 'November' &
                   interview_id     == "f5b06bd5a18e4c8297df8fed9b2850de" &
                   transpondent_id == 16  ~ "a man going out on foot" ,
-                
-                str_to_upper(str_squish(trim(enumerator_name)))=="DANIEL GELI" & 
-                  interview_key    =="71-02-42-24" & 
+
+                str_to_upper(str_squish(trim(enumerator_name)))=="DANIEL GELI" &
+                  interview_key    =="71-02-42-24" &
+                  month == 'November' &
                   interview_id     == "f5b06bd5a18e4c8297df8fed9b2850de" &
                   transpondent_id ==  30  ~ "a man coming in with Push Truck" ,
-        
+
                 TRUE ~ observedRespondentDescription
               ),
-      
+
       transportMeans= case_when(
-               str_to_upper(str_squish(trim(enumerator_name)))=="MUMEN HAMDDAN" & 
-                 interview_key    =="97-71-23-78" & 
+               str_to_upper(str_squish(trim(enumerator_name)))=="MUMEN HAMDDAN" &
+                 interview_key    =="97-71-23-78" &
+                 month == 'November' &
                  interview_id     == "9bc564e68aaa4e449ad2830b10ad214c" &
                  transpondent_id == 9  ~ "Motorbike" ,
-                  
+
                TRUE ~ transportMeans
               ),
-      
-     
-    ) %>% 
+
+
+
+
+    ) %>%
     select(-interview_id, -QuestionnaireId) %>%
     rename(
       interview_id = InterviewId ,
       UserName = ResponsibleName)
-    
+
  saveFinalData <-  downloaded_icbt_data
-  
+
   #--- change created to GPS timestamp
-  
+
   # #fix blank month and qtr
   # downloaded_icbt_data <- downloaded_icbt_data %>%
   #   mutate(
@@ -770,39 +870,38 @@ library(tm)
   #       TRUE ~ quarter
   #     ),
   #     dates = as.Date(gps_Timestamp),
-      
+
       # commodityObervedDescription= case_when(
       #                           str_to_lower(month)=="october" ~  gsub("pomade","body lotion", str_to_lower(commodityObervedDescription) ),
       #                           TRUE ~ commodityObervedDescription # correction for Month1 OCTOBER only, here month was blank
       # ) ,
-# 
+#
     # )
-  
-  
+
+
   #save final dataset
   final_data_dir <- "Data_final/"
   #create Data directory if it does not already exist
   ifelse(!dir.exists(file.path(final_data_dir)),
          dir.create(file.path(final_data_dir)),
          "fina_data_dir Directory Exists")
-  
+
   # remove_val_labels(hq_icbt_data)
-  
+
   #check errors
   # icbt_data <- downloaded_icbt_data
   source(file.path("server/hqdata/03_errorchecks.R"),  local = TRUE)$value
   saveRDS(errorChecks,paste(final_data_dir,'error_data.RDS',sep=''))
-  
+
   #save final dataset
   saveRDS(saveFinalData,paste(final_data_dir,'icbt_data.RDS',sep=''))
   saveRDS(downloaded_icbt_data %>% distinct(month,quarter),paste(final_data_dir,'dataCollectionPeriod.RDS',sep=''))
   print("hq download and merge okay")
-  
+
   saveRDS(dataDownloadStarted, "Data_final/lastDataAccessedDateTime.RDS")
-  
+
   # new_interviwer_users <- get_interviewers()
   # saveRDS(new_interviwer_users,paste(final_data_dir,'users.RDS',sep=''))
-  
+
   #need to script trade direction error text correction
   #ok
-  
