@@ -38,21 +38,21 @@ library(tm)
 # Check unit of measure, quantity and selected product
 # #####################################################
 # downloaded_icbt_data <-  downloaded_icbt_data %>%
-#   filter(createdDate > '2024-12-08') 
+#   filter(createdDate > '2024-12-01')
 
 icbt_meta <- downloaded_icbt_data %>%
   select(.,
          regionCode, RegionName,districtCode,districtName,
-         townCity,borderPostName,team_number,interview_key,interview_id,enumerator_name,enumerator_contact, 
-         gps_Timestamp,responsibleId,createdDate # , 
+         townCity,borderPostName,team_number,interview_key,interview_id,enumerator_name,enumerator_contact,
+         gps_Timestamp,responsibleId,createdDate # ,
   ) %>%
-  distinct(interview_key,interview_id,responsibleId, .keep_all = T) %>%  
-  arrange(districtCode,borderPostName,team_number,enumerator_name) 
+  distinct(interview_key,interview_id,responsibleId, .keep_all = T) %>%
+  arrange(districtCode,borderPostName,team_number,enumerator_name)
 
 errorChecks = data.frame()
 
 
-blankCommdtyDesctip <- downloaded_icbt_data %>% 
+blankCommdtyDesctip <- downloaded_icbt_data %>%
   filter(is.na(commodityObervedDescription)) %>%
   mutate(
     errorCheck = 'blank product description',
@@ -62,7 +62,7 @@ errorChecks <- dplyr::bind_rows(errorChecks, blankCommdtyDesctip) #add to the er
 rm(blankCommdtyDesctip)
 
 #Direction of Trade error
-directionCheck <- downloaded_icbt_data %>% 
+directionCheck <- downloaded_icbt_data %>%
   mutate(
     observedRespondentDescription = str_squish(trim(trimws(observedRespondentDescription))),
     observedRespondentDescription = case_when(
@@ -71,9 +71,9 @@ directionCheck <- downloaded_icbt_data %>%
       TRUE ~ observedRespondentDescription
                                             )
   )
-  
+
 directionError <- directionCheck  %>%
-  filter( 
+  filter(
     str_detect(str_to_lower(observedRespondentDescription),'coming in|going out')
   ) %>%
   distinct(interview_key, interview_id, transpondent_id, .keep_all = T) %>%
@@ -90,7 +90,7 @@ directionError <- directionCheck  %>%
     badDir = case_when(
       # str_detect(string, pattern, negate = FALSE)
       str_detect(observedRespondentDescription,direction)  ~ 0,
-      # stri_detect_fixed(observedRespondentDescription ,direction) 
+      # stri_detect_fixed(observedRespondentDescription ,direction)
       TRUE ~ 1
     )
   ) %>%
@@ -102,8 +102,8 @@ directionError <- directionCheck  %>%
 errorChecks <- dplyr::bind_rows(errorChecks, directionError) #add to the errorData frame file
 rm(directionError)
 
-tradeDirectionNotSpecified <- directionCheck %>% 
-  filter( 
+tradeDirectionNotSpecified <- directionCheck %>%
+  filter(
     !str_detect(str_squish(trim(trimws(str_to_lower(observedRespondentDescription)))),'coming in|going out')
   ) %>%
   distinct(interview_key, interview_id, transpondent_id, .keep_all = T) %>%
@@ -114,7 +114,7 @@ tradeDirectionNotSpecified <- directionCheck %>%
 errorChecks <- dplyr::bind_rows(errorChecks, tradeDirectionNotSpecified) #add to the errorData frame file
 rm(tradeDirectionNotSpecified, directionCheck)
 
-UoM_Check <- downloaded_icbt_data %>% 
+UoM_Check <- downloaded_icbt_data %>%
   filter(!is.na(commodityObervedDescription)) %>%
   mutate(newUOM =unit_of_measure,
          cmdty_descrip = singularize(commodityObervedDescription)
@@ -146,25 +146,25 @@ UoM_Check <- downloaded_icbt_data %>%
     # enumerator_name, enumerator_contact,
     # team_number, regionCode, RegionName, districtCode, districtName, townCity,
     # borderPostName, observedRespondentDescription,
-    interview_key , interview_id , 
+    interview_key , interview_id ,
     observedRespondentDescription,
     transpondent_id,Commodity_id, commodityObervedDescription,
     productObserved,unit_of_measure,commodityQuantity,
     uom_unit,uom_size_num,uom_deno,cmdty_descrip
   )  %>%
-  mutate(	
+  mutate(
     cmdty_descrip=singularize(cmdty_descrip),
     commodityObervedDescription=singularize(commodityObervedDescription)
   ) %>%
   cSplit(splitCols="cmdty_descrip", sep = " ")
 
-pivotedDF <- UoM_Check %>% 
+pivotedDF <- UoM_Check %>%
   gather(varDescription, val, -c(
     interview_key , interview_id , observedRespondentDescription,
     transpondent_id,Commodity_id, commodityObervedDescription,
     productObserved,unit_of_measure,commodityQuantity,
     uom_unit,uom_size_num,uom_deno
-  ), 
+  ),
   na.rm = T) %>%
   mutate(
     commodity_qty = case_when(
@@ -177,12 +177,12 @@ pivotedDF <- UoM_Check %>%
     ),
     commodity_uom_deno = case_when(
       as.numeric(gsub("\\D", "", val))>0 & grepl("[A-Za-z]", val) ~ sub("[^[:alpha:]]+", "", val),
-      TRUE ~ NA_character_ 
+      TRUE ~ NA_character_
     ),
     commodity_uom_deno=str_to_lower(commodity_uom_deno)
   )
 
-summaryPivotedDF <- pivotedDF %>% 
+summaryPivotedDF <- pivotedDF %>%
   group_by(interview_key , interview_id , observedRespondentDescription,
            transpondent_id,Commodity_id, commodityObervedDescription,
            productObserved,unit_of_measure,commodityQuantity,
@@ -209,18 +209,18 @@ getData <- summaryPivotedDF %>%
   rename(commodityObervedDescription_singularised = text)
 
 summaryPivotedDF <-summaryPivotedDF %>%
-  left_join(getData, by=c("interview_key"="interview_key", "interview_id"="interview_id", 
+  left_join(getData, by=c("interview_key"="interview_key", "interview_id"="interview_id",
                           "transpondent_id"="transpondent_id", "Commodity_id"="Commodity_id"))
 
 
 # commodityQtyMismatchError <- downloaded_icbt_data %>%
 #   select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id,commodityObervedDescription, productObserved,commodityQuantity) %>%
 #   # filter(
-#   #   (interview_key=='43-78-93-19' & transpondent_id==20) | 
+#   #   (interview_key=='43-78-93-19' & transpondent_id==20) |
 #   #     (interview_key=="23-01-64-19" & transpondent_id==3) |
 #   #     (interview_key=="24-15-76-11" & transpondent_id==2) |
 #   #     (interview_key=="82-69-48-34" & transpondent_id==2 )
-#   #   ) %>% 
+#   #   ) %>%
 #   # filter(transpondent_id==20) %>%
 #   #remove brackets from commodity discriptions
 #   mutate(
@@ -229,11 +229,11 @@ summaryPivotedDF <-summaryPivotedDF %>%
 #   ) %>%
 #   # convert each work to column and then gather
 #   cSplit(splitCols="cmdityDesc", sep = " ") %>%
-#   gather(varDescription, val, 
+#   gather(varDescription, val,
 #          -c(interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id,commodityObervedDescription,productObserved,commodityQuantity
-#          ), 
+#          ),
 #          na.rm = T) %>%
-#   #keep columns vals that are only numeric quantityes 
+#   #keep columns vals that are only numeric quantityes
 #   mutate(val=removePunctuation(val)) %>%
 #   mutate_at(c('val'), ~na_if(., '')) %>%
 #   filter(!grepl("[A-Za-z]", val) & !is.na(val)) %>%
@@ -263,11 +263,11 @@ commodityQtyMismatchError <- downloaded_icbt_data %>%
   ) %>%
   # convert each work to column and then gather
   cSplit(splitCols="cmdityDesc", sep = " ") %>%
-  gather(varDescription, val, 
+  gather(varDescription, val,
          -c(interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id,commodityObervedDescription,productObserved,commodityQuantity
-         ), 
+         ),
          na.rm = T) %>%
-  #keep columns vals that are only numeric quantityes 
+  #keep columns vals that are only numeric quantityes
   mutate(val=removePunctuation(val)) %>%
   mutate_at(c('val'), ~na_if(., '')) %>%
   filter(!grepl("[A-Za-z]", val) & !is.na(val)) %>%
@@ -275,7 +275,7 @@ commodityQtyMismatchError <- downloaded_icbt_data %>%
   summarise(
     qtyMismatch = sum(ifelse(commodityQuantity ==val,1,0)),
     val=val
-  ) %>% 
+  ) %>%
   ungroup() %>%
   filter(qtyMismatch==0  ) %>%
   mutate(
@@ -288,7 +288,7 @@ errorChecks <- dplyr::bind_rows(errorChecks, commodityQtyMismatchError) #add to 
 rm(commodityQtyMismatchError)
 
 # check commodity description not having qty in there
-commodityQty_Described_missing <- summaryPivotedDF %>% 
+commodityQty_Described_missing <- summaryPivotedDF %>%
   ungroup() %>%
   filter(is.na(commodity_description_uom_qty)) %>%
   mutate(
@@ -300,7 +300,7 @@ errorChecks <- dplyr::bind_rows(errorChecks, commodityQty_Described_missing) #ad
 rm(commodityQty_Described_missing)
 
 # described a 25kg bag of rice, but selected 5kg bag of rice
-UOM_not_in_description <- summaryPivotedDF %>% 
+UOM_not_in_description <- summaryPivotedDF %>%
   ungroup() %>%
   select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,commodityObervedDescription,Commodity_id, uom_unit,commodityObervedDescription_singularised) %>%
   filter(!is.na(uom_unit) &  !str_detect(commodityObervedDescription_singularised,uom_unit)) %>% # unit of measure not in product description. if text in col1, exist in col2
@@ -311,7 +311,7 @@ UOM_not_in_description <- summaryPivotedDF %>%
 errorChecks <- dplyr::bind_rows(errorChecks, UOM_not_in_description) #add to the errorData frame file
 rm(UOM_not_in_description)
 
-unit_ofMeasure_detailedDescription <- summaryPivotedDF %>% 
+unit_ofMeasure_detailedDescription <- summaryPivotedDF %>%
   ungroup() %>%
   select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,commodityObervedDescription,Commodity_id,unit_of_measure, uom_size_num,uom_deno,commodity_description_uom_size,commodity_description_uom_deno) %>%
   filter(!is.na(commodity_description_uom_deno) )  %>%
@@ -325,14 +325,14 @@ rm(unit_ofMeasure_detailedDescription)
 
 #interviewer start date not in range
 
-dateCheck <- downloaded_icbt_data %>% 
+dateCheck <- downloaded_icbt_data %>%
   select(interview_key,interview_id, gps_Timestamp) %>%
   distinct(interview_key, .keep_all = T) %>%
-  mutate( gps_Timestamp= ymd(as.Date(gps_Timestamp, format= "%Y-%m-%d"))  ) 
-  
+  mutate( gps_Timestamp= ymd(as.Date(gps_Timestamp, format= "%Y-%m-%d"))  )
+
   surveyDatePeriod <- read_excel("server/dictionary/dataCollectionPeriod.xlsx") %>%
     mutate(
-      data_startDate =ymd(paste(Year,'-',monthNumber,'-',startDay, sep='')), 
+      data_startDate =ymd(paste(Year,'-',monthNumber,'-',startDay, sep='')),
       data_endDate =ymd(paste(Year,'-',monthNumber,'-',endDay, sep='')) ,
       # ps=as.character(paste(
       #                       seq(
@@ -344,16 +344,16 @@ dateCheck <- downloaded_icbt_data %>%
       # numStart = as.numeric(data_startDate),
       # numEnd = as.numeric(data_endDate),
     )
-  
-ValidDatedCase = data.frame()  
-  
+
+ValidDatedCase = data.frame()
+
 # casesInValidDate
 for (i in 1:nrow(surveyDatePeriod)) {
     period <- surveyDatePeriod[i,]
     startDate <- as.character(period$data_startDate)
     endDate  <- as.character(period$data_endDate)
     dateVals = seq(as.Date(startDate,format= "%Y-%m-%d"), as.Date(endDate,format= "%Y-%m-%d"), by = "day")
-    
+
     okayDatedCase <- dateCheck %>%
       subset(
         (gps_Timestamp %in% dateVals )
@@ -362,7 +362,7 @@ for (i in 1:nrow(surveyDatePeriod)) {
 }
 
 #invalidDatedCases
-wrongDate <- downloaded_icbt_data %>% 
+wrongDate <- downloaded_icbt_data %>%
   filter(
     !(interview_key %in% ValidDatedCase$interview_key)
   ) %>% distinct(interview_key, interview_id , .keep_all = T) %>%
@@ -374,7 +374,7 @@ errorChecks <- dplyr::bind_rows(errorChecks, wrongDate) #add to the errorData fr
 rm(wrongDate)
 
 # transpondent description less than 4 words "a man on foot"
-tronspondentDescription <- downloaded_icbt_data %>% 
+tronspondentDescription <- downloaded_icbt_data %>%
   mutate( wordCount= stri_count_words(observedRespondentDescription)  ) %>%
   filter(wordCount<4) %>%
   mutate(
@@ -385,12 +385,12 @@ errorChecks <- dplyr::bind_rows(errorChecks, tronspondentDescription) #add to th
 rm(wrongDate)
 
 #transpondent sex error
-genderWords <- read_excel("server/dictionary/Dictionary.xlsx", sheet='genderSynonyms') %>% 
+genderWords <- read_excel("server/dictionary/Dictionary.xlsx", sheet='genderSynonyms') %>%
   mutate(synonyms = trim(str_to_lower(synonyms))) %>%
-  arrange(gender,synonyms) %>% 
+  arrange(gender,synonyms) %>%
   group_by(gender) %>%
   mutate(
-    genderWords = paste(synonyms, collapse='|' )  
+    genderWords = paste(synonyms, collapse='|' )
   ) %>% distinct(gender, .keep_all = T)
 
 sexCheck <- downloaded_icbt_data %>%
@@ -411,7 +411,7 @@ errorChecks <- dplyr::bind_rows(errorChecks, sexCheck) #add to the errorData fra
 rm(sexCheck)
 
 # other specified means of transport already as a select option
-transportOptions <- read_excel("server/dictionary/Dictionary.xlsx", sheet='meansOfTransport') 
+transportOptions <- read_excel("server/dictionary/Dictionary.xlsx", sheet='meansOfTransport')
 
 otherSpecMeansTransport <-  downloaded_icbt_data %>%
   select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,commodityObervedDescription,Commodity_id, transportMeans, transportMeans_otherSpecify) %>%
@@ -468,7 +468,7 @@ rm(transportOptions)
 
 #described commodity and the selected product Error
 # wrongSelectedProductDescription <-  downloaded_icbt_data %>%
-#   filter( str_to_lower(productObserved) !='other (specify)' ) %>% 
+#   filter( str_to_lower(productObserved) !='other (specify)' ) %>%
 #   mutate(
 #     productObserved = case_when( productObserved=="lining (linen)" ~  "lining",
 #                                 TRUE ~  productObserved
@@ -480,9 +480,9 @@ rm(transportOptions)
 #   select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id,commodityObervedDescription, productObserved) %>%
 #   mutate(productObserved0= productObserved) %>%
 #   cSplit(splitCols="productObserved", sep = " ") %>% #drop =F
-#   gather(varDescription, val, 
+#   gather(varDescription, val,
 #          -c(interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id,commodityObervedDescription,productObserved0
-#          ), 
+#          ),
 #          na.rm = T) %>%
 #   filter(str_length(val)>2 ) %>%  #remove two words or 1 word such as a, to , of , in, etc
 #   mutate(
@@ -539,7 +539,7 @@ rm(transportOptions)
 # rm(wrongSelectedProductDescription)
 
 wrongSelectedProductDescription <-  downloaded_icbt_data %>%
-  filter( str_to_lower(productObserved) !='other (specify)' ) %>% 
+  filter( str_to_lower(productObserved) !='other (specify)' ) %>%
   mutate(productObserved = str_to_lower(productObserved)) %>%
   select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id,commodityObervedDescription, productObserved)
 
@@ -556,20 +556,20 @@ wrgProdSel1 <- wrongSelectedProductDescription %>% #  filter(interview_key=='01-
   ) %>%
   #now take the product description and also singularise it
   cSplit(splitCols="cmsdesc", sep = " ") %>%
-  gather(varDescription, val, 
+  gather(varDescription, val,
          -c(interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id,commodityObervedDescription,productObserved
-         ), 
+         ),
          na.rm = T) %>%
   filter(str_length(val)>2 & grepl("[A-Za-z]", val)) %>% #remove vals with only numbers out
   mutate(
     valNew= gsub("\\s*\\([^\\)]+\\)", "", str_to_lower(val)), #remove parenthesis
     valNew = removePunctuation(valNew),
-    
+
     val = (gsub("\\(|\\)", "", str_to_lower(removePunctuation(val)))),
     productObserved = (gsub("\\(|\\)", "", str_to_lower(productObserved))),
     # val = (gsub("\\(|\\)", "", str_to_lower(val))),
-    
-    
+
+
     # productObserved = singularize(productObserved),
     # val = ,
     totCountCheck = case_when(
@@ -579,24 +579,24 @@ wrgProdSel1 <- wrongSelectedProductDescription %>% #  filter(interview_key=='01-
       str_detect(productObserved,  singularize(valNew) )  ~ 1,
       str_detect( singularize(productObserved), valNew )  ~ 1 ,
       str_detect( singularize(productObserved), singularize(valNew) )  ~ 1,
-      
+
       # str_detect(productObserved, singularize(str_to_lower(valNew)) )  ~ 1,
       str_detect(productObserved, SnowballC::wordStem((valNew), language = "english"))  ~ 1,
       str_detect(SnowballC::wordStem((productObserved), language = "english"), valNew)  ~ 1,
       str_detect(SnowballC::wordStem((productObserved), language = "english"), SnowballC::wordStem((valNew), language = "english"))  ~ 1,
-      
+
       #val
       ########
       str_detect(productObserved, val )  ~ 1,
       str_detect(productObserved,  singularize(val) )  ~ 1,
       str_detect( singularize(productObserved), val )  ~ 1,
       str_detect( singularize(productObserved), singularize(val) )  ~ 1,
-      
+
       # str_detect(productObserved, singularize(str_to_lower(val)) )  ~ 1,
       str_detect(productObserved, SnowballC::wordStem((val), language = "english"))  ~ 1,
       str_detect(SnowballC::wordStem((productObserved), language = "english"), val)  ~ 1,
       str_detect(SnowballC::wordStem((productObserved), language = "english"), SnowballC::wordStem((val), language = "english"))  ~ 1,
-      
+
       TRUE ~ 0
     )
   )  %>%
@@ -609,7 +609,7 @@ wrgProdSel1 <- wrongSelectedProductDescription %>% #  filter(interview_key=='01-
   mutate(
     errorCheck = 'selected product Error',
     errorMessage = paste("The selected product of '",productObserved,"' is not described in the product description of '",commodityObervedDescription,"'", sep = '')
-  ) %>% 
+  ) %>%
   select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,commodityObervedDescription,Commodity_id, errorCheck,errorMessage)
 errorChecks <- dplyr::bind_rows(errorChecks, wrgProdSel1) #add to the errorData frame file
 rm(wrgProdSel1)
@@ -626,9 +626,9 @@ wrgProdSel2 <- wrongSelectedProductDescription  %>% #filter(interview_key=='76-2
     productObserved=  gsub(","," , ", str_to_lower(productObserved) ) ,
   ) %>% #># split and collect commodity description into singular, then join it back
   cSplit(splitCols="cmdyDesc", sep = " ") %>%
-  gather(varDescription, val, 
+  gather(varDescription, val,
          -c(interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id,commodityObervedDescription,productObserved
-         ), 
+         ),
          na.rm = T) %>%
   mutate(
     val = singularize(str_to_lower(val)),
@@ -639,18 +639,18 @@ wrgProdSel2 <- wrongSelectedProductDescription  %>% #filter(interview_key=='76-2
     prodSel = first(productObserved)
   ) %>% #now to split the product
   cSplit(splitCols="prodSel", sep = " ") %>%
-  gather(varDescription, val, 
+  gather(varDescription, val,
          -c(interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id,commodityObervedDescription,productObserved,cmdtyDescription
-         ), 
+         ),
          na.rm = T) %>%
   filter(str_length(val)>2 & grepl("[A-Za-z]", val)) %>% #remove vals with only numbers out
   mutate(
     val = (gsub("\\(|\\)", "", str_to_lower(val))),
-    totCountCheckok = case_when( 
+    totCountCheckok = case_when(
       str_detect(cmdtyDescription,val) ~ 1,
       str_detect(cmdtyDescription,singularize(val)) ~ 1,
       str_detect(cmdtyDescription,SnowballC::wordStem(val, language = "english")) ~ 1,
-      TRUE ~ 0  
+      TRUE ~ 0
     )
   )  %>%
   group_by(interview_key,interview_id,observedRespondentDescription, transpondent_id,Commodity_id,commodityObervedDescription,productObserved) %>%
@@ -662,7 +662,7 @@ wrgProdSel2 <- wrongSelectedProductDescription  %>% #filter(interview_key=='76-2
   mutate(
     errorCheck = 'selected product Error',
     errorMessage = paste("The selected product of '",productObserved,"' is not described in the product description of '",commodityObervedDescription,"'", sep = '')
-  ) %>% 
+  ) %>%
   select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,commodityObervedDescription,Commodity_id, errorCheck,errorMessage)
 errorChecks <- dplyr::bind_rows(errorChecks, wrgProdSel2) #add to the errorData frame file
 rm(wrgProdSel2, wrongSelectedProductDescription)
@@ -682,7 +682,7 @@ otherSPecifiedError1 <-otherCommdtyDescriptionKK %>%
 mutate(
   errorCheck = 'other Specified Error',
   errorMessage = paste("other specified commodity cannot be numeric", sep = '')
-) %>% 
+) %>%
   select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,commodityObervedDescription,Commodity_id, errorCheck,errorMessage)
 errorChecks <- dplyr::bind_rows(errorChecks, otherSPecifiedError1) #add to the errorData frame file
 rm(otherSPecifiedError1)
@@ -698,24 +698,24 @@ otherSPecifiedError2 <-otherCommdtyDescriptionKK %>%
 mutate(
   errorCheck = 'other Specified Error',
   errorMessage = paste("other specified commodity ='",productObserved_otherSpecify,"', already exists as a select option", sep = '')
-) %>% 
+) %>%
   select(.,interview_key,interview_id,observedRespondentDescription, transpondent_id,commodityObervedDescription,Commodity_id, errorCheck,errorMessage)
 errorChecks <- dplyr::bind_rows(errorChecks, otherSPecifiedError2) #add to the errorData frame file
 rm(otherSPecifiedError2)
-  
+
 
 errorChecks <- errorChecks %>%
-  select(.,interview_key, interview_id, 
+  select(.,interview_key, interview_id,
          transpondent_id,observedRespondentDescription,
          Commodity_id, commodityObervedDescription,
          errorCheck , errorMessage) %>%
   arrange(
-    interview_key,transpondent_id, Commodity_id 
+    interview_key,transpondent_id, Commodity_id
   ) %>% left_join(icbt_meta, by=c("interview_key"="interview_key","interview_id"="interview_id")) %>%
   select(.,
          regionCode, RegionName,districtCode,districtName,
          townCity,borderPostName,team_number,interview_key,interview_id,enumerator_name,enumerator_contact, everything()
-  ) %>% 
+  ) %>%
   arrange(districtCode,borderPostName,team_number,enumerator_name) %>%
   mutate(
     dates = as.Date(gps_Timestamp),
@@ -729,17 +729,17 @@ errorChecks <- errorChecks %>%
 rm(UoM_Check, tronspondentDescription,surveyDatePeriod,pivotedDF,otherCommdtyDescription,icbt_meta,getData,genderWords,summaryPivotedDF)
 
 #rm(ICBT_metaData)
-# 
+#
 # ############ SAVE REPORTS in Excel
 # ####################################################
-# 
-# 
+#
+#
 # #####################################
 # #save ALL AT NATIONAL LEVEL IN ONE FILE
-# # filename <-paste("../report/Error_Report.xlsx", sep="")  
-# filename <-paste("../report/Error_Report.xlsx", sep="")  
+# # filename <-paste("../report/Error_Report.xlsx", sep="")
+# filename <-paste("../report/Error_Report.xlsx", sep="")
 # checkname <- paste("contentErrors")
-# 
+#
 # #create reports directory if it does not already exist
 # reports_dir <- "../report/"
 # errorReports_dir <- "../report/errorReports/"
@@ -749,14 +749,14 @@ rm(UoM_Check, tronspondentDescription,surveyDatePeriod,pivotedDF,otherCommdtyDes
 # ifelse(!dir.exists(file.path(errorReports_dir)),
 #        dir.create(file.path(errorReports_dir)),
 #        "ERROR REPORT Directory Exists")
-# 
-# 
+#
+#
 # errorDataSave <- select(errorChecks, -c("assignmentId","responsibleId"))
 # if (file.exists(filename)) {
 #   wb <- loadWorkbook(filename) #load the workbook
 #   #check sheet existence name(wb) gives name of sheet in wb
 #   for (sheetnames in names(wb)){
-#     if (sheetnames == checkname) { removeWorksheet(wb, checkname) } 
+#     if (sheetnames == checkname) { removeWorksheet(wb, checkname) }
 #   }
 #   # if (nrow(errorDataSave)>0) { #only save for regions with the errors}
 # }else{
@@ -766,43 +766,43 @@ rm(UoM_Check, tronspondentDescription,surveyDatePeriod,pivotedDF,otherCommdtyDes
 # ## create and add a style to the column headers
 # ## Freeze Panes
 # freezePane(wb, checkname, firstActiveRow = 2, firstActiveCol = 7)
-# 
+#
 # writeData(wb, sheet = checkname, errorDataSave, withFilter=TRUE, headerStyle = createStyle(textRotation = 45))
 # saveWorkbook(wb,filename,overwrite = TRUE)
-# 
-# 
+#
+#
 # #save backup for National
 # national_backup_dir <- "../Other/backup/national/"
-# 
+#
 # #create directory if it does not already exist
 # ifelse(!dir.exists(file.path(national_backup_dir)),
 #        dir.create(file.path(national_backup_dir)),
 #        "National Backup Directory Exists")
-# 
+#
 # nationalError_backup_dir <- "../Other/backup/national/icbt_errors_xls/"
-# 
+#
 # #create directory if it does not already exist
 # ifelse(!dir.exists(file.path(nationalError_backup_dir)),
 #        dir.create(file.path(nationalError_backup_dir)),
 #        "National Backup Directory Exists")
 # national_backup_fileName <- paste(nationalError_backup_dir,"Error_Report ",current_date, ".xlsx", sep="")
 # saveWorkbook(wb,national_backup_fileName,overwrite = TRUE)
-# 
-# 
+#
+#
 # ##################################
 # #save for each REGIONAL LEVEL
 # #################################
-# regionErrors <- errorChecks %>% 
+# regionErrors <- errorChecks %>%
 #   select(RegionName,regionCode,districtCode,districtName,townCity, borderPostName,team_number) %>%
 #   distinct(RegionName,districtName,townCity, borderPostName,team_number)
-# 
+#
 # for (i in 1:nrow(regionErrors)  ) {
 #   row <- regionErrors[i,]  #filter that region row
-#   
+#
 #   saveDataSet <- errorDataSave %>% #filter errors for that region
-#     filter(RegionName==row$RegionName) %>% 
+#     filter(RegionName==row$RegionName) %>%
 #     select(., -c("regionCode","districtCode","interview_id"))
-#   
+#
 #   #generate the filename for saving
 #   filename <- paste("../report/errorReports/",row$RegionName," - ",row$borderPostName," - errorsReport.xlsx", sep="")
 #   checkname <- paste("contentErrors")
@@ -810,7 +810,7 @@ rm(UoM_Check, tronspondentDescription,surveyDatePeriod,pivotedDF,otherCommdtyDes
 #     wb <- loadWorkbook(filename) #load the workbook
 #     #check sheet existence name(wb) gives name of sheet in wb
 #     for (sheetnames in names(wb)){
-#       if (sheetnames == checkname) { removeWorksheet(wb, checkname) } 
+#       if (sheetnames == checkname) { removeWorksheet(wb, checkname) }
 #     }
 #     # if (nrow(errorDataSave)>0) { #only save for regions with the errors}
 #   }else{
@@ -820,34 +820,34 @@ rm(UoM_Check, tronspondentDescription,surveyDatePeriod,pivotedDF,otherCommdtyDes
 #   ## create and add a style to the column headers
 #   ## Freeze Panes
 #   freezePane(wb, checkname, firstActiveRow = 2, firstActiveCol = 7)
-#   
+#
 #   writeData(wb, sheet = checkname, saveDataSet, withFilter=TRUE, headerStyle = createStyle(textRotation = 45))
 #   saveWorkbook(wb,filename,overwrite = TRUE)
-#   
+#
 #   #REGIONAL LEVEL BACKUP
 #   #save backup for each regional_District border
 #   regional_backup_dir <- "../Other/backup/regional/"
 #   regionalError_backup_dir <- "../Other/backup/regional/icbt_errors/"
-#   regionalErrorDate_backup_dir <- paste("../Other/backup/regional/icbt_errors_xls/",current_dateOnly ,"/", sep = '')  
+#   regionalErrorDate_backup_dir <- paste("../Other/backup/regional/icbt_errors_xls/",current_dateOnly ,"/", sep = '')
 #   regional_backup_fileName <- paste(regionalErrorDate_backup_dir,row$RegionName," - ",row$borderPostName," - Error_Report " ,current_date, ".xlsx", sep="")
-#   
+#
 #   #create REgional Backup directory if it does not already exist
 #   ifelse(!dir.exists(file.path(regional_backup_dir)),
 #          dir.create(file.path(regional_backup_dir)),
 #          "Regional Backup Directory Exists")
-#   
+#
 #   #create REgional Error Backup directory if it does not already exist
 #   ifelse(!dir.exists(file.path(regionalError_backup_dir)),
 #          dir.create(file.path(regionalError_backup_dir)),
 #          "Regional Backup Backup Directory Exists")
-#   
+#
 #   #create Dated REgional Error Backup directory if it does not already exist
 #   ifelse(!dir.exists(file.path(regionalErrorDate_backup_dir)),
 #          dir.create(file.path(regionalErrorDate_backup_dir)),
 #          "Regional Backup Backup Directory Exists")
-#   
+#
 #   saveWorkbook(wb,regional_backup_fileName,overwrite = TRUE)
 # }
-# 
-# 
-# 
+#
+#
+#

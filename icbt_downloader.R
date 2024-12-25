@@ -761,7 +761,134 @@ library(tm)
                     transpondent_id == 21 &
                     Commodity_id    == 1  ~ "35 pieces of fowls" ,
 
-                  TRUE ~ commodityObervedDescription
+                #20241224
+                str_to_upper(str_squish(trim(enumerator_name)))=="ABUSKA FELICITY" &
+                   interview_key    =="55-17-17-12" &
+                    month == 'December' &
+                   interview_id     == removePunctuation("9d8cfb52-552c-4611-b702-6a2873d78eef")  &
+                    transpondent_id == 9 &
+                    Commodity_id    == 1  ~ "28 sack of fresh pepper" ,
+
+                str_to_upper(str_squish(trim(enumerator_name)))=="ASUMASIM SANDO EDWARD" &
+                   interview_key    =="52-20-08-58" &
+                    month == 'December' &
+                   interview_id     == removePunctuation("df14afd3-2661-46a5-9ebc-f388b6d2acc6")  &
+                    transpondent_id == 3 &
+                    Commodity_id    == 3  ~ "5 tuber of yam (cocoyam,water yam)" ,
+
+                str_to_upper(str_squish(trim(enumerator_name)))=="ASUMASIM SANDO EDWARD" &
+                   interview_key    =="52-20-08-58" &
+                    month == 'December' &
+                   interview_id     == removePunctuation("df14afd3-2661-46a5-9ebc-f388b6d2acc6")  &
+                    transpondent_id == 16 &
+                    Commodity_id    == 2  ~ "1 piece of traveling bag medium (ecolac medium)" ,
+
+                str_to_upper(str_squish(trim(enumerator_name)))=="FRANSICA ANDOH" &
+                   interview_key    =="07-19-33-33" &
+                    month == 'December' &
+                   interview_id     == removePunctuation("8c79ea5b-4971-46a0-a0cb-d145810afbf8")  &
+                    transpondent_id == 19 &
+                    Commodity_id    == 2  ~ "1 piece(s) of barrel (plastic container) 250l" ,
+
+                str_to_upper(str_squish(trim(enumerator_name)))=="FRANSICA ANDOH" &
+                   interview_key    =="84-70-49-42" &
+                    month == 'December' &
+                   interview_id     == removePunctuation("34c710a0-8c79-419b-bac4-8c6d7417fc6c")  &
+                    transpondent_id == 10 &
+                    Commodity_id    == 4  ~ "4 carton (24) of canned soft drink (330ml)" ,
+
+                str_to_upper(str_squish(trim(enumerator_name)))=="AKASISI ERNESTINA WEWOLI" &
+                   interview_key    =="67-09-16-46" &
+                    month == 'December' &
+                   interview_id     == "fc2f10b7-8238-4046-9c33-5ed734472c40"  &
+                    transpondent_id == 20 &
+                    Commodity_id    == 1  ~ "2 pieces of puppies" ,
+
+                str_to_upper(str_squish(trim(enumerator_name)))=="KWOTUA VICTORIA" &
+                   interview_key    =="39-83-18-34" &
+                    month == 'December' &
+                   interview_id     == removePunctuation("282cf099-34f8-4019-92d0-9139f6fee078")  &
+                    transpondent_id == 5 &
+                    Commodity_id    == 6  ~ "1 sack of kokonte(cassava flour)" ,
+
+                str_to_upper(str_squish(trim(enumerator_name)))=="KWOTUA VICTORIA" &
+                   interview_key    =="66-85-53-09" &
+                    month == 'December' &
+                   interview_id     == removePunctuation("52e5719c-c55f-4c62-8392-db60948816ed")  &
+                    transpondent_id == 16 &
+                    Commodity_id    == 1  ~ "20 sack of kokonte(cassava flour)" ,
+
+                str_to_upper(str_squish(trim(enumerator_name)))=="MIRIAM AYIVOR" &
+                   interview_key    =="92-12-14-94" &
+                    month == 'December' &
+                   interview_id     == removePunctuation("3f40b6d4-bcd1-49a4-84df-01144ac59ed9")  &
+                    transpondent_id == 2 &
+                    Commodity_id    == 1  ~ "5 sacks of charcoal" ,
+
+                str_to_upper(str_squish(trim(enumerator_name)))=="MIRIAM AYIVOR" &
+                   interview_key    =="92-12-14-94" &
+                    month == 'December' &
+                   interview_id     == removePunctuation("3f40b6d4-bcd1-49a4-84df-01144ac59ed9")  &
+                    transpondent_id == 11 &
+                    Commodity_id    == 1  ~ "2 box of floor tiles" ,
+
+                str_to_upper(str_squish(trim(enumerator_name)))=="JOHNSON KOFI MENSAH KUVEDU" &
+                   interview_key    =="27-14-16-84" &
+                    month == 'December' &
+                   interview_id     == removePunctuation("b8d63aea-78ef-4116-8769-338bc2642f3f")  &
+                    transpondent_id == 12 &
+                    Commodity_id    == 1  ~ "10 bottles of alcoholic beverages" ,
+
+                str_to_upper(str_squish(trim(enumerator_name)))=="JOHNSON KOFI MENSAH KUVEDU" &
+                   interview_key    =="54-44-26-12" &
+                    month == 'December' &
+                   interview_id     == removePunctuation("eb8bb5b4-7bd9-45aa-82bc-e9df9db72604")  &
+                    transpondent_id == 14 &
+                    Commodity_id    == 1  ~ "1 sack of mango" ,
+
+                str_to_upper(str_squish(trim(enumerator_name)))=="JOHNSON KOFI MENSAH KUVEDU" &
+                   interview_key    =="54-44-26-12" &
+                    month == 'December' &
+                   interview_id     == removePunctuation("eb8bb5b4-7bd9-45aa-82bc-e9df9db72604")  &
+                    transpondent_id == 15 &
+                    Commodity_id    == 1  ~ "2 sachets of washing powder" ,
+
+                str_to_upper(str_squish(trim(enumerator_name)))=="JOHNSON KOFI MENSAH KUVEDU" &
+                   interview_key    =="54-44-26-12" &
+                    month == 'December' &
+                   interview_id     == removePunctuation("eb8bb5b4-7bd9-45aa-82bc-e9df9db72604")  &
+                    transpondent_id == 22 &
+                    Commodity_id    == 1  ~ "1 sack of second hand clothing" ,
+
+                str_to_upper(str_squish(trim(enumerator_name)))=="JOHNSON KOFI MENSAH KUVEDU" &
+                   interview_key    =="54-44-26-12" &
+                    month == 'December' &
+                   interview_id     == removePunctuation("eb8bb5b4-7bd9-45aa-82bc-e9df9db72604")  &
+                    transpondent_id == 26 &
+                    Commodity_id    == 2  ~ "1 pack of baby diapers" ,
+
+                str_to_upper(str_squish(trim(enumerator_name)))=="JOHNSON KOFI MENSAH KUVEDU" &
+                   interview_key    =="54-44-26-12" &
+                    month == 'December' &
+                   interview_id     == removePunctuation("eb8bb5b4-7bd9-45aa-82bc-e9df9db72604")  &
+                    transpondent_id == 30 &
+                    Commodity_id    == 2  ~ "1 sack of onion" ,
+
+                str_to_upper(str_squish(trim(enumerator_name)))=="AGYEI THEOPHILUS TWENE" &
+                   interview_key    =="03-70-01-86" &
+                    month == 'December' &
+                   interview_id     == removePunctuation("3ea3d259-e35f-443e-804c-537f27a9a27f")  &
+                    transpondent_id == 15 &
+                    Commodity_id    == 1  ~ "1 basket of plantain" ,
+
+                str_to_upper(str_squish(trim(enumerator_name)))=="EVANS BOATENG BOAMPONG" &
+                   interview_key    =="00-37-15-30" &
+                    month == 'December' &
+                   interview_id     == removePunctuation("1d9db2b1-25d5-49e8-95f1-999f0d4e1109")  &
+                    transpondent_id == 2 &
+                    Commodity_id    == 1  ~ "1 half sack of konkonte" ,
+
+             TRUE ~ commodityObervedDescription
               ),
 
       commodityQuantity = case_when(
@@ -813,10 +940,86 @@ library(tm)
                 transpondent_id == 17 &
                 Commodity_id    == 1  ~ 4,
 
+            #20241224
+              str_to_upper(str_squish(trim(enumerator_name)))=="ASUMASIM SANDO EDWARD" &
+                interview_key    =="34-65-80-71" &
+                month == 'December' &
+                interview_id     == removePunctuation('29002998-1e3b-4cc4-a0dd-ff735017730d') &
+                transpondent_id == 25 &
+                Commodity_id    == 1  ~ 2,
+
+              str_to_upper(str_squish(trim(enumerator_name)))=="ASUMASIM SANDO EDWARD" &
+                interview_key    =="52-20-08-58" &
+                month == 'December' &
+                interview_id     == removePunctuation('df14afd3-2661-46a5-9ebc-f388b6d2acc6') &
+                transpondent_id == 7 &
+                Commodity_id    == 1  ~ 3,
+
+              str_to_upper(str_squish(trim(enumerator_name)))=="ASUMASIM SANDO EDWARD" &
+                interview_key    =="52-20-08-58" &
+                month == 'December' &
+                interview_id     == removePunctuation('df14afd3-2661-46a5-9ebc-f388b6d2acc6') &
+                transpondent_id == 10 &
+                Commodity_id    == 1  ~ 6,
+
+              str_to_upper(str_squish(trim(enumerator_name)))=="ABBEY EUNICE CORNEA" &
+                interview_key    =="09-43-99-80" &
+                month == 'November' &
+                interview_id     == removePunctuation('461fe00f-f4fb-4136-af20-7e674eee8a8f') &
+                transpondent_id == 22 &
+                Commodity_id    == 1  ~ 20,
+
+              str_to_upper(str_squish(trim(enumerator_name)))=="JOHNSON KOFI MENSAH KUVEDU" &
+                interview_key    =="61-99-97-20" &
+                month == 'November' &
+                interview_id     == removePunctuation('6b0366bc-718b-4b26-a9c8-4eb6da4b55d4') &
+                transpondent_id == 30 &
+                Commodity_id    == 1  ~ 2,
+
+              str_to_upper(str_squish(trim(enumerator_name)))=="MIRIAM AYIVOR" &
+                interview_key    =="68-12-13-79" &
+                month == 'December' &
+                interview_id     == removePunctuation('82b6ed57-5d29-41b1-9652-93d63ccfc5cc') &
+                transpondent_id == 16 &
+                Commodity_id    == 1  ~ 3,
+
+            str_to_upper(str_squish(trim(enumerator_name)))=="COURAGE AGORTSE" &
+              interview_key    =="70-71-41-58" &
+              month == 'November' &
+              interview_id     == removePunctuation("fed8af86-4676-4464-b00d-50b574938aa9")  &
+              transpondent_id == 1  &
+              Commodity_id    == 1  ~ 10 ,
+
+            str_to_upper(str_squish(trim(enumerator_name)))=="COURAGE AGORTSE" &
+              interview_key    =="70-71-41-58" &
+              month == 'November' &
+              interview_id     == removePunctuation("fed8af86-4676-4464-b00d-50b574938aa9")  &
+              transpondent_id == 7  &
+              Commodity_id    == 1  ~ 5 ,
+
+            str_to_upper(str_squish(trim(enumerator_name)))=="COURAGE AGORTSE" &
+              interview_key    =="96-46-85-16" &
+              month == 'November' &
+              interview_id     == "ab969ce4-a913-43e1-9d87-d2cf729a47f7"  &
+              transpondent_id == 5  &
+              Commodity_id    == 1  ~ 6 ,
+
+            str_to_upper(str_squish(trim(enumerator_name)))=="ADUHENE JOSEPH" &
+              interview_key    =="24-87-52-09" &
+              month == 'November' &
+              interview_id     == removePunctuation("674f4214-9cd1-429a-a4bf-fb906015bf97")  &
+              transpondent_id == 17  &
+              Commodity_id    == 1  ~ 2 ,
+
+            str_squish(trim(str_to_upper(str_squish(trim(enumerator_name)))))=="COURAGE AGORTSE" &
+              interview_key    =="96-46-85-16" &
+              month == 'November' &
+              interview_id     == removePunctuation("ab969ce4-a913-43e1-9d87-d2cf729a47f7")  &
+              transpondent_id == 5  &
+              Commodity_id    == 1  ~ 6 ,
+
         TRUE ~ commodityQuantity
       ),
-
-
 
       observedRespondentDescription= case_when(
                 str_to_upper(str_squish(trim(enumerator_name)))=="DANIEL GELI" &
@@ -831,8 +1034,39 @@ library(tm)
                   interview_id     == "f5b06bd5a18e4c8297df8fed9b2850de" &
                   transpondent_id ==  30  ~ "a man coming in with Push Truck" ,
 
-                TRUE ~ observedRespondentDescription
-              ),
+                #20241224
+                str_to_upper(str_squish(trim(enumerator_name)))=="FRANSICA ANDOH" &
+                  interview_key    =="84-70-49-42" &
+                  month == 'December' &
+                  interview_id     == removePunctuation("34c710a0-8c79-419b-bac4-8c6d7417fc6c") &
+                  transpondent_id ==  8  ~ "A man going out of the country on a tricycle" ,
+
+                str_to_upper(str_squish(trim(enumerator_name)))=="JOSHUA AKUTEY KUMAH" &
+                  interview_key    =="52-75-58-57" &
+                  month == 'December' &
+                  interview_id     == "bd65ef7d-51dd-4072-8941-6c7f40e8b285" &
+                  transpondent_id ==  30  ~ "A woman coming in on foot" ,
+
+                str_to_upper(str_squish(trim(enumerator_name)))=="ABIGAIL BOADI" &
+                  interview_key    =="03-39-52-32" &
+                  month == 'December' &
+                  interview_id     == "0f7caa27-be7a-48b0-b2e3-e813eefe4b72" &
+                  transpondent_id ==  10  ~ "a woman coming in with goods on foot" ,
+
+                str_to_upper(str_squish(trim(enumerator_name)))=="ABDULAI NAZIRU" &
+                  interview_key    =="58-80-33-78" &
+                  month == 'December' &
+                  interview_id     == removePunctuation("04b831a1-1928-4871-bc56-d69415d73c18") &
+                  transpondent_id ==  2  ~ "A woman going out on foot" ,
+                
+                str_to_upper(str_squish(trim(enumerator_name)))=="EVANS BOATENG BOAMPONG" &
+                  interview_key    =="06-26-98-98" &
+                  month == 'December' &
+                  interview_id     == "4e355e8b-b6fd-44c4-97b9-71eca61cfc9a" &
+                  transpondent_id == 3  ~ "a man going out on Motorbike" ,
+
+                  TRUE ~ observedRespondentDescription
+                  ),
 
       transportMeans= case_when(
                str_to_upper(str_squish(trim(enumerator_name)))=="MUMEN HAMDDAN" &
@@ -841,18 +1075,177 @@ library(tm)
                  interview_id     == "9bc564e68aaa4e449ad2830b10ad214c" &
                  transpondent_id == 9  ~ "Motorbike" ,
 
-               TRUE ~ transportMeans
-              ),
+               #20241224
+               str_to_upper(str_squish(trim(enumerator_name)))=="ABUSKA FELICITY" &
+                 interview_key    =="55-17-17-12" &
+                 month == 'December' &
+                 interview_id     == "9d8cfb52-552c-4611-b702-6a2873d78eef" &
+                 transpondent_id == 6  ~ "Bicycle" ,
+
+               str_to_upper(str_squish(trim(enumerator_name)))=="ABUSKA FELICITY" &
+                 interview_key    =="96-81-51-88" &
+                 month == 'December' &
+                 interview_id     == "ee6a89d6-68ff-43d4-a113-c38fd62a82ec" &
+                 transpondent_id == 12  ~ "Tricycle" ,
 
 
+                 TRUE ~ transportMeans
+                    ),
 
+       tradeDirection= case_when(
+             str_to_upper(str_squish(trim(enumerator_name)))=="ASUMASIM SANDO EDWARD" &
+               interview_key    =="23-57-66-81" &
+               month == 'December' &
+               interview_id     == "6ab30a33-c2cb-44cd-9c65-cbad8c44da21" &
+               transpondent_id == 12  ~ "Coming in (Import)" ,
 
+             str_to_upper(str_squish(trim(enumerator_name)))=="ZOR SAVIOUR AKORSUA" &
+               interview_key    =="08-46-56-30" &
+               month == 'December' &
+               interview_id     == "4b708be0-dad3-4056-b466-04d129148854" &
+               transpondent_id == 9  ~ "Going out (Export)" ,
+
+             str_to_upper(str_squish(trim(enumerator_name)))=="ABDULAI NAZIRU" &
+               interview_key    =="58-80-33-78" &
+               month == 'December' &
+               interview_id     == "04b831a1-1928-4871-bc56-d69415d73c18" &
+               transpondent_id == 2  ~ "Going out (Export)" ,
+
+             str_to_upper(str_squish(trim(enumerator_name)))=="ALHASSAN RAKIB" &
+               interview_key    =="46-21-78-66" &
+               month == 'December' &
+               interview_id     == "2359e629-7b73-475a-b539-ddf57dd2be5a" &
+               transpondent_id == 4  ~ "Coming in (Import)" ,
+
+             str_to_upper(str_squish(trim(enumerator_name)))=="DATTAH SYLVIA" &
+               interview_key    =="01-64-24-68" &
+               month == 'December' &
+               interview_id     == "38b81753-6ff4-4032-8ca4-8304d6160aaa" &
+               transpondent_id == 1  ~ "Coming in (Import)" ,
+
+               TRUE ~ tradeDirection
+                  ),
+
+      unit_of_measure = case_when(
+            str_to_upper(str_squish(trim(enumerator_name)))=="MIRIAM AYIVOR" &
+              interview_key    =="08-00-32-15" &
+              month == 'December' &
+              interview_id     == removePunctuation('777a97d7-fe21-4e6b-a0ec-9dff58f973b2') &
+              transpondent_id == 20 &
+              Commodity_id    == 1  ~ 'bag 5kg',
+
+            str_to_upper(str_squish(trim(enumerator_name)))=="PATRICK MENSAH DZIDZORNU" &
+              interview_key    =="96-28-51-75" &
+              month == 'December' &
+              interview_id     == removePunctuation('7835f336-6896-4895-bc57-9d8212ac5700') &
+              transpondent_id == 12 &
+              Commodity_id    == 1  ~ 'bottle (200ml)',
+
+            TRUE ~ unit_of_measure
+      ),
+
+      productObserved = case_when(
+            str_to_upper(str_squish(trim(enumerator_name)))=="JOHNSON KOFI MENSAH KUVEDU" &
+              interview_key    =="54-44-26-12" &
+              month == 'December' &
+              interview_id     == 'eb8bb5b4-7bd9-45aa-82bc-e9df9db72604' &
+              transpondent_id == 5 &
+              Commodity_id    == 1  ~ 'sponge',
+
+            TRUE ~ productObserved
+      )
+    
     ) %>%
     select(-interview_id, -QuestionnaireId) %>%
     rename(
       interview_id = InterviewId ,
       UserName = ResponsibleName)
 
+  #-------------------------
+  #Corrections using excel
+  #-------------------------
+  library(readxl)
+  manual_corrections <- read_excel("C:/2024ICBT/correction/icbt errors manual corrections DEC 2024.xlsx")
+  
+  for (i in 1:nrow(manual_corrections)) {
+    # row <- manual_corrections[1,]
+    row <- manual_corrections[i,]
+    
+    downloaded_icbt_data <- downloaded_icbt_data %>%
+      mutate(
+        observedRespondentDescription= case_when(
+                                      str_to_upper(str_squish(trim(enumerator_name)))==str_to_upper(str_squish(trim(row$enumerator_name))) &
+                                      interview_key    ==row$interview_key &
+                                      month == row$month &
+                                      interview_id     == row$interview_id &
+                                      transpondent_id == row$transpondent_id &
+                                      !is.na(row$correctTranspondentDescription) ~ as.character(str_squish(trim(row$correctTranspondentDescription))) ,
+                                      TRUE ~ observedRespondentDescription
+                                      ),
+        
+        tradeDirection= case_when(
+                        str_to_upper(str_squish(trim(enumerator_name)))==str_to_upper(str_squish(trim(row$enumerator_name)))&
+                        interview_key    == row$interview_key &
+                        month == row$month &
+                        interview_id     == row$interview_id &
+                        transpondent_id == row$transpondent_id &
+                        !is.na(row$correctTradeDirection)  ~ as.character(str_squish(trim(row$correctTradeDirection))),
+                        TRUE ~ tradeDirection),
+        
+        
+        transportMeans= case_when(
+                            str_to_upper(str_squish(trim(enumerator_name)))==str_to_upper(str_squish(trim(row$enumerator_name)))&
+                            interview_key    == row$interview_key &
+                            month == row$month &
+                            interview_id     == row$interview_id &
+                            transpondent_id == row$transpondent_id &
+                            !is.na(row$correctMeansOfTransport)  ~ as.character(str_squish(trim(row$correctMeansOfTransport))),
+                            TRUE ~ transportMeans),
+        
+        commodityObervedDescription= case_when(
+          str_to_upper(str_squish(trim(enumerator_name)))==str_to_upper(str_squish(trim(row$enumerator_name)))&
+            interview_key    == row$interview_key &
+            month == row$month &
+            interview_id     == row$interview_id &
+            transpondent_id == row$transpondent_id &
+            Commodity_id    == row$Commodity_id  &
+            !is.na(row$correctProductDescription) ~ as.character(str_squish(trim(row$correctProductDescription))) ,
+          TRUE ~ commodityObervedDescription),
+        
+        productObserved= case_when(
+                          str_to_upper(str_squish(trim(enumerator_name)))==str_to_upper(str_squish(trim(row$enumerator_name)))&
+                          interview_key    == row$interview_key &
+                          month == row$month &
+                          interview_id     == row$interview_id &
+                          transpondent_id == row$transpondent_id &
+                          Commodity_id    == row$Commodity_id  &
+                          !is.na(row$CorrectSelectedProduct) ~ as.character(str_squish(trim(row$CorrectSelectedProduct))) ,
+                          TRUE ~ productObserved),
+        
+        commodityQuantity= case_when(
+                          str_to_upper(str_squish(trim(enumerator_name)))==str_to_upper(str_squish(trim(row$enumerator_name)))&
+                          interview_key    == row$interview_key &
+                          month == row$month &
+                          interview_id     == row$interview_id &
+                          transpondent_id == row$transpondent_id &
+                          Commodity_id    == row$Commodity_id  &
+                          !is.na(row$correctCommodityQty) ~ as.integer(str_squish(trim(row$correctCommodityQty))) ,
+                          TRUE ~ commodityQuantity),
+        
+        unit_of_measure= case_when(
+                          str_to_upper(str_squish(trim(enumerator_name)))==str_to_upper(str_squish(trim(row$enumerator_name)))&
+                          interview_key    == row$interview_key &
+                          month == row$month &
+                          interview_id     == row$interview_id &
+                          transpondent_id == row$transpondent_id &
+                          Commodity_id    == row$Commodity_id  &
+                          !is.na(row$correctUnitOfMeasure) ~ as.character(str_squish(trim(row$correctUnitOfMeasure))) ,
+                          TRUE ~ unit_of_measure),
+        
+      )
+  }
+  
+  
  saveFinalData <-  downloaded_icbt_data
 
   #--- change created to GPS timestamp
