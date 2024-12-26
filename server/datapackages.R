@@ -1,9 +1,15 @@
 #install some packages
 # if(!require(labelled )) install.packages("labelled ")
+if(!require(devtools)) install.packages("devtools")
 if(!require(plotly)) install.packages("plotly")
 if(!require(shinyalert)) install.packages("shinyalert")
 if(!require(bslib)) install.packages("bslib")
 if(!require(bsicons)) install.packages("bsicons")
+if(!require(remotes)) install.packages("remotes")
+if(!require(pluralize)) remotes::install_gitlab("hrbrmstr/pluralize")
+if(!require(susoapi)) devtools::install_github("arthur-shaw/susoapi")
+if(!require(susoflows)) devtools::install_github("arthur-shaw/susoflows")
+
 # install.packages("bslib")
 # Load the package
 
@@ -72,6 +78,7 @@ library(bslib)
 # if(!require(lubridate)) install.packages("lubridate")
 # if(!require(stringi)) install.packages("stringi")
 # if(!require(htmltools)) install.packages("htmltools")
+# if(!require(RTextTools)) install.packages("RTextTools")
 
 #for latex 
 # if(!require(tinytex)) tinytex::install_tinytex()
