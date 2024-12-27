@@ -1167,7 +1167,7 @@ library(tm)
   #Corrections using excel
   #-------------------------
   library(readxl)
-  manual_corrections <- read_excel("C:/2024ICBT/correction/icbt errors manual corrections DEC 2024.xlsx")
+  manual_corrections <- read_excel("correction/icbt errors manual corrections DEC 2024.xlsx")
   
   for (i in 1:nrow(manual_corrections)) {
     # row <- manual_corrections[1,]
