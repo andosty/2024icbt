@@ -1,5 +1,6 @@
 rm(list=ls())
-setwd("C:/2024ICBT/")
+# setwd("C:/2024ICBT/") #windows
+setwd("/home/administrator/myShinyApps/2024icbt/") #unix
 
   #ADDED packages
 if(!require(tm)) install.packages("tm")
