@@ -1,6 +1,6 @@
 rm(list=ls())
 # setwd("C:/2024ICBT/") #windows
-setwd("/home/administrator/myShinyApps/2024icbt/") #unix
+# setwd("/home/administrator/myShinyApps/2024icbt/") #unix
 #setwd("/srv/shiny-server/2024icbt/") #unix
 
   #ADDED packages
